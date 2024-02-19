@@ -42,14 +42,14 @@ namespace RDEngine.Engine
         {
             get
             {
-                return (_mouse.Position.ToVector2() - RDEGame.ActiveScene.CameraPos) / RDEGame.ScaleFactor;
+                return (_mouse.Position.ToVector2() - SceneHandler.ActiveScene.CameraPos) / RDEGame.ScaleFactor;
             }
         }
         public Vector2 RealMousePos
         {
             get
             {
-                return _mouse.Position.ToVector2() - RDEGame.ActiveScene.CameraPos;
+                return _mouse.Position.ToVector2() - SceneHandler.ActiveScene.CameraPos;
             }
         }
 

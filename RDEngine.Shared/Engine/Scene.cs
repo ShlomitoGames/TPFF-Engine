@@ -29,13 +29,13 @@ namespace RDEngine.Engine
 
         private bool _isFirstFrame;
 
-        public Scene(ContentManager content, byte unitSize = 16)
+        public Scene(byte unitSize = 16)
         {
             Solver = new PhysicsSolver();
             _unitSize = unitSize;
         }
 
-        public virtual void Initialize()
+        public virtual void Initialize(ContentManager content)
         {
             Solver = new PhysicsSolver();
             _gameObjects = null;

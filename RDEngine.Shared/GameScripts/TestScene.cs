@@ -16,18 +16,20 @@ namespace RDEngine.GameScripts
 
         public SpriteFont _wreckside;
 
-        public TestScene(ContentManager content) : base(content)
+        public TestScene() : base()
         {
+            
+        }
+
+        public override void Initialize(ContentManager content)
+        {
+            base.Initialize(content);
+
             _playerTexture = content.Load<Texture2D>("Sprites/Mario");
             _groundTexture = content.Load<Texture2D>("Sprites/Block");
             _koopaTexture = content.Load<Texture2D>("Sprites/Koopa");
 
             _wreckside = content.Load<SpriteFont>("Fonts/wreckside");
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
 
             _gameObjects = new List<WorldObject>()
             {
@@ -52,6 +54,10 @@ namespace RDEngine.GameScripts
                     {
                         Offset = new Vector2(50, 0)
                     }
+                }),
+                new WorldObject("ShortCuts", this, null, Vector2.Zero,initialComponents: new List<GComponent>()
+                {
+                    new ShortCuts()
                 })
             };
             _uiObjects = new List<UIObject>()

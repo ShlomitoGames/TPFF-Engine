@@ -9,7 +9,9 @@
     <Import_RootNamespace>RDEngine</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\UI\TextObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\ShortCuts.cs" />
     <Compile Include="..\RDEngine.Shared\Engine\UI\UIObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WorldObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\CameraFollow.cs" />
@@ -29,8 +31,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\TestScene.cs" />
     <Compile Include="..\RDEngine.Shared\RDEGame.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)GameScripts\" />
   </ItemGroup>
 </Project>

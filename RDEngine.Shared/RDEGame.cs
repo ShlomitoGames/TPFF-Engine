@@ -28,7 +28,7 @@ namespace RDEngine
         public static int ScreenHeight { get; } = UpscaledHeight / ScaleFactor;
         public static Point ScreenSize = new Point(ScreenWidth, ScreenHeight);
 
-        public static Scene ActiveScene;
+        //public static Scene ActiveScene;
 
         private SpriteFont _testFont;
 
@@ -60,8 +60,8 @@ namespace RDEngine
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            ActiveScene = new TestScene(Content);
-            ActiveScene.Initialize();
+            SceneHandler.Content = Content;
+            SceneHandler.LoadScene(new TestScene());
 
             Input.Instance = new Input();
             Time.Instance = new Time();
@@ -124,12 +124,7 @@ namespace RDEngine
             Time.Instance.GameTime = gameTime;
 
             //Scene functions
-            ActiveScene.UpdateScene();
-
-            if (Input.Instance.GetKey(Keys.R, KeyGate.Down))
-                ActiveScene.Initialize();
-            if (Input.Instance.GetKey(Keys.H, KeyGate.Down))
-                GComponent.ShowHitboxes = !GComponent.ShowHitboxes;
+            SceneHandler.ActiveScene.UpdateScene();
 
             //Updates FPS
             _totalFrames++;
@@ -162,7 +157,7 @@ namespace RDEngine
             //Drawing the pixelated scene
             spriteBatch.Begin();
 
-            ActiveScene.DrawScene(spriteBatch);
+            SceneHandler.ActiveScene.DrawScene(spriteBatch);
 
             spriteBatch.End();
 
@@ -177,7 +172,7 @@ namespace RDEngine
             //Drawing the pixelated scene inside the normal scene
 
             //The offset is how much of the camera positions changes when snapped to the pixel grid, so it's smooth once scaled up.
-            Vector2 offset = ActiveScene.WorldCameraPos * ScaleFactor - Vector2.Floor(ActiveScene.CameraPos);
+            Vector2 offset = SceneHandler.ActiveScene.WorldCameraPos * ScaleFactor - Vector2.Floor(SceneHandler.ActiveScene.CameraPos);
             if (MathF.Abs(offset.X) > 2 * ScaleFactor || MathF.Abs(offset.Y) > 2 * ScaleFactor)
                 throw new ArithmeticException("Offset cannot be greater than scaling factor");
 
@@ -188,10 +183,10 @@ namespace RDEngine
             spriteBatch.DrawString(_testFont, _fps.ToString(), new Vector2(ScreenWidth * ScaleFactor - 60, 5), Color.LightGreen);
 
             //Draws the component debug lines
-            ActiveScene.DrawComponents(GraphicsDevice, spriteBatch);
+            SceneHandler.ActiveScene.DrawComponents(GraphicsDevice, spriteBatch);
 
             //Draws the UI
-            ActiveScene.DrawUI(spriteBatch);
+            SceneHandler.ActiveScene.DrawUI(spriteBatch);
 
             spriteBatch.End();
 
