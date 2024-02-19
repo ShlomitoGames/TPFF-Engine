@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <ProjectGuid>{b8034fab-b7f6-4258-88e8-2dbdf7d498a6}</ProjectGuid>
+    <RootNamespace>RDEngine</RootNamespace>
+    <AssemblyName>RDEngine</AssemblyName>
+    <DefineConstants>$(DefineConstants);BLAZORGL</DefineConstants>
+	<KniPlatform>BlazorGL</KniPlatform>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Pages\Index.razor.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="nkast.Xna.Framework" Version="3.10.9001" />
+    <PackageReference Include="nkast.Xna.Framework.Blazor" Version="3.10.9001" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.11" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <KniContentReference Include="..\RDEngineContent\RDEngineContent.mgcb">   
+      <Link>Content\RDEngineContent.mgcb</Link>
+    </KniContentReference>
+  </ItemGroup>
+  <Import Project="..\RDEngine.Shared\RDEngine.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\Kni.Content.Builder.targets" />
+</Project>

@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RDEngine", "RDEngine", "{F4C2D044-E10C-481F-BACD-A7252073A07E}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RDEngine.Shared", "RDEngine.Shared\RDEngine.Shared.shproj", "{5856F9BA-4266-4396-BC2D-DF831DB7D29F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDEngine.DesktopGL", "RDEngine.DesktopGL\RDEngine.DesktopGL.csproj", "{272B873A-18B8-4DA0-A31B-1CD3910F7EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDEngine.BlazorGL", "RDEngine.BlazorGL\RDEngine.BlazorGL.csproj", "{B8034FAB-B7F6-4258-88E8-2DBDF7D498A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{272B873A-18B8-4DA0-A31B-1CD3910F7EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272B873A-18B8-4DA0-A31B-1CD3910F7EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272B873A-18B8-4DA0-A31B-1CD3910F7EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272B873A-18B8-4DA0-A31B-1CD3910F7EF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8034FAB-B7F6-4258-88E8-2DBDF7D498A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8034FAB-B7F6-4258-88E8-2DBDF7D498A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8034FAB-B7F6-4258-88E8-2DBDF7D498A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8034FAB-B7F6-4258-88E8-2DBDF7D498A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5856F9BA-4266-4396-BC2D-DF831DB7D29F} = {F4C2D044-E10C-481F-BACD-A7252073A07E}
+		{272B873A-18B8-4DA0-A31B-1CD3910F7EF3} = {F4C2D044-E10C-481F-BACD-A7252073A07E}
+		{B8034FAB-B7F6-4258-88E8-2DBDF7D498A6} = {F4C2D044-E10C-481F-BACD-A7252073A07E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0EEEEC52-7123-4F99-881E-63B1356CE7A4}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		RDEngine.Shared\RDEngine.Shared.projitems*{272b873a-18b8-4da0-a31b-1cd3910f7ef3}*SharedItemsImports = 5
+		RDEngine.Shared\RDEngine.Shared.projitems*{5856f9ba-4266-4396-bc2d-df831db7d29f}*SharedItemsImports = 13
+		RDEngine.Shared\RDEngine.Shared.projitems*{b8034fab-b7f6-4258-88e8-2dbdf7d498a6}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

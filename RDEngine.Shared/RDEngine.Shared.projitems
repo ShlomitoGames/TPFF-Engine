@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>5856f9ba-4266-4396-bc2d-df831db7d29f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>RDEngine</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\UI\TextObject.cs" />
+    <Compile Include="..\RDEngine.Shared\Engine\UI\UIObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\WorldObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\CameraFollow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\GameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\GComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Input.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Physics\Collision.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Physics\ICollideable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Physics\PhysicsSolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Physics\RigidBody.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\RectF.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Scene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Time.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Utils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Ground.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\TestScene.cs" />
+    <Compile Include="..\RDEngine.Shared\RDEGame.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)GameScripts\" />
+  </ItemGroup>
+</Project>
