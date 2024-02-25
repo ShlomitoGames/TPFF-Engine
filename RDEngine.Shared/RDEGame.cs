@@ -19,6 +19,8 @@ namespace RDEngine
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private RenderTarget2D _target; //The RenderTarget for the pixelated scene
         public static int ScaleFactor { get; } = 3;
 
         public static int UpscaledWidth = 1366; //The game wont run at exactly this resolution, it will instead run at the closest multiple of the ScaleFactor
@@ -65,6 +67,10 @@ namespace RDEngine
 
             Input.Instance = new Input();
             Time.Instance = new Time();
+
+            //Create a RenderTarget where the pixelated scene will be drawn on
+            //A pixel of padding is added to the screen to account for the smooth offset
+            _target = new RenderTarget2D(GraphicsDevice, ScreenWidth + 2, ScreenHeight + 2);
 
             base.Initialize();
 
@@ -148,10 +154,8 @@ namespace RDEngine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //Create a RenderTarget where the pixelated scene will be drawn on
-            //A pixel of padding is added to the screen to account for the smooth offset
-            RenderTarget2D target = new RenderTarget2D(GraphicsDevice, ScreenWidth + 2, ScreenHeight + 2);
-            GraphicsDevice.SetRenderTarget(target);
+            //Set the target for the pixelated scene
+            GraphicsDevice.SetRenderTarget(_target);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //Drawing the pixelated scene
@@ -177,7 +181,7 @@ namespace RDEngine
                 throw new ArithmeticException("Offset cannot be greater than scaling factor");
 
             //ScaleFactor is subtracted from X and Y to account for the 1px-wide padding for the offset
-            spriteBatch.Draw(target, new Rectangle((int)offset.X - ScaleFactor, (int)offset.Y - ScaleFactor, (ScreenWidth + 2) * ScaleFactor, (ScreenHeight + 2) * ScaleFactor), Color.White);
+            spriteBatch.Draw(_target, new Rectangle((int)offset.X - ScaleFactor, (int)offset.Y - ScaleFactor, (ScreenWidth + 2) * ScaleFactor, (ScreenHeight + 2) * ScaleFactor), Color.White);
 
             //FPS text
             spriteBatch.DrawString(_testFont, _fps.ToString(), new Vector2(ScreenWidth * ScaleFactor - 60, 5), Color.LightGreen);
