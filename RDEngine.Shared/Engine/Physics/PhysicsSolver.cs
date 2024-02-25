@@ -18,7 +18,7 @@ namespace RDEngine.Engine.Physics
 
         public void Update()
         {
-            float deltaTime = Time.Instance.DeltaTime;
+            float deltaTime = Time.DeltaTime;
 
             //First we get the velocity to that we can make the collision detection and resolution,
             //at the end we update the position based on the velocity

@@ -10,6 +10,8 @@ namespace RDEngine.Engine
 
         public static bool ShowHitboxes;
 
+        internal static Texture2D WhitePixel;
+
         public GComponent()
         {
             

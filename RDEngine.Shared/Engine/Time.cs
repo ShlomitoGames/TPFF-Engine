@@ -3,13 +3,11 @@ using System.Diagnostics;
 
 namespace RDEngine.Engine
 {
-    public class Time
+    public static class Time
     {
-        public static Time Instance;
+        public static GameTime GameTime { get; set; }
 
-        public GameTime GameTime { get; set; }
-
-        public float DeltaTime
+        public static float DeltaTime
         {
             get
             {

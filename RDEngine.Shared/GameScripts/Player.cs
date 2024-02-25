@@ -26,20 +26,20 @@ namespace RDEngine.GameScripts
         {
             base.Update();
 
-            if (Input.Instance.GetMacro("Right", KeyGate.Held))
+            if (Input.GetMacro("Right", KeyGate.Held))
                 _rb.Velocity.X = _speed;
-            else if (Input.Instance.GetMacro("Left", KeyGate.Held))
+            else if (Input.GetMacro("Left", KeyGate.Held))
                 _rb.Velocity.X = -_speed;
             else
                 _rb.Velocity.X = 0;
 
-            if (Input.Instance.GetMacro("Jump", KeyGate.Down) && _grounded)
+            if (Input.GetMacro("Jump", KeyGate.Down) && _grounded)
             {
                 //_rb.Accelerate(-7000 * Vector2.UnitY);
                 _rb.Velocity.Y = -_jumpSpeed;
             }
 
-            _rb.IsTrigger = Input.Instance.GetKey(Microsoft.Xna.Framework.Input.Keys.F, KeyGate.Held);
+            _rb.IsTrigger = Input.GetKey(Microsoft.Xna.Framework.Input.Keys.F, KeyGate.Held);
 
 
             GetGrounded();

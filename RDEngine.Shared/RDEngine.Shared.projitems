@@ -9,8 +9,10 @@
     <Import_RootNamespace>RDEngine</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentStorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\UI\TextObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\FPSCounter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\ShortCuts.cs" />
     <Compile Include="..\RDEngine.Shared\Engine\UI\UIObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WorldObject.cs" />

@@ -20,16 +20,14 @@ namespace RDEngine.Engine
         Up
     }
 
-    public class Input
+    public static class Input
     {
-        private MouseState _mouse;
-        private MouseState _lastMouse;
-        private KeyboardState _keyboard;
-        private KeyboardState _lastKeyboard;
+        private static MouseState _mouse;
+        private static MouseState _lastMouse;
+        private static KeyboardState _keyboard;
+        private static KeyboardState _lastKeyboard;
 
-        public static Input Instance;
-
-        private Dictionary<string, Keys[]> _macros = new Dictionary<string, Keys[]>()
+        private static Dictionary<string, Keys[]> _macros = new Dictionary<string, Keys[]>()
         {
             { "Left", new Keys[]{ Keys.Left, Keys.A} },
             { "Right", new Keys[]{ Keys.Right, Keys.D} },
@@ -38,14 +36,14 @@ namespace RDEngine.Engine
             { "Jump", new Keys[]{ Keys.Up, Keys.W, Keys.Space, Keys.C} }
         };
 
-        public Vector2 MousePos
+        public static Vector2 MousePos
         {
             get
             {
                 return (_mouse.Position.ToVector2() - SceneHandler.ActiveScene.CameraPos) / RDEGame.ScaleFactor;
             }
         }
-        public Vector2 RealMousePos
+        public static Vector2 RealMousePos
         {
             get
             {
@@ -53,18 +51,18 @@ namespace RDEngine.Engine
             }
         }
 
-        public void UpdateInput()
+        public static void UpdateInput()
         {
             _mouse = Mouse.GetState();
             _keyboard = Keyboard.GetState();
         }
-        public void UpdateLastInput()
+        public static void UpdateLastInput()
         {
             _lastMouse = _mouse;
             _lastKeyboard = _keyboard;
         }
 
-        public bool GetButton(MouseButton button, KeyGate state)
+        public static bool GetButton(MouseButton button, KeyGate state)
         {
             bool pressed;
             bool wasPressed;
@@ -89,7 +87,7 @@ namespace RDEngine.Engine
 
             return Evaluate(pressed, wasPressed, state);
         }
-        public bool GetKey(Keys key, KeyGate state)
+        public static bool GetKey(Keys key, KeyGate state)
         {
             bool pressed = _keyboard.IsKeyDown(key);
             bool wasPressed = _lastKeyboard.IsKeyDown(key);
@@ -97,7 +95,7 @@ namespace RDEngine.Engine
             return Evaluate(pressed, wasPressed, state);
         }
 
-        public bool GetMacro(string name, KeyGate state)
+        public static bool GetMacro(string name, KeyGate state)
         {
             if (!_macros.ContainsKey(name))
                 throw new KeyNotFoundException($"Macro '{name}' doesn't exist");
@@ -108,7 +106,7 @@ namespace RDEngine.Engine
             return Evaluate(pressed, wasPressed, state);
         }
 
-        private bool Evaluate(bool pressed, bool wasPressed, KeyGate state)
+        private static bool Evaluate(bool pressed, bool wasPressed, KeyGate state)
         {
             if (pressed && !wasPressed && state == KeyGate.Down)
                 return true;

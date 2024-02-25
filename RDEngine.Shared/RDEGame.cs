@@ -30,13 +30,6 @@ namespace RDEngine
         public static int ScreenHeight { get; } = UpscaledHeight / ScaleFactor;
         public static Point ScreenSize = new Point(ScreenWidth, ScreenHeight);
 
-        //public static Scene ActiveScene;
-
-        private SpriteFont _testFont;
-
-        private int _fps = 0, _totalFrames = 0;
-        private float _lastFpsUpdate, _fpsUpdateInterval = 0.5f;
-
         public RDEGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -61,12 +54,6 @@ namespace RDEngine
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            SceneHandler.Content = Content;
-            SceneHandler.LoadScene(new TestScene());
-
-            Input.Instance = new Input();
-            Time.Instance = new Time();
 
             //Create a RenderTarget where the pixelated scene will be drawn on
             //A pixel of padding is added to the screen to account for the smooth offset
@@ -84,11 +71,20 @@ namespace RDEngine
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            ContentStorer.LoadContent(Content,
+                new List<string>()
+                {
+                    "whitepixel", "Mario", "Block", "Koopa"
+                },
+                new List<string>()
+                {
+                    "testfont",
+                    "wreckside"
+                }
+                );
 
-            // TODO: Use this.Content to load your game content here
-            //ActiveScene = new TestScene(Content);
-
-            _testFont = Content.Load<SpriteFont>("Fonts/testfont");
+            SceneHandler.Content = Content;
+            SceneHandler.LoadScene(new TestScene());
         }
 
         /// <summary>
@@ -107,7 +103,7 @@ namespace RDEngine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            MouseState mouseState = Mouse.GetState();
+            //MouseState mouseState = Mouse.GetState();
             KeyboardState keyboardState = Keyboard.GetState();
             GamePadState gamePadState = default;
             try { gamePadState = GamePad.GetState(PlayerIndex.One); }
@@ -122,28 +118,15 @@ namespace RDEngine
             }
 
 
+            // Add your update logic here
 
-
-            // TODO: Add your update logic here
-
-            Input.Instance.UpdateInput();
-            Time.Instance.GameTime = gameTime;
+            Input.UpdateInput();
+            Time.GameTime = gameTime;
 
             //Scene functions
             SceneHandler.ActiveScene.UpdateScene();
 
-            //Updates FPS
-            _totalFrames++;
-            if ((float)gameTime.TotalGameTime.TotalSeconds > _lastFpsUpdate + _fpsUpdateInterval)
-            {
-                _fps = (int)(_totalFrames / _fpsUpdateInterval);
-                _totalFrames = 0;
-                _lastFpsUpdate = (float)gameTime.TotalGameTime.TotalSeconds;
-            }
-
-            Input.Instance.UpdateLastInput();
-
-
+            Input.UpdateLastInput();
 
             base.Update(gameTime);
         }
@@ -160,31 +143,23 @@ namespace RDEngine
 
             //Drawing the pixelated scene
             spriteBatch.Begin();
-
             SceneHandler.ActiveScene.DrawScene(spriteBatch);
-
             spriteBatch.End();
 
             //Set rendering back to the back buffer
             GraphicsDevice.SetRenderTarget(null);
 
-
-            //Render target to back buffer
             //Drawing the normal scene
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             //Drawing the pixelated scene inside the normal scene
-
-            //The offset is how much of the camera positions changes when snapped to the pixel grid, so it's smooth once scaled up.
+                //The offset is how much of the camera positions changes when snapped to the pixel grid, so it's smooth once scaled up.
             Vector2 offset = SceneHandler.ActiveScene.WorldCameraPos * ScaleFactor - Vector2.Floor(SceneHandler.ActiveScene.CameraPos);
             if (MathF.Abs(offset.X) > 2 * ScaleFactor || MathF.Abs(offset.Y) > 2 * ScaleFactor)
                 throw new ArithmeticException("Offset cannot be greater than scaling factor");
 
             //ScaleFactor is subtracted from X and Y to account for the 1px-wide padding for the offset
             spriteBatch.Draw(_target, new Rectangle((int)offset.X - ScaleFactor, (int)offset.Y - ScaleFactor, (ScreenWidth + 2) * ScaleFactor, (ScreenHeight + 2) * ScaleFactor), Color.White);
-
-            //FPS text
-            spriteBatch.DrawString(_testFont, _fps.ToString(), new Vector2(ScreenWidth * ScaleFactor - 60, 5), Color.LightGreen);
 
             //Draws the component debug lines
             SceneHandler.ActiveScene.DrawComponents(GraphicsDevice, spriteBatch);

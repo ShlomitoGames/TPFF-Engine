@@ -234,26 +234,21 @@ namespace RDEngine.Engine.Physics
         {
             if (!ShowHitboxes) return;
 
-            Vector2 textureSize = Size * RDEGame.ScaleFactor;
+            Vector2 drawSize = Size * RDEGame.ScaleFactor;
             int borderWidth = 1;
 
-            var colors = new List<Color>();
-
-            for (int y = 0; y < textureSize.Y; y++)
+            for (int y = 0; y < drawSize.Y; y++)
             {
-                for (int x = 0; x < textureSize.X; x++)
+                for (int x = 0; x < drawSize.X; x++)
                 {
-                    if (x < borderWidth || y < borderWidth || x >= textureSize.X - borderWidth || y >= textureSize.Y - borderWidth)
-                        colors.Add(Color.White);
-                    else
-                        colors.Add(Color.Transparent);
+                    if (x < borderWidth || y < borderWidth || x >= drawSize.X - borderWidth || y >= drawSize.Y - borderWidth)
+                    {
+                        Vector2 drawPos = Position * RDEGame.ScaleFactor - Vector2.Floor(Parent.Scene.CameraPos) + new Vector2(x, y);
+                        if (drawPos.X < RDEGame.UpscaledWidth && drawPos.Y < RDEGame.UpscaledHeight)
+                            spriteBatch.Draw(ContentStorer.Textures["whitepixel"], drawPos, Color.LightGreen);
+                    }
                 }
             }
-
-            Texture2D texture = new Texture2D(graphics, (int)textureSize.X, (int)textureSize.Y);
-            texture.SetData(colors.ToArray());
-            //Always Floor your Draw Vector2s, kids. Even when not scaled down.
-            spriteBatch.Draw(texture, Position * RDEGame.ScaleFactor - Vector2.Floor(Parent.Scene.CameraPos), Color.LightGreen);
         }
 
         public override void Remove()

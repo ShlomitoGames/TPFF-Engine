@@ -43,8 +43,7 @@ namespace RDEngine.GameScripts
                     new RigidBody(_koopaTexture.Bounds.Size.ToVector2(), Vector2.Zero, gravity: 200f, drag: 1f, mass: 10f),
                     new Entity(100f)
                 }),
-                new Ground("Ground1", this, _groundTexture, new Vector2(0f, 14f), new Vector2(25f, 2f)),
-                new Ground("Ground1", this, _groundTexture, new Vector2(25f, 14f), new Vector2(25f, 2f)),
+                new Ground("Ground1", this, _groundTexture, new Vector2(0f, 14f), new Vector2(50f, 2f)),
                 new Ground("Ground2", this, _groundTexture, new Vector2(6f, 11f), new Vector2(4f, 1f)),
                 new Ground("Ground3", this, _groundTexture, new Vector2(0f, 8f), new Vector2(1f, 10f)),
                 new Ground("Ground4", this, _groundTexture, new Vector2(10f, 11f), new Vector2(4f, 1f)),
@@ -69,8 +68,12 @@ namespace RDEngine.GameScripts
                 },
                 new TextObject("testtext2", this, _wreckside, "Yo me muevo", new Vector2(0,0), true)
                 {
-
                     Position = new Vector2(500,500)
+                },
+                new TextObject("fps", this, ContentStorer.Fonts["testfont"], "0", new Vector2(RDEGame.ScreenWidth * RDEGame.ScaleFactor - 60, 30), false,
+                initialComponents: new List<GComponent>(){ new FPSCounter() })
+                {
+                    Color = Color.LightGreen
                 }
             };
 

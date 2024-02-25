@@ -49,6 +49,10 @@ namespace RDEngine.Engine
             {
                 gameObject.Start();
             }
+            foreach (var gameObject in _uiObjects)
+            {
+                gameObject.Start();
+            }
         }
 
         public void UpdateScene()
@@ -63,10 +67,18 @@ namespace RDEngine.Engine
             {
                 gameObject.Update();
             }
+            foreach (var gameObject in _uiObjects)
+            {
+                gameObject.Update();
+            }
 
             Solver.Update();
 
             foreach (var gameObject in _gameObjects)
+            {
+                gameObject.LateUpdate();
+            }
+            foreach (var gameObject in _uiObjects)
             {
                 gameObject.LateUpdate();
             }
