@@ -74,16 +74,14 @@ namespace RDEngine
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
-                    "whitepixel", "Mario", "Block", "Koopa"
+                    "Mario", "Block", "Koopa"
                 },
                 new List<string>()
                 {
-                    "testfont",
-                    "wreckside"
+                    "testfont", "wreckside"
                 }
                 );
 
-            SceneHandler.Content = Content;
             SceneHandler.LoadScene(new TestScene());
         }
 

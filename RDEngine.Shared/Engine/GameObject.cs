@@ -105,6 +105,9 @@ namespace RDEngine.Engine
 
         internal void DrawComponents(GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
+            if (!GComponent.ShowHitboxes)
+                return;
+
             foreach (var component in _components)
             {
                 component.Draw(graphics, spriteBatch);

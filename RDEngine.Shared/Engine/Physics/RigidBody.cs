@@ -232,8 +232,6 @@ namespace RDEngine.Engine.Physics
 
         public override void Draw(GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
-            if (!ShowHitboxes) return;
-
             Vector2 drawSize = Size * RDEGame.ScaleFactor;
             int borderWidth = 1;
 
@@ -245,7 +243,7 @@ namespace RDEngine.Engine.Physics
                     {
                         Vector2 drawPos = Position * RDEGame.ScaleFactor - Vector2.Floor(Parent.Scene.CameraPos) + new Vector2(x, y);
                         if (drawPos.X < RDEGame.UpscaledWidth && drawPos.Y < RDEGame.UpscaledHeight)
-                            spriteBatch.Draw(ContentStorer.Textures["whitepixel"], drawPos, Color.LightGreen);
+                            spriteBatch.Draw(ContentStorer.WhitePixel, drawPos, Color.LightGreen);
                     }
                 }
             }

@@ -10,26 +10,28 @@ namespace RDEngine.GameScripts
 {
     public class TestScene : Scene
     {
-        public Texture2D _playerTexture;
-        public Texture2D _groundTexture;
-        public Texture2D _koopaTexture;
+        private Texture2D _playerTexture;
+        private Texture2D _groundTexture;
+        private Texture2D _koopaTexture;
 
-        public SpriteFont _wreckside;
+        private SpriteFont _wreckside;
+        private SpriteFont _testfont;
 
         public TestScene() : base()
         {
             
         }
 
-        public override void Initialize(ContentManager content)
+        public override void Initialize()
         {
-            base.Initialize(content);
+            base.Initialize();
 
-            _playerTexture = content.Load<Texture2D>("Sprites/Mario");
-            _groundTexture = content.Load<Texture2D>("Sprites/Block");
-            _koopaTexture = content.Load<Texture2D>("Sprites/Koopa");
+            _playerTexture = ContentStorer.Textures["Mario"];
+            _groundTexture = ContentStorer.Textures["Block"];
+            _koopaTexture = ContentStorer.Textures["Koopa"];
 
-            _wreckside = content.Load<SpriteFont>("Fonts/wreckside");
+            _wreckside = ContentStorer.Fonts["wreckside"];
+            _testfont = ContentStorer.Fonts["testfont"];
 
             _gameObjects = new List<WorldObject>()
             {
@@ -70,7 +72,7 @@ namespace RDEngine.GameScripts
                 {
                     Position = new Vector2(500,500)
                 },
-                new TextObject("fps", this, ContentStorer.Fonts["testfont"], "0", new Vector2(RDEGame.ScreenWidth * RDEGame.ScaleFactor - 60, 30), false,
+                new TextObject("fps", this, _testfont, "0", new Vector2(RDEGame.ScreenWidth * RDEGame.ScaleFactor - 60, 30), false,
                 initialComponents: new List<GComponent>(){ new FPSCounter() })
                 {
                     Color = Color.LightGreen

@@ -8,6 +8,9 @@ namespace RDEngine.Engine
     {
         public static Dictionary<string, Texture2D> Textures;
         public static Dictionary<string, SpriteFont> Fonts;
+
+        public static Texture2D WhitePixel;
+
         public static void LoadContent(ContentManager content, List<string> textures, List<string> fonts)
         {
             Textures = new Dictionary<string, Texture2D>();
@@ -23,6 +26,7 @@ namespace RDEngine.Engine
                 SpriteFont font = content.Load<SpriteFont>("Fonts/" + name);
                 Fonts.Add(name, font);
             }
+            WhitePixel = content.Load<Texture2D>("Sprites/whitepixel");
         }
     }
 }

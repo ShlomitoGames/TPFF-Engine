@@ -35,7 +35,7 @@ namespace RDEngine.Engine
             _unitSize = unitSize;
         }
 
-        public virtual void Initialize(ContentManager content)
+        public virtual void Initialize()
         {
             Solver = new PhysicsSolver();
             _gameObjects = null;

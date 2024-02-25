@@ -9,8 +9,7 @@ namespace RDEngine.GameScripts
         public GameObject Target { get; set; }
 
         public float SmoothSpeed = 1.5f;
-        public bool kind = false;
-        public Vector2 Offset;
+        public Vector2 Offset = Vector2.Zero;
         
         private Vector2 _screenSize;
 
@@ -48,7 +47,7 @@ namespace RDEngine.GameScripts
         {
             Vector2 desiredPosition = Target.Origin + Offset;
             //Vector2 smoothedPosition = Vector2.SmoothStep(_camOrigin, desiredPosition, SmoothSpeed * Time.Instance.DeltaTime); //Not freame-rate independent
-            Vector2 smoothedPosition = Vector2.LerpPrecise(_camOrigin, desiredPosition, SmoothSpeed * Time.DeltaTime);
+            Vector2 smoothedPosition = Vector2.Lerp(_camOrigin, desiredPosition, SmoothSpeed * Time.DeltaTime);
 
             _camOrigin = smoothedPosition;
         }
