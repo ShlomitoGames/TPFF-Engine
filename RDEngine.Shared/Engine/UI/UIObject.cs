@@ -17,11 +17,11 @@ namespace RDEngine.Engine.UI
         {
             get
             {
-                return _texture.Bounds.Size.ToVector2() * Scale;
+                return Texture.Bounds.Size.ToVector2() * Scale;
             }
             set
             {
-                Scale = value / _texture.Bounds.Size.ToVector2();
+                Scale = value / Texture.Bounds.Size.ToVector2();
             }
         }
 
@@ -35,12 +35,12 @@ namespace RDEngine.Engine.UI
         {
             base.Draw(spriteBatch);
 
-            if (_texture == null) return;
+            if (Texture == null) return;
 
             // UIObjects get drawn with their positions at the center, unlike WorldObjects
             //The Vector2.Floor is very important
             Vector2 pos = _isWorldPos ? Position - Vector2.Floor(Scene.CameraPos) : Position;
-            spriteBatch.Draw(_texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
+            spriteBatch.Draw(Texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
         }
     }
 }

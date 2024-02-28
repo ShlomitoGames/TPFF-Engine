@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RDEngine.Engine;
+using RDEngine.Engine.Animation;
 using RDEngine.Engine.Physics;
 using System.Diagnostics;
 
@@ -12,6 +13,8 @@ namespace RDEngine.GameScripts
 
         private bool _grounded;
 
+        private Animator _anim;
+
         public Player(float speed, float jumpSpeed) : base(speed)
         {
             _jumpSpeed = jumpSpeed;
@@ -20,22 +23,46 @@ namespace RDEngine.GameScripts
         public override void Start()
         {
             base.Start();
+
+            _anim = Parent.GetComponent<Animator>();
         }
 
         public override void Update()
         {
             base.Update();
 
+            Parent.Texture = _anim.Textures[0];
+
             if (Input.GetMacro("Right", KeyGate.Held))
+            {
                 _rb.Velocity.X = _speed;
+                Parent.Effects = SpriteEffects.None;
+            }
             else if (Input.GetMacro("Left", KeyGate.Held))
+            {
                 _rb.Velocity.X = -_speed;
+                Parent.Effects = SpriteEffects.FlipHorizontally;
+            }
             else
                 _rb.Velocity.X = 0;
 
+            if (_grounded)
+            {
+                if (_rb.Velocity.X != 0)
+                {
+                    if (_anim.GetAnimName() != "walk")
+                        _anim.SetAnimation("walk");
+                }
+                else
+                    _anim.SetAnimation("stand");
+            }
+            else
+            {
+                _anim.SetAnimation("jump");
+            }
+            
             if (Input.GetMacro("Jump", KeyGate.Down) && _grounded)
             {
-                //_rb.Accelerate(-7000 * Vector2.UnitY);
                 _rb.Velocity.Y = -_jumpSpeed;
             }
 

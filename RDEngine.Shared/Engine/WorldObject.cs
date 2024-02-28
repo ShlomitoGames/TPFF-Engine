@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using RDEngine.Engine.Physics;
 using System.Collections.Generic;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace RDEngine.Engine
 {
@@ -17,9 +16,9 @@ namespace RDEngine.Engine
         {
             base.Draw(spriteBatch);
 
-            if (_texture == null) return;
+            if (Texture == null) return;
 
-            spriteBatch.Draw(_texture, Vector2.Floor(Position - Scene.WorldCameraPos + Vector2.One), null, Color, 0f, Vector2.Zero, Vector2.One, Effects, Layer);
+            spriteBatch.Draw(Texture, Vector2.Floor(Position - Scene.WorldCameraPos + Vector2.One), null, Color, 0f, Vector2.Zero, Vector2.One, Effects, Layer);
         }
 
         internal void OnCollisionEnter(Collision collision)

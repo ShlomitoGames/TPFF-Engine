@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using RDEngine.Engine;
 using RDEngine.Engine.Physics;
 using RDEngine.Engine.UI;
 using System.Collections.Generic;
+using RDEngine.Engine.Animation;
+using System;
 
 namespace RDEngine.GameScripts
 {
@@ -26,7 +27,7 @@ namespace RDEngine.GameScripts
         {
             base.Initialize();
 
-            _playerTexture = ContentStorer.Textures["Mario"];
+            _playerTexture = ContentStorer.Textures["Mario_Idle"];
             _groundTexture = ContentStorer.Textures["Block"];
             _koopaTexture = ContentStorer.Textures["Koopa"];
 
@@ -38,7 +39,36 @@ namespace RDEngine.GameScripts
                 new WorldObject("Player", this, _playerTexture, new Vector2(3f, 4f), null, new List<GComponent>()
                 {
                     new RigidBody(new Vector2(12f, 16f), new Vector2(2f, 0f), gravity: 500f, drag: 1f, mass: 1f),
-                    new Player(200f, 230f)
+                    new Player(200f, 230f),
+                    new Animator(new Dictionary<string, Animation>()
+                    {
+                        { "stand", new Animation(true, new AnimLayer[]
+                            {
+                                new AnimLayer(new Tuple<int, Texture2D>[]
+                                {
+                                    new Tuple<int, Texture2D>(1, ContentStorer.Textures["Mario_Idle"])
+                                }, 0)
+                            })
+                        },
+                        { "walk", new Animation(true, new AnimLayer[]
+                            {
+                                new AnimLayer(new Tuple<int, Texture2D>[]
+                                {
+                                    new Tuple<int, Texture2D>(100, ContentStorer.Textures["Mario_Walk1"]),
+                                    new Tuple<int, Texture2D>(100, ContentStorer.Textures["Mario_Walk2"]),
+                                    new Tuple<int, Texture2D>(100, ContentStorer.Textures["Mario_Walk3"])
+                                }, 0)
+                            })
+                        },
+                        { "jump", new Animation(true, new AnimLayer[]
+                            {
+                                new AnimLayer(new Tuple<int, Texture2D>[]
+                                {
+                                    new Tuple<int, Texture2D>(1, ContentStorer.Textures["Mario_Jump"])
+                                }, 0)
+                            })
+                        }
+                    }, "walk", textures: new Texture2D[1]) 
                 }),
                 new WorldObject("Koopa", this, _koopaTexture, new Vector2(8f, 4f), null, new List<GComponent>()
                 {
@@ -88,9 +118,6 @@ namespace RDEngine.GameScripts
 
             CameraFollow cam = FindWithTag("Camera").GetComponent<CameraFollow>();
             cam.SetTarget(FindWithTag("Player"));
-            //cam.Enabled = false;
-            //cam.Offset = new Vector2(10, 0);
-            //CameraPos = new Vector2(100f, 0f);
         }
     }
 }

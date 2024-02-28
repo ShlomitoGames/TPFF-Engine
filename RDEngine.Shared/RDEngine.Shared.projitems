@@ -9,6 +9,9 @@
     <Import_RootNamespace>RDEngine</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Animation\Animation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Animation\Animator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Animation\AnimLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentStorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\UI\TextObject.cs" />

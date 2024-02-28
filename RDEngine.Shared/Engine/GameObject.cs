@@ -6,7 +6,22 @@ namespace RDEngine.Engine
 {
     public class GameObject
     {
-        protected Texture2D _texture;
+        private Texture2D _texture;
+        public Texture2D Texture
+        {
+            get
+            {
+                return _texture;
+            }
+            set
+            {
+                _texture = value;
+                if (value != null)
+                {
+                    _originOffset = Texture.Bounds.Size.ToVector2() / 2f;
+                }
+            }
+        }
 
         public Vector2 Position { get; set; }
         public Color Color;
@@ -31,23 +46,25 @@ namespace RDEngine.Engine
                 Position = value * Scene.UnitSize;
             }
         }
+        private Vector2 _originOffset;
         public Vector2 Origin
         {
             get
             {
-                return Position + _texture.Bounds.Size.ToVector2() / 2f;
+                return Position + _originOffset;
             }
         }
 
         public GameObject(string tag, Scene scene, Texture2D texture, Vector2 position, GameObject parent = null, List<GComponent> initialComponents = null)
         {
             Scene = scene;
-            _texture = texture;
+            Texture = texture;
             Position = position;
             Tag = tag;
             Parent = parent;
             Effects = SpriteEffects.None;
             Color = Color.White;
+            _originOffset = Vector2.Zero;
 
             if (initialComponents != null)
                 _components = initialComponents;

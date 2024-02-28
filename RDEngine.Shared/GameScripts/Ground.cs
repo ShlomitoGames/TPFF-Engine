@@ -23,14 +23,14 @@ namespace RDEngine.GameScripts
         {
             base.Draw(spriteBatch);
 
-            if (_texture == null) return;
+            if (Texture == null) return;
 
             for (int i = 0; i < _size.Y; i++)
             {
                 for (int j = 0; j < _size.X; j++)
                 {
-                    Vector2 pos = new Vector2(j * _texture.Width, i * _texture.Height) + Position -Scene.WorldCameraPos + Vector2.One;
-                    spriteBatch.Draw(_texture, pos, Color.White);
+                    Vector2 pos = new Vector2(j * Texture.Width, i * Texture.Height) + Position -Scene.WorldCameraPos + Vector2.One;
+                    spriteBatch.Draw(Texture, pos, Color.White);
                 }
             }
         }

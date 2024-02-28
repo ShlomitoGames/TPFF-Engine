@@ -74,7 +74,8 @@ namespace RDEngine
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
-                    "Mario", "Block", "Koopa"
+                    "Block", "Koopa",
+                    "Mario_Idle", "Mario_Jump", "Mario_Walk1", "Mario_Walk2", "Mario_Walk3"
                 },
                 new List<string>()
                 {

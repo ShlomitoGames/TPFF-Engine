@@ -15,5 +15,9 @@ namespace RDEngine.Engine
             a = b;
             b = c;
         }
+        public class Wrapper<T> where T : struct
+        {
+            public T Value { get; set; }
+        }
     }
 }
