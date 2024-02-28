@@ -77,7 +77,7 @@ namespace RDEngine.GameScripts
             //Collision? col = _rb.Raycast(_rb.Origin, Vector2.UnitY, _rb.Size.Y / 2);
             //Collision? col = _rb.Boxcast(new RectF(_rb.Position + (_rb.Size.Y - 1) * Vector2.UnitY, new Vector2(_rb.Size.X, 1)), Vector2.UnitY, 2);
 
-            _grounded = _rb.BoxCast(new RectF(new Vector2(_rb.Position.X, _rb.Position.Y + _rb.Size.Y), new Vector2(_rb.Size.X, 1)));
+            _grounded = _rb.BoxCast(new RectF(new Vector2(_rb.Position.X + 0.05f, _rb.Position.Y + _rb.Size.Y), new Vector2(_rb.Size.X - 0.1f, 1)));
         }
     }
 }

@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using RDEngine.Engine;
 using RDEngine.Engine.Physics;
 using RDEngine.Engine.UI;
-using System.Collections.Generic;
 using RDEngine.Engine.Animation;
+using System.Collections.Generic;
 using System;
 
 namespace RDEngine.GameScripts
@@ -18,7 +18,7 @@ namespace RDEngine.GameScripts
         private SpriteFont _wreckside;
         private SpriteFont _testfont;
 
-        public TestScene() : base()
+        public TestScene() : base(Color.CornflowerBlue)
         {
             
         }
@@ -39,7 +39,7 @@ namespace RDEngine.GameScripts
                 new WorldObject("Player", this, _playerTexture, new Vector2(3f, 4f), null, new List<GComponent>()
                 {
                     new RigidBody(new Vector2(12f, 16f), new Vector2(2f, 0f), gravity: 500f, drag: 1f, mass: 1f),
-                    new Player(200f, 230f),
+                    new Player(speed: 200f, jumpSpeed: 230f),
                     new Animator(new Dictionary<string, Animation>()
                     {
                         { "stand", new Animation(true, new AnimLayer[]

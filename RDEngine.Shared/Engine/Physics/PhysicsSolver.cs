@@ -60,7 +60,7 @@ namespace RDEngine.Engine.Physics
         }
 
         //https://www.youtube.com/watch?v=8JJ-4JgR7Dg
-        //I am *not* smart enough to have come up with this on my own.
+        //I am *not* smart enough to have come up with this myself.
         private void SolveCollisions(float deltaTime, bool storeCols)
         {
             Vector2 contactPoint, contactNormal;

@@ -71,6 +71,8 @@ namespace RDEngine
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
@@ -138,7 +140,7 @@ namespace RDEngine
         {
             //Set the target for the pixelated scene
             GraphicsDevice.SetRenderTarget(_target);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(SceneHandler.ActiveScene.CameraColor);
 
             //Drawing the pixelated scene
             spriteBatch.Begin();

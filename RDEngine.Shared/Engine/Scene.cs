@@ -25,14 +25,16 @@ namespace RDEngine.Engine
             }
         }
 
+        public Color CameraColor;
+
         public PhysicsSolver Solver;
 
         private bool _isFirstFrame;
 
-        public Scene(byte unitSize = 16)
+        public Scene(Color camColor, byte unitSize = 16)
         {
-            Solver = new PhysicsSolver();
             _unitSize = unitSize;
+            CameraColor = camColor;
         }
 
         public virtual void Initialize()

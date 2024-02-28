@@ -23,7 +23,6 @@ namespace RDEngine.Engine
             }
         }
 
-        public Vector2 Position { get; set; }
         public Color Color;
         public SpriteEffects Effects;
         public float Layer { get; set; }
@@ -35,7 +34,8 @@ namespace RDEngine.Engine
 
         protected List<GComponent> _components;
 
-        public Vector2 WorldPos
+        public Vector2 Position { get; set; } //Measured in pixelated-scene pixels
+        public Vector2 WorldPos //Measured in units
         {
             get
             {
@@ -47,7 +47,7 @@ namespace RDEngine.Engine
             }
         }
         private Vector2 _originOffset;
-        public Vector2 Origin
+        public Vector2 Origin //Measured in pixels
         {
             get
             {
