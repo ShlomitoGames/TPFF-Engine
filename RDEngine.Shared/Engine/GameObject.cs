@@ -55,9 +55,9 @@ namespace RDEngine.Engine
             }
         }
 
-        public GameObject(string tag, Scene scene, Texture2D texture, Vector2 position, GameObject parent = null, List<GComponent> initialComponents = null)
+        public GameObject(string tag, Texture2D texture, Vector2 position, GameObject parent = null, List<GComponent> initialComponents = null)
         {
-            Scene = scene;
+            Scene = SceneHandler.ActiveScene;
             Texture = texture;
             Position = position;
             Tag = tag;
@@ -75,12 +75,13 @@ namespace RDEngine.Engine
             {
                 component.SetParent(this);
             }
+
         }
 
         internal void Start()
         {
             foreach (var component in _components)
-            { 
+            {
                 component.Start();
             }
         }

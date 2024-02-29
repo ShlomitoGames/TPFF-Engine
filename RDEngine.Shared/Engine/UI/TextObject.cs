@@ -21,7 +21,7 @@ namespace RDEngine.Engine.UI
             }
         }
 
-        public TextObject(string tag, Scene scene, SpriteFont font, string text, Vector2 position, bool isWorldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, scene, null, position, isWorldPos, parent, initialComponents)
+        public TextObject(string tag, SpriteFont font, string text, Vector2 position, bool isWorldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, null, position, isWorldPos, parent, initialComponents)
         {
             _font = font;
             Text = text;

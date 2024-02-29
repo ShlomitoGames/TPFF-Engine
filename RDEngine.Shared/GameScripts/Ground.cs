@@ -10,7 +10,7 @@ namespace RDEngine.GameScripts
     {
         private Vector2 _size;
 
-        public Ground(string tag, Scene scene, Texture2D texture, Vector2 position, Vector2 size) : base(tag, scene, texture, position,
+        public Ground(string tag, Texture2D texture, Vector2 position, Vector2 size) : base(tag, texture, position,
             initialComponents: new List<GComponent>()
             {
                 new RigidBody(size * texture.Bounds.Size.ToVector2(), Vector2.Zero, mass: 100, isStatic: true)

@@ -7,7 +7,7 @@ namespace RDEngine.Engine
 {
     public class WorldObject : GameObject
     {
-        public WorldObject(string tag, Scene scene, Texture2D texture, Vector2 worldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, scene, texture, worldPos * 16f, parent, initialComponents)
+        public WorldObject(string tag, Texture2D texture, Vector2 worldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, texture, worldPos * 16f, parent, initialComponents)
         {
 
         }

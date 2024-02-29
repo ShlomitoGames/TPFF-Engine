@@ -25,7 +25,7 @@ namespace RDEngine.Engine.UI
             }
         }
 
-        public UIObject(string tag, Scene scene, Texture2D texture, Vector2 position, bool isWorldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, scene, texture, position, parent, initialComponents)
+        public UIObject(string tag, Texture2D texture, Vector2 position, bool isWorldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, texture, position, parent, initialComponents)
         {
             _isWorldPos = isWorldPos;
             Scale = Vector2.One;

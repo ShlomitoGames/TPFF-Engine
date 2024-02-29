@@ -235,6 +235,8 @@ namespace RDEngine.Engine.Physics
             Vector2 drawSize = Size * RDEGame.ScaleFactor;
             int borderWidth = 1;
 
+            Color color = (IsTrigger) ? Color.Gold : Color.LightGreen;
+
             for (int y = 0; y < drawSize.Y; y++)
             {
                 for (int x = 0; x < drawSize.X; x++)
@@ -243,7 +245,7 @@ namespace RDEngine.Engine.Physics
                     {
                         Vector2 drawPos = Position * RDEGame.ScaleFactor - Vector2.Floor(Parent.Scene.CameraPos) + new Vector2(x, y);
                         if (drawPos.X < RDEGame.UpscaledWidth && drawPos.Y < RDEGame.UpscaledHeight)
-                            spriteBatch.Draw(ContentStorer.WhitePixel, drawPos, Color.LightGreen);
+                            spriteBatch.Draw(ContentStorer.WhitePixel, drawPos, color);
                     }
                 }
             }

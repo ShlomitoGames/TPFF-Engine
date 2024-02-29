@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RDEngine.Engine.Physics;
 using System.Collections.Generic;
 using RDEngine.Engine.UI;
+using System.Diagnostics;
 
 namespace RDEngine.Engine
 {
@@ -35,14 +36,14 @@ namespace RDEngine.Engine
         {
             _unitSize = unitSize;
             CameraColor = camColor;
+            _gameObjects = null;
+            _uiObjects = null;
         }
 
         public virtual void Initialize()
         {
+            _isFirstFrame = true;
             Solver = new PhysicsSolver();
-            _gameObjects = null;
-            _uiObjects = null;
-            _isFirstFrame = true;   
         }
 
         public virtual void Start()
