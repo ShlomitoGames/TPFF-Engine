@@ -20,10 +20,10 @@ namespace RDEngine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private RenderTarget2D _target; //The RenderTarget for the pixelated scene
+        private RenderTarget2D _worldTarget; //The RenderTarget for the pixelated scene
         public static int ScaleFactor { get; } = 3;
 
-        public static int UpscaledWidth = 1366; //The game wont run at exactly this resolution, it will instead run at the closest multiple of the ScaleFactor
+        public static int UpscaledWidth = 1366; //The game won't run at exactly this resolution, it will instead run at the closest multiple of the ScaleFactor
         public static int UpscaledHeight = 768;
 
         public static int ScreenWidth { get; } = UpscaledWidth / ScaleFactor;
@@ -57,7 +57,7 @@ namespace RDEngine
 
             //Create a RenderTarget where the pixelated scene will be drawn on
             //A pixel of padding is added to the screen to account for the smooth offset
-            _target = new RenderTarget2D(GraphicsDevice, ScreenWidth + 2, ScreenHeight + 2);
+            _worldTarget = new RenderTarget2D(GraphicsDevice, ScreenWidth + 2, ScreenHeight + 2);
 
             base.Initialize();
 
@@ -82,8 +82,16 @@ namespace RDEngine
                 new List<string>()
                 {
                     "testfont", "wreckside"
+                },
+                new List<string>()
+                {
+                    "MarioTheme"
+                },
+                new List<string>()
+                {
+                    "MarioJump"
                 }
-                );
+            );
 
             SceneHandler.LoadScene(new TestScene());
         }
@@ -139,11 +147,11 @@ namespace RDEngine
         protected override void Draw(GameTime gameTime)
         {
             //Set the target for the pixelated scene
-            GraphicsDevice.SetRenderTarget(_target);
+            GraphicsDevice.SetRenderTarget(_worldTarget);
             GraphicsDevice.Clear(SceneHandler.ActiveScene.CameraColor);
 
             //Drawing the pixelated scene
-            spriteBatch.Begin();
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
             SceneHandler.ActiveScene.DrawScene(spriteBatch);
             spriteBatch.End();
 
@@ -151,7 +159,7 @@ namespace RDEngine
             GraphicsDevice.SetRenderTarget(null);
 
             //Drawing the normal scene
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
 
             //Drawing the pixelated scene inside the normal scene
                 //The offset is how much of the camera positions changes when snapped to the pixel grid, so it's smooth once scaled up.
@@ -160,7 +168,7 @@ namespace RDEngine
                 throw new ArithmeticException("Offset cannot be greater than scaling factor");
 
             //ScaleFactor is subtracted from X and Y to account for the 1px-wide padding for the offset
-            spriteBatch.Draw(_target, new Rectangle((int)offset.X - ScaleFactor, (int)offset.Y - ScaleFactor, (ScreenWidth + 2) * ScaleFactor, (ScreenHeight + 2) * ScaleFactor), Color.White);
+            spriteBatch.Draw(_worldTarget, new Rectangle((int)offset.X - ScaleFactor, (int)offset.Y - ScaleFactor, (ScreenWidth + 2) * ScaleFactor, (ScreenHeight + 2) * ScaleFactor), Color.White);
 
             //Draws the component debug lines
             SceneHandler.ActiveScene.DrawComponents(GraphicsDevice, spriteBatch);

@@ -6,6 +6,7 @@ using RDEngine.Engine.UI;
 using RDEngine.Engine.Animation;
 using System.Collections.Generic;
 using System;
+using Microsoft.Xna.Framework.Media;
 
 namespace RDEngine.GameScripts
 {
@@ -72,7 +73,7 @@ namespace RDEngine.GameScripts
                 }),
                 new WorldObject("Koopa", this, _koopaTexture, new Vector2(8f, 4f), null, new List<GComponent>()
                 {
-                    new RigidBody(_koopaTexture.Bounds.Size.ToVector2(), Vector2.Zero, gravity: 200f, drag: 1f, mass: 10f),
+                    new RigidBody(_koopaTexture.Bounds.Size.ToVector2(), Vector2.Zero, gravity: 200f, drag: 1f, mass: 50f),
                     new Entity(100f)
                 }),
                 new Ground("Ground1", this, _groundTexture, new Vector2(0f, 14f), new Vector2(50f, 2f)),
@@ -118,6 +119,10 @@ namespace RDEngine.GameScripts
 
             CameraFollow cam = FindWithTag("Camera").GetComponent<CameraFollow>();
             cam.SetTarget(FindWithTag("Player"));
+
+            Song song = ContentStorer.Songs["MarioTheme"];
+            if (SceneHandler.ActiveSong != song)
+                SceneHandler.PlaySong(song, true);
         }
     }
 }

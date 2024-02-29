@@ -47,7 +47,7 @@ namespace RDEngine.Engine
             }
         }
         private Vector2 _originOffset;
-        public Vector2 Origin //Measured in pixels
+        public Vector2 Origin //Measured in pixelated-scene pixels
         {
             get
             {

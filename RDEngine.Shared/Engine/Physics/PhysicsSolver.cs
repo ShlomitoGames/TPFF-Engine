@@ -23,7 +23,7 @@ namespace RDEngine.Engine.Physics
             //First we get the velocity to that we can make the collision detection and resolution,
             //at the end we update the position based on the velocity
             UpdateVelocities(deltaTime);
-            for (int i = 0; i < SUBSTEPS; i++) //I'll probably want to remove this entirelyt eventually
+            for (int i = 0; i < SUBSTEPS; i++) //I'll probably want to remove this entirely eventually
             {
                 SolveCollisions(deltaTime, i == 0);
             }

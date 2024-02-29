@@ -64,6 +64,7 @@ namespace RDEngine.GameScripts
             if (Input.GetMacro("Jump", KeyGate.Down) && _grounded)
             {
                 _rb.Velocity.Y = -_jumpSpeed;
+                ContentStorer.SFX["MarioJump"].Play();
             }
 
             _rb.IsTrigger = Input.GetKey(Microsoft.Xna.Framework.Input.Keys.F, KeyGate.Held);

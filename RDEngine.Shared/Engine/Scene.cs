@@ -57,6 +57,11 @@ namespace RDEngine.Engine
             }
         }
 
+        public virtual void OnDelete()
+        {
+
+        }
+
         public void UpdateScene()
         {
             if (_isFirstFrame)
