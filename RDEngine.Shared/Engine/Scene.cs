@@ -36,8 +36,8 @@ namespace RDEngine.Engine
         {
             _unitSize = unitSize;
             CameraColor = camColor;
-            _gameObjects = null;
-            _uiObjects = null;
+            _gameObjects = new List<WorldObject>();
+            _uiObjects = new List<UIObject>();
         }
 
         public virtual void Initialize()

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RDEngine.Engine;
 using RDEngine.Engine.Physics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RDEngine.GameScripts
 {
@@ -10,11 +11,7 @@ namespace RDEngine.GameScripts
     {
         private Vector2 _size;
 
-        public Ground(string tag, Texture2D texture, Vector2 position, Vector2 size) : base(tag, texture, position,
-            initialComponents: new List<GComponent>()
-            {
-                new RigidBody(size * texture.Bounds.Size.ToVector2(), Vector2.Zero, mass: 100, isStatic: true)
-            })
+        public Ground(string tag, Texture2D texture, Vector2 position, Vector2 size, List<GComponent> initialComponents = null, GameObject parent = null) : base(tag, texture, position, parent, initialComponents)
         {
             _size = size;
         }
@@ -29,8 +26,8 @@ namespace RDEngine.GameScripts
             {
                 for (int j = 0; j < _size.X; j++)
                 {
-                    Vector2 pos = new Vector2(j * Texture.Width, i * Texture.Height) + Position -Scene.WorldCameraPos + Vector2.One;
-                    spriteBatch.Draw(Texture, pos, Color.White);
+                    Vector2 pos = new Vector2(j * Texture.Width * Scale.X, i * Texture.Height * Scale.Y) + Position -Scene.WorldCameraPos + Vector2.One;
+                    spriteBatch.Draw(Texture, pos, null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
                 }
             }
         }

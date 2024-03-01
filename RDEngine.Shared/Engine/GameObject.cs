@@ -23,6 +23,22 @@ namespace RDEngine.Engine
             }
         }
 
+        //Size relative to texture size
+        public Vector2 Scale { get; set; } = Vector2.One;
+
+        //Real size
+        public virtual Vector2 Size
+        {
+            get
+            {
+                return Texture.Bounds.Size.ToVector2() * Scale;
+            }
+            set
+            {
+                Scale = value / Texture.Bounds.Size.ToVector2();
+            }
+        }
+
         public Color Color;
         public SpriteEffects Effects;
         public float Layer { get; set; }

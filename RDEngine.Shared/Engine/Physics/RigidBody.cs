@@ -3,13 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RDEngine.Engine.Physics
 {
     public class RigidBody: GComponent
     {
-        public bool IsStatic, IsTrigger;
+        public bool IsStatic, IsTrigger, IsKinematic;
 
         public Vector2 Offset { get; set; }
         public Vector2 Position
@@ -20,10 +21,12 @@ namespace RDEngine.Engine.Physics
             }
             set
             {
-                Parent.Position = value - Offset;
-                _rect.Position = value;
+                _positionAlter = value;
             }
         }
+
+        private Vector2? _positionAlter = null;
+
         /*public Vector2 Origin
         {
             get
@@ -42,20 +45,17 @@ namespace RDEngine.Engine.Physics
             set
             {
                 _size = value;
-                _rect.Size = value;
             }
         }
 
-        private RectF _rect;
         public RectF Rect
         {
             get
             {
-                return _rect;
+                return new RectF(Position, Size);
             }
             set
             {
-                _rect = value;
                 Position = value.Position;
                 Size = value.Size;
             }
@@ -84,14 +84,15 @@ namespace RDEngine.Engine.Physics
         private List<Collision> _cols, _lastCols;
         private List<RigidBody> _triggIntrs, _lastIntersects;
 
-        public RigidBody(Vector2 size, Vector2 offset, bool isTrigger = false, bool isStatic = false, float gravity = 0, float drag = 0, float mass = 1): base()
+        public RigidBody(Vector2 size, Vector2 offset, bool isTrigger = false, bool isStatic = false, bool isKinematic = false, float gravity = 0, float drag = 0, float mass = 1): base()
         {
             Size = size;
             Offset = offset;
             IsStatic = isStatic;
             IsTrigger = isTrigger;
+            IsKinematic = isKinematic;
             Gravity = gravity;
-            Drag = drag;
+            Drag = drag; //Not frame-rate independent
             Mass = mass;
 
             _cols = new List<Collision>();
@@ -112,9 +113,13 @@ namespace RDEngine.Engine.Physics
 
         internal void UpdatePosition(float deltaTime)
         {
-            Position += Velocity * deltaTime;
+            Parent.Position += Velocity * deltaTime - Offset;
 
             _acceleration = Vector2.Zero;
+
+            if (_positionAlter != null)
+                Velocity = Vector2.Zero;
+            _positionAlter = null;
         }
 
         internal void UpdateVelocity(float deltaTime)
@@ -123,7 +128,15 @@ namespace RDEngine.Engine.Physics
             
             Velocity += _acceleration * deltaTime;
 
-            //Velocity *= 1 - Drag * deltaTime;
+            if (_positionAlter != null && deltaTime != 0)
+            {
+                Velocity = ((Vector2)_positionAlter - Position)/deltaTime;
+            }
+
+            //This is *not* frame-rate independent!
+            float multiplier = 1 - Drag * deltaTime;
+            if (multiplier > 0)
+                Velocity *= multiplier;
         }
 
         public void Accelerate(Vector2 acceleration)

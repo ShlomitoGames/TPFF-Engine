@@ -8,7 +8,7 @@ namespace RDEngine.GameScripts
         public override void Update()
         {
             if (Input.GetKey(Keys.R, KeyGate.Down))
-                SceneHandler.LoadScene(new TestScene());
+                SceneHandler.LoadScene(new Scene1());
             if (Input.GetKey(Keys.H, KeyGate.Down))
                 ShowHitboxes = !ShowHitboxes;
         }

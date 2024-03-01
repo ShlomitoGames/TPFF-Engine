@@ -93,7 +93,7 @@ namespace RDEngine
                 }
             );
 
-            SceneHandler.LoadScene(new TestScene());
+            SceneHandler.LoadScene(new Scene1());
         }
 
         /// <summary>

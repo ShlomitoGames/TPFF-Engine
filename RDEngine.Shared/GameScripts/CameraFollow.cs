@@ -45,6 +45,9 @@ namespace RDEngine.GameScripts
 
         public override void LateUpdate()
         {
+            if (Target == null)
+                return;
+
             Vector2 desiredPosition = Target.Origin + Offset;
             //Vector2 smoothedPosition = Vector2.SmoothStep(_camOrigin, desiredPosition, SmoothSpeed * Time.Instance.DeltaTime); //Not freame-rate independent
             Vector2 smoothedPosition = Vector2.Lerp(_camOrigin, desiredPosition, SmoothSpeed * Time.DeltaTime);

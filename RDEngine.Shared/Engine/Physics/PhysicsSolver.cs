@@ -98,12 +98,12 @@ namespace RDEngine.Engine.Physics
                     {
                         Vector2 newVel = contactNormal * new Vector2(MathF.Abs(rb1.Velocity.X), MathF.Abs(rb1.Velocity.Y)) * (1 - contactTime);
 
-                        float ratio1 = (!rb2.IsStatic) ? rb2.Mass / (rb1.Mass + rb2.Mass) : 1;
+                        float ratio1 = (!rb2.IsStatic && !rb2.IsKinematic) ? rb2.Mass / (rb1.Mass + rb2.Mass) : 1;
 
                         rb1.Velocity += newVel * ratio1;
                         if (storeCols) rb1.AddCollision(new Collision(rb2, contactPoint, contactNormal));
 
-                        if (!rb2.IsStatic)
+                        if (!rb2.IsStatic && !rb2.IsKinematic)
                             rb2.Velocity -= newVel * (rb1.Mass / (rb1.Mass + rb2.Mass));
                         if (storeCols) rb2.AddCollision(new Collision(rb1, contactPoint, -contactNormal));
                     }

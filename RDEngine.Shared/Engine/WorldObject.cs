@@ -18,7 +18,7 @@ namespace RDEngine.Engine
 
             if (Texture == null) return;
 
-            spriteBatch.Draw(Texture, Vector2.Floor(Position - Scene.WorldCameraPos + Vector2.One), null, Color, 0f, Vector2.Zero, Vector2.One, Effects, Layer);
+            spriteBatch.Draw(Texture, Vector2.Floor(Position - Scene.WorldCameraPos + Vector2.One), null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
         }
 
         internal void OnCollisionEnter(Collision collision)

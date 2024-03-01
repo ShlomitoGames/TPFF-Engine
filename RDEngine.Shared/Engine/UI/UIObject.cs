@@ -6,14 +6,11 @@ namespace RDEngine.Engine.UI
 {
     public class UIObject : GameObject
     {
-        //Size relative to texture size
-        public Vector2 Scale { get; set; }
-
         //Whether its position is in the world or fixed on the screen
         protected bool _isWorldPos;
 
         //Real size
-        public virtual Vector2 Size
+        public override Vector2 Size
         {
             get
             {
