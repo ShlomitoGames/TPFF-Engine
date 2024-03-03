@@ -10,25 +10,27 @@ namespace RDEngine.Engine.UI
         protected bool _isWorldPos;
 
         //Real size
-        public override Vector2 Size
+        public virtual Vector2 Size
         {
             get
             {
-                return Texture.Bounds.Size.ToVector2() * Scale;
+                return new Vector2(Texture.Width, Texture.Height) * Scale;
             }
             set
             {
-                Scale = value / Texture.Bounds.Size.ToVector2();
+                Scale = value / new Vector2(Texture.Width, Texture.Height);
             }
         }
 
-        public UIObject(string tag, Texture2D texture, Vector2 position, bool isWorldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, texture, position, parent, initialComponents)
+        //public Vector2 TLPosition
+
+        public UIObject(string tag, Texture2D texture, Vector2 position, bool isWorldPos, List<GComponent> initialComponents = null, List<UIObject> children = null) : base(tag, texture, position, initialComponents, (children != null) ? children.ConvertAll(x => x as GameObject) : null)
         {
             _isWorldPos = isWorldPos;
             Scale = Vector2.One;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        internal override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
@@ -36,7 +38,7 @@ namespace RDEngine.Engine.UI
 
             // UIObjects get drawn with their positions at the center, unlike WorldObjects
             //The Vector2.Floor is very important
-            Vector2 pos = _isWorldPos ? Position - Vector2.Floor(Scene.CameraPos) : Position;
+            Vector2 pos = _isWorldPos ? AbsolutePos - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : AbsolutePos;
             spriteBatch.Draw(Texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
         }
     }

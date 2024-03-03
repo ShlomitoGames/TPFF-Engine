@@ -17,25 +17,18 @@ namespace RDEngine.Engine.Physics
         {
             get
             {
-                return Parent.Position + Offset;
+                return Parent.AbsolutePos - Offset - _halfSize;
             }
             set
             {
-                _positionAlter = value;
+                _positionAlter = value - Offset - _halfSize;
             }
         }
 
         private Vector2? _positionAlter = null;
 
-        /*public Vector2 Origin
-        {
-            get
-            {
-                return Position + Size / 2;
-            }
-        }*/
-
         private Vector2 _size;
+        private Vector2 _halfSize;
         public Vector2 Size
         {
             get
@@ -45,6 +38,7 @@ namespace RDEngine.Engine.Physics
             set
             {
                 _size = value;
+                _halfSize = value / 2f;
             }
         }
 
@@ -113,7 +107,7 @@ namespace RDEngine.Engine.Physics
 
         internal void UpdatePosition(float deltaTime)
         {
-            Parent.Position += Velocity * deltaTime - Offset;
+            Parent.AbsolutePos += Velocity * deltaTime;
 
             _acceleration = Vector2.Zero;
 
@@ -130,7 +124,7 @@ namespace RDEngine.Engine.Physics
 
             if (_positionAlter != null && deltaTime != 0)
             {
-                Velocity = ((Vector2)_positionAlter - Position)/deltaTime;
+                Velocity = ((Vector2)_positionAlter - Position) / deltaTime;
             }
 
             //This is *not* frame-rate independent!
@@ -156,11 +150,8 @@ namespace RDEngine.Engine.Physics
 
         internal void UpdateCollisions() //Calls all OnCollision functions
         {
-            //var collideable = Parent as ICollideable;
-            //if (collideable == null) return;
             var wParent = Parent as WorldObject;
 
-            //List<Collision> stayed = _cols.IntersectBy(_lastCols.Select(c => c.Rb), c => c.Rb).ToList();
             List<RigidBody> stayed = _cols.ConvertAll(c => c.Rb).Intersect(_lastCols.ConvertAll(c => c.Rb)).ToList();
 
             foreach (var col in _lastCols)
@@ -182,8 +173,6 @@ namespace RDEngine.Engine.Physics
 
         internal void UpdateTriggerIntersections()
         {
-            //var collideable = Parent as ICollideable;
-            //if (collideable == null) return;
             var wParent = Parent as WorldObject;
 
             List<RigidBody> intrStayed = _triggIntrs.Intersect(_lastIntersects).ToList();
@@ -249,6 +238,7 @@ namespace RDEngine.Engine.Physics
             int borderWidth = 1;
 
             Color color = (IsTrigger) ? Color.Gold : Color.LightGreen;
+            Vector2 offset = Position * RDEGame.ScaleFactor - Vector2.Floor(Parent.Scene.CameraPos);
 
             for (int y = 0; y < drawSize.Y; y++)
             {
@@ -256,8 +246,8 @@ namespace RDEngine.Engine.Physics
                 {
                     if (x < borderWidth || y < borderWidth || x >= drawSize.X - borderWidth || y >= drawSize.Y - borderWidth)
                     {
-                        Vector2 drawPos = Position * RDEGame.ScaleFactor - Vector2.Floor(Parent.Scene.CameraPos) + new Vector2(x, y);
-                        if (drawPos.X < RDEGame.UpscaledWidth && drawPos.Y < RDEGame.UpscaledHeight)
+                        Vector2 drawPos = new Vector2(x, y) + offset;
+                        if (drawPos.X < RDEGame.UpscaledScrWidth && drawPos.Y < RDEGame.UpscaledScrHeight)
                             spriteBatch.Draw(ContentStorer.WhitePixel, drawPos, color);
                     }
                 }

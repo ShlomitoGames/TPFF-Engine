@@ -7,18 +7,31 @@ namespace RDEngine.Engine
 {
     public class WorldObject : GameObject
     {
-        public WorldObject(string tag, Texture2D texture, Vector2 worldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, texture, worldPos * 16f, parent, initialComponents)
+        public Vector2 WorldPosition //Measured in units
         {
-
+            get
+            {
+                return Position / Scene.UnitSize;
+            }
+            set
+            {
+                Position = value * Scene.UnitSize;
+            }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public WorldObject(string tag, Texture2D texture, Vector2 worldPos, List<GComponent> initialComponents = null, List<WorldObject> children = null) : base(tag, texture, Vector2.Zero, initialComponents, (children != null) ? children.ConvertAll(x => x as GameObject) : null)
+        {
+            WorldPosition = worldPos;
+        }
+
+        internal override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
             if (Texture == null) return;
 
-            spriteBatch.Draw(Texture, Vector2.Floor(Position - Scene.WorldCameraPos + Vector2.One), null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
+            Vector2 pos = AbsolutePos - Scene.WorldCameraPos - (new Vector2(Texture.Width, Texture.Height) * Scale / 2f) + Vector2.One * 2f;
+            spriteBatch.Draw(Texture, Vector2.Floor(pos), null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
         }
 
         internal void OnCollisionEnter(Collision collision)

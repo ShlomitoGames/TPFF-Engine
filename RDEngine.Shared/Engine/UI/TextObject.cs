@@ -21,17 +21,17 @@ namespace RDEngine.Engine.UI
             }
         }
 
-        public TextObject(string tag, SpriteFont font, string text, Vector2 position, bool isWorldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, null, position, isWorldPos, parent, initialComponents)
+        public TextObject(string tag, SpriteFont font, string text, Vector2 position, bool isWorldPos, List<GComponent> initialComponents = null, List<UIObject> children = null) : base(tag, null, position, isWorldPos, initialComponents, children)
         {
             _font = font;
             Text = text;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        internal override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
             
-            Vector2 pos = (_isWorldPos) ? Position - Vector2.Floor(Scene.CameraPos) : Position;
+            Vector2 pos = (_isWorldPos) ? AbsolutePos - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : AbsolutePos;
             spriteBatch.DrawString(_font, Text, pos - Size / 2f, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
         }
     }

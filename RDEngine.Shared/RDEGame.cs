@@ -23,20 +23,21 @@ namespace RDEngine
         private RenderTarget2D _worldTarget; //The RenderTarget for the pixelated scene
         public static int ScaleFactor { get; } = 3;
 
-        public static int UpscaledWidth = 1366; //The game won't run at exactly this resolution, it will instead run at the closest multiple of the ScaleFactor
-        public static int UpscaledHeight = 768;
+        public static int UpscaledScrWidth { get; } = 1366;
+        public static int UpscaledScrHeight { get; } = 768;
+        public static Vector2 UpscaledScrSize { get; } = new Vector2(UpscaledScrWidth, UpscaledScrHeight);
 
-        public static int ScreenWidth { get; } = UpscaledWidth / ScaleFactor;
-        public static int ScreenHeight { get; } = UpscaledHeight / ScaleFactor;
-        public static Point ScreenSize = new Point(ScreenWidth, ScreenHeight);
+        public static int ScreenWidth { get; } = UpscaledScrWidth / ScaleFactor;
+        public static int ScreenHeight { get; } = UpscaledScrHeight / ScaleFactor;
+        public static Vector2 ScreenSize { get; } = new Vector2(ScreenWidth, ScreenHeight);
 
         public RDEGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.PreferredBackBufferWidth = ScreenWidth * ScaleFactor;
-            graphics.PreferredBackBufferHeight = ScreenHeight * ScaleFactor;
+            graphics.PreferredBackBufferWidth = UpscaledScrWidth;
+            graphics.PreferredBackBufferHeight = UpscaledScrHeight;
             IsMouseVisible = true;
 
             //Unlocks the FPS
@@ -57,7 +58,7 @@ namespace RDEngine
 
             //Create a RenderTarget where the pixelated scene will be drawn on
             //A pixel of padding is added to the screen to account for the smooth offset
-            _worldTarget = new RenderTarget2D(GraphicsDevice, ScreenWidth + 2, ScreenHeight + 2);
+            _worldTarget = new RenderTarget2D(GraphicsDevice, ScreenWidth + 4, ScreenHeight + 4);
 
             base.Initialize();
 
@@ -157,7 +158,6 @@ namespace RDEngine
 
             //Set rendering back to the back buffer
             GraphicsDevice.SetRenderTarget(null);
-
             //Drawing the normal scene
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
 
@@ -167,8 +167,8 @@ namespace RDEngine
             if (MathF.Abs(offset.X) > 2 * ScaleFactor || MathF.Abs(offset.Y) > 2 * ScaleFactor)
                 throw new ArithmeticException("Offset cannot be greater than scaling factor");
 
-            //ScaleFactor is subtracted from X and Y to account for the 1px-wide padding for the offset
-            spriteBatch.Draw(_worldTarget, new Rectangle((int)offset.X - ScaleFactor, (int)offset.Y - ScaleFactor, (ScreenWidth + 2) * ScaleFactor, (ScreenHeight + 2) * ScaleFactor), Color.White);
+            //2 * ScaleFactor is subtracted from X and Y to account for the 2px-wide padding for the offset
+            spriteBatch.Draw(_worldTarget, new Rectangle((int)offset.X - ScaleFactor * 2, (int)offset.Y - ScaleFactor * 2, (ScreenWidth + 4) * ScaleFactor, (ScreenHeight + 4) * ScaleFactor), Color.White);
 
             //Draws the component debug lines
             SceneHandler.ActiveScene.DrawComponents(GraphicsDevice, spriteBatch);

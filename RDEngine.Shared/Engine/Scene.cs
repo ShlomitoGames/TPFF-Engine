@@ -17,12 +17,34 @@ namespace RDEngine.Engine
         private byte _unitSize;
         public byte UnitSize { get { return _unitSize; } }
 
-        public Vector2 CameraPos { get; set; }
+        public Vector2 CameraPos;
         public Vector2 WorldCameraPos
         {
             get
             {
                 return Vector2.Floor(CameraPos / RDEGame.ScaleFactor);
+            }
+        }
+        public Vector2 CameraOrigin
+        {
+            get
+            {
+                return CameraPos + RDEGame.UpscaledScrSize / 2f;
+            }
+            set
+            {
+                CameraPos = value - RDEGame.UpscaledScrSize / 2f;
+            }
+        }
+        public Vector2 WorldCameraOrigin
+        {
+            get
+            {
+                return CameraPos / RDEGame.ScaleFactor + RDEGame.ScreenSize / 2f;
+            }
+            set
+            {
+                CameraPos = (value - RDEGame.ScreenSize / 2f) * RDEGame.ScaleFactor;
             }
         }
 
@@ -36,6 +58,7 @@ namespace RDEngine.Engine
         {
             _unitSize = unitSize;
             CameraColor = camColor;
+            CameraOrigin = Vector2.Zero;
             _gameObjects = new List<WorldObject>();
             _uiObjects = new List<UIObject>();
         }

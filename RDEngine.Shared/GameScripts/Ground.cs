@@ -11,14 +11,14 @@ namespace RDEngine.GameScripts
     {
         private Vector2 _size;
 
-        public Ground(string tag, Texture2D texture, Vector2 position, Vector2 size, List<GComponent> initialComponents = null, GameObject parent = null) : base(tag, texture, position, parent, initialComponents)
+        public Ground(string tag, Texture2D texture, Vector2 position, Vector2 size, List<GComponent> initialComponents = null, List<WorldObject> children = null) : base(tag, texture, position, initialComponents, children)
         {
             _size = size;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        internal override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            Vector2 offset = AbsolutePos - Scene.WorldCameraPos + Vector2.One * 2f - ((new Vector2(Texture.Width, Texture.Height) * _size) * Scale / 2f);
 
             if (Texture == null) return;
 
@@ -26,8 +26,8 @@ namespace RDEngine.GameScripts
             {
                 for (int j = 0; j < _size.X; j++)
                 {
-                    Vector2 pos = new Vector2(j * Texture.Width * Scale.X, i * Texture.Height * Scale.Y) + Position -Scene.WorldCameraPos + Vector2.One;
-                    spriteBatch.Draw(Texture, pos, null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
+                    Vector2 pos = new Vector2(j * Texture.Width * Scale.X, i * Texture.Height * Scale.Y) + offset;
+                    spriteBatch.Draw(Texture, Vector2.Floor(pos), null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
                 }
             }
         }
