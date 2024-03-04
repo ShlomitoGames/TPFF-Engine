@@ -11,7 +11,6 @@ namespace RDEngine.GameScripts
     {
         public int Speed;
         private RigidBody _rb;
-        private bool[] canMove = {true, true, true, true};
 
         public Player(int speed)
         {
@@ -22,29 +21,34 @@ namespace RDEngine.GameScripts
         {
             _rb = Parent.GetComponent<RigidBody>();
         }
-
+        int oldcount = 0;
         public override void Update()
         {
             Vector2 velocity = Vector2.Zero;
 
-            if (Input.GetMacro("Up", KeyGate.Held) && canMove[0])
+            if (Input.GetMacro("Up", KeyGate.Held))
             {
-                velocity -= Vector2.UnitY * Speed;
+                velocity -= Vector2.UnitY;
             }
-            if (Input.GetMacro("Down", KeyGate.Held) && canMove[1])
+            if (Input.GetMacro("Down", KeyGate.Held))
             {
-                velocity += Vector2.UnitY * Speed;
+                velocity += Vector2.UnitY;
             }
-            if (Input.GetMacro("Left", KeyGate.Held) && canMove[2])
+            if (Input.GetMacro("Left", KeyGate.Held))
             {
-                velocity -= Vector2.UnitX * Speed;
+                velocity -= Vector2.UnitX;
             }
-            if (Input.GetMacro("Right", KeyGate.Held) && canMove[3])
+            if (Input.GetMacro("Right", KeyGate.Held))
             {
-                velocity += Vector2.UnitX * Speed;
+                velocity += Vector2.UnitX;
             }
 
-            _rb.Velocity = velocity;
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+                //_rb.Velocity = velocity * Speed;
+                _rb.Accelerate(velocity * Speed);
+            }
         }
     }
 }

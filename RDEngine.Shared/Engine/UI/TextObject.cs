@@ -27,12 +27,12 @@ namespace RDEngine.Engine.UI
             Text = text;
         }
 
-        internal override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
             
             Vector2 pos = (_isWorldPos) ? AbsolutePos - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : AbsolutePos;
-            spriteBatch.DrawString(_font, Text, pos - Size / 2f, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
+            spriteBatch.DrawString(_font, Text, pos - Size / 2f, Color, 0f, Vector2.Zero, Scale, Effects, LayerDepth);
         }
     }
 }

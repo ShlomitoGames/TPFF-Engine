@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\UI\TextObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\FPSCounter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\LayoutLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\MovingBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scene1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\ShortCuts.cs" />
@@ -33,7 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Time.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Utils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Ground.cs" />
+    <Compile Include="..\RDEngine.Shared\GameScripts\TiledTexture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Player.cs" />
     <Compile Include="..\RDEngine.Shared\RDEGame.cs" />
   </ItemGroup>

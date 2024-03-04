@@ -30,7 +30,7 @@ namespace RDEngine.Engine.UI
             Scale = Vector2.One;
         }
 
-        internal override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
@@ -39,7 +39,7 @@ namespace RDEngine.Engine.UI
             // UIObjects get drawn with their positions at the center, unlike WorldObjects
             //The Vector2.Floor is very important
             Vector2 pos = _isWorldPos ? AbsolutePos - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : AbsolutePos;
-            spriteBatch.Draw(Texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
+            spriteBatch.Draw(Texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, Scale, Effects, LayerDepth);
         }
     }
 }

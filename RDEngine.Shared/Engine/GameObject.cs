@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 
 namespace RDEngine.Engine
@@ -14,7 +15,7 @@ namespace RDEngine.Engine
 
         public Color Color;
         public SpriteEffects Effects;
-        public float Layer;
+        public float LayerDepth = 0f;
 
         public GameObject Parent { get; private set; }
         public Scene Scene;
@@ -25,18 +26,18 @@ namespace RDEngine.Engine
         protected List<GComponent> _components;
 
         //Measured in RenderTarget pixels
-        public Vector2 Position
+        public Vector2 Position { get; set; }
+        public Vector2 AbsolutePos
         {
             get
             {
-                return (Parent != null) ? AbsolutePos - Parent.Position : AbsolutePos;
+                return (Parent != null) ? Position + Parent.Position : Position;
             }
             set
             {
-                AbsolutePos = value + ((Parent != null) ? AbsolutePos + Parent.Position : AbsolutePos);
+                Position = ((Parent != null) ? value - Parent.Position : value);
             }
         }
-        public Vector2 AbsolutePos { get; set; }
         
         public GameObject(string tag, Texture2D texture, Vector2 position, List<GComponent> initialComponents = null, List<GameObject> children = null)
         {
@@ -65,6 +66,7 @@ namespace RDEngine.Engine
             foreach (var child in _children)
             {
                 child.SetParent(this);
+                Scene.AddGameObject(child);
             }
         }
 
@@ -96,7 +98,7 @@ namespace RDEngine.Engine
             throw new System.NotImplementedException();
         }
 
-        internal virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             
         }

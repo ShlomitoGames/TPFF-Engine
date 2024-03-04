@@ -11,8 +11,11 @@ namespace RDEngine.Engine
 {
     public class Scene
     {
-        protected List<WorldObject> _gameObjects;
-        protected List<UIObject> _uiObjects;
+        private List<WorldObject> _worldObjects;
+        private List<UIObject> _uiObjects;
+
+        private List<WorldObject> _newWorldObjects;
+        private List<UIObject> _newUIObjects;
 
         private byte _unitSize;
         public byte UnitSize { get { return _unitSize; } }
@@ -59,7 +62,7 @@ namespace RDEngine.Engine
             _unitSize = unitSize;
             CameraColor = camColor;
             CameraOrigin = Vector2.Zero;
-            _gameObjects = new List<WorldObject>();
+            _worldObjects = new List<WorldObject>();
             _uiObjects = new List<UIObject>();
         }
 
@@ -67,18 +70,16 @@ namespace RDEngine.Engine
         {
             _isFirstFrame = true;
             Solver = new PhysicsSolver();
+
+            _worldObjects = new List<WorldObject>();
+            _uiObjects = new List<UIObject>();
+
+            _newWorldObjects = new List<WorldObject>();
+            _newUIObjects = new List<UIObject>();
         }
 
         public virtual void Start()
         {
-            foreach (var gameObject in _gameObjects)
-            {
-                gameObject.Start();
-            }
-            foreach (var gameObject in _uiObjects)
-            {
-                gameObject.Start();
-            }
         }
 
         public virtual void OnDelete()
@@ -88,13 +89,32 @@ namespace RDEngine.Engine
 
         public void UpdateScene()
         {
+            _worldObjects.AddRange(_newWorldObjects);
+            _uiObjects.AddRange(_newUIObjects);
+            WorldObject[] woToAdd = _newWorldObjects.ToArray();
+            UIObject[] uoToAdd = _newUIObjects.ToArray();
+
+            _newWorldObjects = new List<WorldObject>();
+            _newUIObjects = new List<UIObject>();
+
+            foreach (var gameObject in woToAdd)
+            {
+                gameObject.Scene = this;
+                gameObject.Start();
+            }
+            foreach (var gameObject in uoToAdd)
+            {
+                gameObject.Scene = this;
+                gameObject.Start();
+            }
+
             if (_isFirstFrame)
             {
                 Start();
                 _isFirstFrame = false;
             }
 
-            foreach (var gameObject in _gameObjects)
+            foreach (var gameObject in _worldObjects)
             {
                 gameObject.Update();
             }
@@ -105,7 +125,7 @@ namespace RDEngine.Engine
 
             Solver.Update();
 
-            foreach (var gameObject in _gameObjects)
+            foreach (var gameObject in _worldObjects)
             {
                 gameObject.LateUpdate();
             }
@@ -117,7 +137,7 @@ namespace RDEngine.Engine
 
         public void DrawScene(SpriteBatch spriteBatch)
         {
-            foreach (var gameObject in _gameObjects)
+            foreach (var gameObject in _worldObjects)
             {
                 gameObject.Draw(spriteBatch);
             }
@@ -133,7 +153,7 @@ namespace RDEngine.Engine
 
         public void DrawComponents(GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
-            foreach (var gameObject in _gameObjects)
+            foreach (var gameObject in _worldObjects)
             {
                 gameObject.DrawComponents(graphics, spriteBatch);
             }
@@ -141,7 +161,7 @@ namespace RDEngine.Engine
 
         public GameObject FindWithTag(string tag)
         {
-            foreach (var gameObject in _gameObjects)
+            foreach (var gameObject in _worldObjects)
             {
                 if (gameObject.Tag == tag)
                     return gameObject;
@@ -149,14 +169,21 @@ namespace RDEngine.Engine
             return null;
         }
 
+        public void AddGameObjects(GameObject[] gameObjects)
+        {
+            foreach (var gameObject in gameObjects)
+            {
+                AddGameObject(gameObject);
+            }
+        }
         public void AddGameObject(GameObject gameObject)
         {
             //Probably not the best approach
             if (gameObject as WorldObject != null)
-                _gameObjects.Add(gameObject as WorldObject);
+                _newWorldObjects.Add(gameObject as WorldObject);
 
             else if (gameObject as UIObject != null)
-                _uiObjects.Add(gameObject as UIObject);
+                _newUIObjects.Add(gameObject as UIObject);
 
             else
                 throw new System.Exception("Unknown GameObject type");
@@ -164,7 +191,7 @@ namespace RDEngine.Engine
         public void RemoveGameObject(GameObject gameObject)
         {
             if (gameObject as WorldObject != null)
-                _gameObjects.Remove(gameObject as WorldObject);
+                _worldObjects.Remove(gameObject as WorldObject);
 
             else if (gameObject as UIObject != null)
                 _uiObjects.Remove(gameObject as UIObject);

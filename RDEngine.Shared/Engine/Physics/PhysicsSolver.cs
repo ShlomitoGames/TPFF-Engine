@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RDEngine.Engine.Physics
 {
     public class PhysicsSolver
     {
-        private const int SUBSTEPS = 8;
+        private const int SUBSTEPS = 5;
         
         public List<RigidBody> RigidBodies;
 

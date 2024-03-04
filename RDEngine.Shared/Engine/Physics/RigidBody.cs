@@ -69,7 +69,7 @@ namespace RDEngine.Engine.Physics
             }
         }
         public float Gravity { get; set; }
-        [Range(0,1)] public float Drag { get; set; }
+        public float Drag { get; set; }
 
         public Vector2 Velocity;
 
@@ -101,8 +101,11 @@ namespace RDEngine.Engine.Physics
 
             if (parent as WorldObject == null)
                 throw new Exception("RigidBody parent must be a WorldObject");
+        }
 
-            parent.Scene.AddRb(this);
+        public override void Start()
+        {
+            Parent.Scene.AddRb(this);
         }
 
         internal void UpdatePosition(float deltaTime)
@@ -128,9 +131,11 @@ namespace RDEngine.Engine.Physics
             }
 
             //This is *not* frame-rate independent!
-            float multiplier = 1 - Drag * deltaTime;
+            float multiplier = 1 - (Drag * deltaTime);
             if (multiplier > 0)
+            {
                 Velocity *= multiplier;
+            }
         }
 
         public void Accelerate(Vector2 acceleration)

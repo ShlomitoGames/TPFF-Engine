@@ -21,7 +21,7 @@ namespace RDEngine
         SpriteBatch spriteBatch;
 
         private RenderTarget2D _worldTarget; //The RenderTarget for the pixelated scene
-        public static int ScaleFactor { get; } = 3;
+        public static int ScaleFactor { get; } = 4;
 
         public static int UpscaledScrWidth { get; } = 1366;
         public static int UpscaledScrHeight { get; } = 768;
@@ -77,8 +77,7 @@ namespace RDEngine
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
-                    "Block", "Koopa",
-                    "Mario_Idle", "Mario_Jump", "Mario_Walk1", "Mario_Walk2", "Mario_Walk3"
+                    "Layout"
                 },
                 new List<string>()
                 {
@@ -86,11 +85,11 @@ namespace RDEngine
                 },
                 new List<string>()
                 {
-                    "MarioTheme"
+                    
                 },
                 new List<string>()
                 {
-                    "MarioJump"
+                    
                 }
             );
 
@@ -152,14 +151,14 @@ namespace RDEngine
             GraphicsDevice.Clear(SceneHandler.ActiveScene.CameraColor);
 
             //Drawing the pixelated scene
-            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend, sortMode: SpriteSortMode.FrontToBack);
             SceneHandler.ActiveScene.DrawScene(spriteBatch);
             spriteBatch.End();
 
             //Set rendering back to the back buffer
             GraphicsDevice.SetRenderTarget(null);
             //Drawing the normal scene
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend, sortMode: SpriteSortMode.FrontToBack);
 
             //Drawing the pixelated scene inside the normal scene
                 //The offset is how much of the camera positions changes when snapped to the pixel grid, so it's smooth once scaled up.

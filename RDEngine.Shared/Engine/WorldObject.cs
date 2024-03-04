@@ -24,14 +24,14 @@ namespace RDEngine.Engine
             WorldPosition = worldPos;
         }
 
-        internal override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
             if (Texture == null) return;
 
             Vector2 pos = AbsolutePos - Scene.WorldCameraPos - (new Vector2(Texture.Width, Texture.Height) * Scale / 2f) + Vector2.One * 2f;
-            spriteBatch.Draw(Texture, Vector2.Floor(pos), null, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
+            spriteBatch.Draw(Texture, Vector2.Floor(pos), null, Color, 0f, Vector2.Zero, Scale, Effects, LayerDepth);
         }
 
         internal void OnCollisionEnter(Collision collision)
