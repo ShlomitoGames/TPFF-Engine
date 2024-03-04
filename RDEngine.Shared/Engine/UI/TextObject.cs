@@ -29,6 +29,8 @@ namespace RDEngine.Engine.UI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (!Enabled) return;
+
             base.Draw(spriteBatch);
             
             Vector2 pos = (_isWorldPos) ? AbsolutePos - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : AbsolutePos;

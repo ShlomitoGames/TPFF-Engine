@@ -18,6 +18,8 @@ namespace RDEngine.GameScripts
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (!Enabled) return;
+
             Vector2 offset = AbsolutePos - Scene.WorldCameraPos + Vector2.One * 2f - ((new Vector2(Texture.Width, Texture.Height) * Size) * Scale / 2f);
 
             if (Texture == null) return;

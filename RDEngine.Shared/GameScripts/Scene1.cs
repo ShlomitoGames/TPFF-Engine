@@ -36,35 +36,6 @@ namespace RDEngine.GameScripts
                 }
             );
 
-            /*WorldObject[] walls = new WorldObject[]
-            {
-                new TiledTexture("Ground1", ContentStorer.WhiteSquare, new Vector2(-7f, -2f), new Vector2(12f, 1f), new List<GComponent>()
-                {
-                    new RigidBody(new Vector2(12f, 1f) * UnitSize, Vector2.Zero, false, true)
-                }),
-                new Ground("Ground2", ContentStorer.WhiteSquare, new Vector2(21f, -2f), new Vector2(40f, 1f), new List<GComponent>()
-                {
-                    new RigidBody(new Vector2(40f, 1f) * UnitSize, Vector2.Zero, false, true)
-                }),
-                new Ground("Ground3", ContentStorer.WhiteSquare, new Vector2(-5f, -6f), new Vector2(4f, 1f), new List<GComponent>()
-                {
-                    new RigidBody(new Vector2(4f, 1f) * UnitSize, Vector2.Zero, false, true)
-                }),
-
-                new Ground("Wall1", ContentStorer.WhiteSquare, new Vector2(-13.5f, -9.5f), new Vector2(1f, 16f), new List<GComponent>()
-                {
-                    new RigidBody(new Vector2(1f, 16f) * UnitSize, Vector2.Zero, false, true)
-                }),
-                new Ground("Wall2", ContentStorer.WhiteSquare, new Vector2(-3.5f, -4f), new Vector2(1f, 5f), new List<GComponent>()
-                {
-                    new RigidBody(new Vector2(1f, 5f) * UnitSize, Vector2.Zero, false, true)
-                }),
-                new Ground("Ground4", ContentStorer.WhiteSquare, new Vector2(-7f, -17f), new Vector2(12f, 1f), new List<GComponent>()
-                {
-                    new RigidBody(new Vector2(12f, 1f) * UnitSize, Vector2.Zero, false, true)
-                })
-            };*/
-
             AddGameObjects(new WorldObject[]
             {
                 new WorldObject("TestBlock", ContentStorer.WhitePixel, new Vector2(-6.5f, 3f), new List<GComponent>()
@@ -106,7 +77,11 @@ namespace RDEngine.GameScripts
                 })
                 {
                     Color = Color.LightGreen
-                }
+                },
+                new UIObject("CoordGrid", null, Vector2.Zero, true, new List<GComponent>()
+                {
+                    new GridNums()
+                })
             };
 
             //_worldObjects.AddRange(walls);

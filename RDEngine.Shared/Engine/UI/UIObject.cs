@@ -32,6 +32,8 @@ namespace RDEngine.Engine.UI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (!Enabled) return;
+
             base.Draw(spriteBatch);
 
             if (Texture == null) return;

@@ -38,6 +38,8 @@ namespace RDEngine.Engine
                 Position = ((Parent != null) ? value - Parent.Position : value);
             }
         }
+
+        public bool Enabled;
         
         public GameObject(string tag, Texture2D texture, Vector2 position, List<GComponent> initialComponents = null, List<GameObject> children = null)
         {
@@ -47,6 +49,7 @@ namespace RDEngine.Engine
             Tag = tag;
             Effects = SpriteEffects.None;
             Color = Color.White;
+            Enabled = true;
 
             if (initialComponents != null)
                 _components = initialComponents;
@@ -72,6 +75,8 @@ namespace RDEngine.Engine
 
         internal void Start()
         {
+            if (!Enabled) return;
+
             foreach (var component in _components)
             {
                 component.Start();
@@ -79,6 +84,8 @@ namespace RDEngine.Engine
         }
         internal void Update()
         {
+            if (!Enabled) return;
+
             foreach (var component in _components)
             {
                 if (component.Enabled)
@@ -87,6 +94,8 @@ namespace RDEngine.Engine
         }
         internal void LateUpdate()
         {
+            if (!Enabled) return;
+
             foreach (var component in _components)
             {
                 if (component.Enabled)
