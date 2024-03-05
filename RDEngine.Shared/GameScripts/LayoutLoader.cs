@@ -45,28 +45,38 @@ namespace RDEngine.GameScripts
 
                     if (col.A == 0) continue;
 
-                    TiledTexture tile = new TiledTexture($"Tile[{i},{j}]", null, Vector2.Zero, Vector2.One);
+                    TiledTexture tile = new TiledTexture($"[{i},{j}]", null, Vector2.Zero, Vector2.One);
                     tiles[i, j] = tile;
                     RigidBody rb = new RigidBody(Vector2.One * _tileSize, Vector2.Zero, isStatic: true);
                     tileRbs[i, j] = rb;
                     tile.AddComponent(rb);
                     tile.WorldPosition = new Vector2(i, j) - origin;
+                    tile.LayerDepth = 0f;
 
                     if (col == Color.White)
                     {
                         tile.Texture = _border;
                         tile.Color = Color.Wheat;
+                        tile.Tag = "Border " + tile.Tag;
                     }
                     else if (col == Color.Yellow)
                     {
                         tile.Texture = _wall;
                         tile.Color = Color.Yellow;
+                        tile.Tag = "Wall " + tile.Tag;
                     }
                     else if (col == Color.Red)
                     {
                         tile.Texture = _rug;
                         tile.Color = Color.Red;
                         rb.IsTrigger = true;
+                        tile.Tag = "Rug " + tile.Tag;
+                    }
+                    else if (col == Color.Cyan)
+                    {
+                        tile.Texture = null;
+                        rb.IsTrigger = true;
+                        tile.Tag = "OOB " + tile.Tag;
                     }
                     else
                     {
@@ -89,7 +99,6 @@ namespace RDEngine.GameScripts
                             tile.Position = new Vector2(tile.Position.X - _tileSize * oldTile.Size.X / 2f, tile.Position.Y);
                             oldTile.Destroy();
                             tiles[i - 1, j] = null;
-                            oldTile = null;
                         }
                     }
                 }
@@ -118,7 +127,7 @@ namespace RDEngine.GameScripts
                             oldTile = null;
                         }
                     }
-                    if (tile != null && tile.Texture != null)
+                    if (tile != null)
                     {
                         Parent.Scene.AddGameObject(tile);
                         tile.SetParent(Parent);

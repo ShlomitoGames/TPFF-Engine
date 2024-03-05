@@ -11,6 +11,7 @@ namespace RDEngine.GameScripts
     {
         public int Speed;
         private RigidBody _rb;
+        private bool _debug = false;
 
         public Player(int speed)
         {
@@ -48,6 +49,26 @@ namespace RDEngine.GameScripts
                 velocity.Normalize();
                 //_rb.Velocity = velocity * Speed;
                 _rb.Accelerate(velocity * Speed);
+            }
+
+#if DEBUG
+            _debug = Input.GetKey(Microsoft.Xna.Framework.Input.Keys.F, KeyGate.Held);
+            _rb.IsTrigger = _debug;
+#endif
+        }
+
+        void ICollideable.OnTriggerEnter(RigidBody intrRb)
+        {
+            if (_debug)
+                return;
+
+            if (intrRb.Parent.Tag == "FurnitureTrigger")
+            {
+                //Debug.WriteLine("aaagh");
+            }
+            else if (intrRb.Parent.Tag.StartsWith("OOB"))
+            {
+                //Debug.WriteLine("im out");
             }
         }
     }

@@ -9,7 +9,15 @@ namespace RDEngine.GameScripts
 {
     internal class GridNums : GComponent
     {
-        List<TextObject> texts = new List<TextObject>();
+        public static List<TextObject> texts = new List<TextObject>();
+
+        public static void ToggleTexts()
+        {
+            foreach (var text in texts)
+            {
+                text.Enabled = !text.Enabled;
+            }
+        }
 
         public override void Start()
         {
@@ -22,15 +30,8 @@ namespace RDEngine.GameScripts
                     text.SetParent(this.Parent);
                     Parent.Scene.AddGameObject(text);
                     texts.Add(text);
+                    text.Enabled = false;
                 }
-            }
-        }
-
-        public override void Update()
-        {
-            foreach (var text in texts)
-            {
-                text.Enabled = GComponent.ShowHitboxes;
             }
         }
     }

@@ -199,13 +199,13 @@ namespace RDEngine.Engine.Physics
             _triggIntrs = new List<RigidBody>();
         }
 
-        public Collision? RayCast(Vector2 origin, Vector2 direction, float maxDistance)
+        public Collision? RayCast(Vector2 origin, Vector2 direction, float maxDistance, bool skipTriggers)
         {
             Collision? col = null;
             float minDist = -1;
             foreach (var rb in Parent.Scene.Solver.RigidBodies)
             {
-                if (rb == this) continue;
+                if (rb == this || (rb.IsTrigger && skipTriggers)) continue;
 
                 Vector2 cp, cn;
                 float ct;

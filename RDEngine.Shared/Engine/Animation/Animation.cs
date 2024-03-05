@@ -21,7 +21,7 @@ namespace RDEngine.Engine.Animation
 
         public bool Loop;
 
-        private bool _enabled;
+        public bool Enabled;
 
         private int _time;
         private int _totalDuration;
@@ -48,7 +48,7 @@ namespace RDEngine.Engine.Animation
         internal void Reset()
         {
             _time = 0;
-            _enabled = true;
+            Enabled = true;
 
             if (Layers != null)
                 foreach (var layer in Layers)
@@ -60,7 +60,7 @@ namespace RDEngine.Engine.Animation
 
         internal void StepAnimation()
         {
-            if (!_enabled || _animator == null) return;
+            if (!Enabled || _animator == null) return;
             
             foreach (var layer in Layers)
             {
@@ -78,12 +78,26 @@ namespace RDEngine.Engine.Animation
                     //Things that happen Continuously
                     if (layer.Time < layer.Durations[layer.CurrKeyFrame])
                     {
-                        if (layer.Type == VarTypes.Int)
-                            _animator.Ints[layer.VarIndex] = (int)MathHelper.Lerp((float)layer.GetValue<int>(), (float)layer.GetValue<int>(layer.CurrKeyFrame + 1), (float)layer.Time / (float)layer.CurrKeyFrameDuration);
-                        else if (layer.Type == VarTypes.Float)
-                            _animator.Floats[layer.VarIndex] = MathHelper.Lerp(layer.GetValue<float>(), layer.GetValue<float>(layer.CurrKeyFrame + 1), (float)layer.Time / (float)layer.CurrKeyFrameDuration);
-
                         layer.Time += (int)(Time.DeltaTime * 1000);
+
+                        if (layer.Type == VarTypes.Int)
+                        {
+                            int val1 = layer.GetValue<int>();
+                            int val2 = layer.GetValue<int>(layer.CurrKeyFrame + 1);
+                            int min = val2 > val1 ? val1 : val2;
+                            int max = val2 < val1 ? val1 : val2;
+
+                            _animator.Ints[layer.VarIndex] = MathHelper.Clamp((int)MathHelper.Lerp(val1, val2, (float)layer.Time / (float)layer.CurrKeyFrameDuration), min, max);
+                        }
+                        else if (layer.Type == VarTypes.Float)
+                        {
+                            float val1 = layer.GetValue<float>();
+                            float val2 = layer.GetValue<float>(layer.CurrKeyFrame + 1);
+                            float min = val2 > val1 ? val1 : val2;
+                            float max = val2 < val1 ? val1 : val2;
+
+                            _animator.Floats[layer.VarIndex] = MathHelper.Clamp(MathHelper.Lerp(val1, val2, (float)layer.Time / (float)layer.CurrKeyFrameDuration), min, max);
+                        }
                     }
                     //If it's done with that keyframe,
                     //and the animation cycle hasn't finished
@@ -104,7 +118,7 @@ namespace RDEngine.Engine.Animation
                     layer.CurrKeyFrame = 0;
                 }
                 if (!Loop)
-                    _enabled = false;
+                    Enabled = false;
             }
             _time += (int)(Time.DeltaTime * 1000);
         }

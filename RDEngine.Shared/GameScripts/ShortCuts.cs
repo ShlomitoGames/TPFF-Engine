@@ -9,8 +9,13 @@ namespace RDEngine.GameScripts
         {
             if (Input.GetKey(Keys.R, KeyGate.Down))
                 SceneHandler.LoadScene(new Scene1());
+
+# if DEBUG
             if (Input.GetKey(Keys.H, KeyGate.Down))
                 ShowHitboxes = !ShowHitboxes;
+            if (Input.GetKey(Keys.G, KeyGate.Down))
+                GridNums.ToggleTexts();
+#endif
         }
     }
 }

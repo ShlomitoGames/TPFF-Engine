@@ -20,9 +20,9 @@ namespace RDEngine.GameScripts
         {
             if (!Enabled) return;
 
-            Vector2 offset = AbsolutePos - Scene.WorldCameraPos + Vector2.One * 2f - ((new Vector2(Texture.Width, Texture.Height) * Size) * Scale / 2f);
-
             if (Texture == null) return;
+
+            Vector2 offset = AbsolutePos - Scene.WorldCameraPos + Vector2.One * 2f - ((new Vector2(Texture.Width, Texture.Height) * Size) * Scale / 2f);
 
             for (int i = 0; i < Size.Y; i++)
             {

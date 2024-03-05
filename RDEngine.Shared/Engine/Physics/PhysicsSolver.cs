@@ -8,9 +8,9 @@ namespace RDEngine.Engine.Physics
 {
     public class PhysicsSolver
     {
-        private const int SUBSTEPS = 5;
+        private const int SUBSTEPS = 8;
         
-        public List<RigidBody> RigidBodies;
+        internal List<RigidBody> RigidBodies;
 
         public PhysicsSolver()
         {
@@ -125,6 +125,7 @@ namespace RDEngine.Engine.Physics
                     if (RectIntersectsRect(rb1.Rect, rb2.Rect))
                     {
                         rb1.AddIntersection(rb2);
+                        rb2.AddIntersection(rb1);
                     }
                 }
             }

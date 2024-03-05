@@ -15,7 +15,7 @@ namespace RDEngine.Engine
 
         public Color Color;
         public SpriteEffects Effects;
-        public float LayerDepth = 0f;
+        public float LayerDepth = 0.5f;
 
         public GameObject Parent { get; private set; }
         public Scene Scene;

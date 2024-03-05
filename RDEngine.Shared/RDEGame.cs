@@ -118,6 +118,7 @@ namespace RDEngine
             try { gamePadState = GamePad.GetState(PlayerIndex.One); }
             catch (NotImplementedException) { /* ignore gamePadState */ }
 
+
             if (keyboardState.IsKeyDown(Keys.Escape) ||
                 keyboardState.IsKeyDown(Keys.Back) ||
                 gamePadState.Buttons.Back == ButtonState.Pressed)
