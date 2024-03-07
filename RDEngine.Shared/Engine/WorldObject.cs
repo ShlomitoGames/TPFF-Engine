@@ -32,7 +32,11 @@ namespace RDEngine.Engine
 
             if (Texture == null) return;
 
-            Vector2 pos = AbsolutePos - Scene.WorldCameraPos - (new Vector2(Texture.Width, Texture.Height) * Scale / 2f) + Vector2.One * 2f;
+            Vector2 pos = AbsolutePos - Scene.PixelCameraPos - (new Vector2(Texture.Width, Texture.Height) * Scale / 2f) + Vector2.One * 2f;
+            Vector2 size = Texture.Bounds.Size.ToVector2() * Scale;
+            if (pos.X + size.X + 2f < 0f || pos.X - 2f > RDEGame.ScreenWidth || pos.Y + size.Y + 2f < 0f || pos.Y - 2f > RDEGame.ScreenHeight)
+                return;
+
             spriteBatch.Draw(Texture, Vector2.Floor(pos), null, Color, 0f, Vector2.Zero, Scale, Effects, LayerDepth);
         }
 

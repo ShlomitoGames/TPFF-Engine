@@ -22,7 +22,94 @@ namespace RDEngine.Engine.UI
             }
         }
 
-        //public Vector2 TLPosition
+        public Vector2 TLPosition
+        {
+            get
+            {
+                return Position - Size * 0.5f;
+            }
+            set
+            {
+                Position = value + Size * 0.5f;
+            }
+        }
+        public Vector2 TRPosition
+        {
+            get
+            {
+                return new Vector2(Position.X + Size.X * 0.5f, Position.Y - Size.Y * 0.5f);
+            }
+            set
+            {
+                Position = new Vector2(value.X - Size.X * 0.5f, value.Y + Size.Y * 0.5f);
+            }
+        }
+        public Vector2 BLPosition
+        {
+            get
+            {
+                return new Vector2(Position.X - Size.X * 0.5f, Position.Y + Size.Y * 0.5f);
+            }
+            set
+            {
+                Position = new Vector2(value.X + Size.X * 0.5f, value.Y - Size.Y * 0.5f);
+            }
+        }
+        public Vector2 BRPosition
+        {
+            get
+            {
+                return Position + Size * 0.5f;
+            }
+            set
+            {
+                Position = value - Size * 0.5f;
+            }
+        }
+        public Vector2 TCPosition
+        {
+            get
+            {
+                return Position - Vector2.UnitY * Size * 0.5f;
+            }
+            set
+            {
+                Position = value + Vector2.UnitY * Size * 0.5f;
+            }
+        }
+        public Vector2 BCPosition
+        {
+            get
+            {
+                return Position + Vector2.UnitY * Size * 0.5f;
+            }
+            set
+            {
+                Position = value - Vector2.UnitY * Size * 0.5f;
+            }
+        }
+        public Vector2 LCPosition
+        {
+            get
+            {
+                return Position - Vector2.UnitX * Size * 0.5f;
+            }
+            set
+            {
+                Position = value + Vector2.UnitX * Size * 0.5f;
+            }
+        }
+        public Vector2 RCPosition
+        {
+            get
+            {
+                return Position + Vector2.UnitX * Size * 0.5f;
+            }
+            set
+            {
+                Position = value - Vector2.UnitX * Size * 0.5f;
+            }
+        }
 
         public UIObject(string tag, Texture2D texture, Vector2 position, bool isWorldPos, List<GComponent> initialComponents = null, List<UIObject> children = null) : base(tag, texture, position, initialComponents, (children != null) ? children.ConvertAll(x => x as GameObject) : null)
         {

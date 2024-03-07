@@ -38,30 +38,35 @@ namespace RDEngine.GameScripts
         {
             base.Update();
 
+            //Resets velocity
+            _rb.Velocity = Vector2.Zero;
+
+            if (Vector2.Distance(Parent.Position, _target.Position) > _radius * Parent.Scene.UnitSize)
+                return;
+
             Vector2 dir = Vector2.Normalize(_target.AbsolutePos - Parent.AbsolutePos);
 
             //RayCasts for the first solid object, looking for the player
             Collision? colPlayer = _rb.RayCast(Parent.AbsolutePos, dir, _radius * Parent.Scene.UnitSize, true);
-            //RayCasts for whatever might be in the way, even if it's a trigger, to get the contact normal
-            Collision? colOther = _rb.RayCast(Parent.AbsolutePos, dir, _radius * Parent.Scene.UnitSize, false);
 
-            //Resets velocity
-            _rb.Velocity = Vector2.Zero;
+            if (colPlayer == null)
+                return;
+
+            //Sees if it has direct line of sight to the player
+            if (colPlayer.Value.Rb.Parent.Tag != "Player")
+                return;
 
             bool wasFound = _found;
             _found = false;
-            if (colPlayer != null)
+
+            //RayCasts for whatever might be in the way, even if it's a trigger, to get the contact normal
+            Collision? colOther = _rb.RayCast(Parent.AbsolutePos, dir, _radius * Parent.Scene.UnitSize, false);
+
+            _found = true;
+            //The first frame it fount it it plays an animation and waits for a bit
+            if (!wasFound)
             {
-                //Sees if it has direct line of sight to the player
-                if (colPlayer.Value.Rb.Parent.Tag == "Player")
-                {
-                    _found = true;
-                    //The first frame it fount it it plays an animation and waits for a bit
-                    if (!wasFound)
-                    {
-                        //animation
-                    }
-                }
+                //animation
             }
 
             if (_found)

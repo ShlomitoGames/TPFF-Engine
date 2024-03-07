@@ -21,7 +21,7 @@ namespace RDEngine.Engine
         public byte UnitSize { get { return _unitSize; } }
 
         public Vector2 CameraPos;
-        public Vector2 WorldCameraPos
+        public Vector2 PixelCameraPos
         {
             get
             {
@@ -39,7 +39,7 @@ namespace RDEngine.Engine
                 CameraPos = value - RDEGame.UpscaledScrSize / 2f;
             }
         }
-        public Vector2 WorldCameraOrigin
+        public Vector2 PixelCameraOrigin
         {
             get
             {

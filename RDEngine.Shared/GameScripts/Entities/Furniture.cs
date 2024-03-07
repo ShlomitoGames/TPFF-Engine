@@ -21,7 +21,7 @@ namespace RDEngine.GameScripts
             _rb = Parent.GetComponent<RigidBody>();
 
             _rb.Size -= Vector2.One;
-            _insideRb = new RigidBody(_rb.Size - Vector2.One * 5f, Vector2.Zero, true);
+            _insideRb = new RigidBody(_rb.Size * 0.5f, Vector2.Zero, true);
             WorldObject child = new WorldObject("FurnitureTrigger", null, Vector2.Zero);
             child.AddComponent(_insideRb);
             child.SetParent(Parent);

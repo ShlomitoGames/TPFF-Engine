@@ -22,7 +22,6 @@ namespace RDEngine.GameScripts
         {
             _rb = Parent.GetComponent<RigidBody>();
         }
-        int oldcount = 0;
         public override void Update()
         {
             Vector2 velocity = Vector2.Zero;
@@ -65,10 +64,12 @@ namespace RDEngine.GameScripts
             if (intrRb.Parent.Tag == "FurnitureTrigger")
             {
                 //Debug.WriteLine("aaagh");
+                SceneHandler.LoadScene(new Scene1());
             }
             else if (intrRb.Parent.Tag.StartsWith("OOB"))
             {
                 //Debug.WriteLine("im out");
+                //SceneHandler.LoadScene(new Scene1());
             }
         }
     }

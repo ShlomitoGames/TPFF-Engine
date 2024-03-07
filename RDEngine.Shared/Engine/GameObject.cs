@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -198,7 +199,8 @@ namespace RDEngine.Engine
 
         public virtual void Destroy()
         {
-            foreach (var component in _components)
+            GComponent[] comps = _components.ToArray();
+            foreach (var component in comps)
             {
                 RemoveComponent(component);
             }

@@ -18,8 +18,8 @@ namespace RDEngine.Engine
         }
         public static void LoadScene(Scene scene, bool stopMusic = false)
         {
-            if (ActiveScene != null)
-                ActiveScene.OnDelete();
+            /*if (ActiveScene != null)
+                ActiveScene.OnDelete();*/
             
             ActiveScene = null;
 

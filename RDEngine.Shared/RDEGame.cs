@@ -77,11 +77,12 @@ namespace RDEngine
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
-                    "Layout"
+                    "Layout", "Floor", "Rug", "Border", "Wall", "Floor2",
+                    "Table1x2", "Table1x3", "Table2x1", "Table3x1",
                 },
                 new List<string>()
                 {
-                    "testfont", "wreckside"
+                    "testfont", "wreckside", "Coolvetica", "Pixel"
                 },
                 new List<string>()
                 {
@@ -163,7 +164,7 @@ namespace RDEngine
 
             //Drawing the pixelated scene inside the normal scene
                 //The offset is how much of the camera positions changes when snapped to the pixel grid, so it's smooth once scaled up.
-            Vector2 offset = SceneHandler.ActiveScene.WorldCameraPos * ScaleFactor - Vector2.Floor(SceneHandler.ActiveScene.CameraPos);
+            Vector2 offset = SceneHandler.ActiveScene.PixelCameraPos * ScaleFactor - Vector2.Floor(SceneHandler.ActiveScene.CameraPos);
             if (MathF.Abs(offset.X) > 2 * ScaleFactor || MathF.Abs(offset.Y) > 2 * ScaleFactor)
                 throw new ArithmeticException("Offset cannot be greater than scaling factor");
 
