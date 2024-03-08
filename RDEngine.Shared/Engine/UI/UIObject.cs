@@ -129,7 +129,9 @@ namespace RDEngine.Engine.UI
             //The Vector2.Floor is very important
             Vector2 origin = AbsolutePos + Size * 0.5f;
             Vector2 pos = _isWorldPos ? origin - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : origin;
-            spriteBatch.Draw(Texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, Scale, Effects, LayerDepth);
+            //If it's UI in the world, scale appropiately with the ScaleFactor, with the baseline scaling being 4
+            Vector2 scale = _isWorldPos ? Scale * (RDEGame.ScaleFactor / 4f) : Scale;
+            spriteBatch.Draw(Texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, scale, Effects, LayerDepth);
         }
     }
 }

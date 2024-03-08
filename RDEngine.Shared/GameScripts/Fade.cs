@@ -63,7 +63,7 @@ namespace RDEngine.GameScripts
 
                 if (_fadeOutTime >= _fadeDuration * 2 / 1000)
                 {
-                    SceneHandler.LoadScene(new Scene1(), true);
+                    SceneHandler.LoadScene(new Level1(), true);
                 }
             }
         }

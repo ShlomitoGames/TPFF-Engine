@@ -6,6 +6,6 @@ namespace RDEngine.GameScripts
 {
     public static class PersistentVars
     {
-        public static bool Hardcore = true;
+        public static bool Hardcore = false;
     }
 }

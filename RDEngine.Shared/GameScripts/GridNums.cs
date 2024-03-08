@@ -25,7 +25,7 @@ namespace RDEngine.GameScripts
             {
                 for (int j = -150; j < 10; j++)
                 {
-                    TextObject text = new TextObject($"Grid[{i},{j}]", ContentStorer.Fonts["testfont"], $"[{i},{j}]", new Vector2(i, j) * RDEGame.ScaleFactor * Parent.Scene.UnitSize, true);
+                    TextObject text = new TextObject($"Grid[{i},{j}]", ContentStorer.Fonts["Arial"], $"[{i},{j}]", new Vector2(i, j) * RDEGame.ScaleFactor * Parent.Scene.UnitSize, true);
                     text.Scale = Vector2.One * 0.5f;
                     text.SetParent(this.Parent);
                     Parent.Scene.AddGameObject(text);

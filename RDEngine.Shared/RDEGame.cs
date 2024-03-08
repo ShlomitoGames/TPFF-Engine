@@ -79,13 +79,14 @@ namespace RDEngine
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
-                    "Layout", "Floor", "Rug", "Border", "Wall", "Floor2",
+                    "Level1", "Level2", "Level3",
+                    "Floor", "Rug", "Border", "Wall", "Floor2",
                     "Table1x2", "Table1x3", "Table2x1", "Table3x1",
                     "Door", "DoorOpen", "Key"
                 },
                 new List<string>()
                 {
-                    "testfont", "wreckside", "Coolvetica", "Pixel"
+                    "Arial", "Coolvetica", "Pixel"
                 },
                 new List<string>()
                 {
@@ -97,7 +98,7 @@ namespace RDEngine
                 }
             );
 
-            SceneHandler.LoadScene(new Scene1());
+            SceneHandler.LoadScene(new Level1());
         }
 
         /// <summary>
