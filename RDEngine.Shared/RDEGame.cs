@@ -79,6 +79,7 @@ namespace RDEngine
                 {
                     "Layout", "Floor", "Rug", "Border", "Wall", "Floor2",
                     "Table1x2", "Table1x3", "Table2x1", "Table3x1",
+                    "Door", "Key"
                 },
                 new List<string>()
                 {

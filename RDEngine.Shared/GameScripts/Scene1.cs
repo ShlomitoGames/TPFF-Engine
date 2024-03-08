@@ -12,24 +12,24 @@ namespace RDEngine.GameScripts
 {
     public class Scene1 : Scene
     {
-        public Scene1() : base(Color.Black, 16) { }
+        public Scene1() : base(new Color(0x10,0x10,0x10,0x255), 16) { }
 
         public override void Initialize()
         {
             base.Initialize();
 
             //Adds all the walls and rugs and stuff of the level
-            /*AddGameObject
+            AddGameObject
             (
                 new WorldObject("Level", null, Vector2.Zero, new List<GComponent>()
                 {
-                    new LayoutLoader()
+                    new LayoutLoader("Layout")
                 })
-            );*/
+            );
 
             AddGameObject
             (
-                new WorldObject("Player", ContentStorer.WhiteSquare, new Vector2(-0.5f, 0f), initialComponents: new List<GComponent>()
+                new WorldObject("Player", ContentStorer.WhiteSquare, new Vector2(-0.5f, -5f), initialComponents: new List<GComponent>()
                 {
                     new Player(750),
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, drag: 5f)
@@ -39,8 +39,19 @@ namespace RDEngine.GameScripts
                 }
             );
 
+            AddGameObject
+            (
+                new WorldObject("Door1", ContentStorer.Textures["Door"], new Vector2(-0.5f, -2f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(2f, 1f) * UnitSize, Vector2.Zero, isStatic: true)
+                })
+                {
+                    LayerDepth = 0.9f
+                }
+            );
+
             //Room 1
-            /*AddGameObjects(new WorldObject[]
+            AddGameObjects(new WorldObject[]
             {
                 new WorldObject("Move1", ContentStorer.WhiteSquare, new Vector2(6f, -7.5f), new List<GComponent>()
                 {
@@ -302,7 +313,7 @@ namespace RDEngine.GameScripts
                     new RigidBody(new Vector2(1f * UnitSize, 3f * UnitSize), Vector2.Zero, isStatic: true),
                     new Furniture()
                 }),
-            });*/
+            });
 
             AddGameObject
             (

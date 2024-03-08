@@ -9,17 +9,23 @@ using System.Text;
 
 namespace RDEngine.GameScripts
 {
-    internal class LayoutLoader : GComponent
+    public class LayoutLoader : GComponent
     {
         private Texture2D _layoutTexture, _wall, _border, _rug, _floor, _floor2;
         private int _tileSize;
+        private string _layoutString;
+
+        public LayoutLoader(string layoutString)
+        {
+            _layoutString = layoutString;
+        }
 
         public override void Start()
         {
             _tileSize = 16;
             Vector2 origin = Vector2.Zero;
 
-            _layoutTexture = ContentStorer.Textures["Layout"];
+            _layoutTexture = ContentStorer.Textures[_layoutString];
             _wall = ContentStorer.Textures["Wall"];
             _rug = ContentStorer.Textures["Rug"];
             _border = ContentStorer.Textures["Border"];
@@ -44,7 +50,7 @@ namespace RDEngine.GameScripts
             TiledTexture[,] tiles = new TiledTexture[_layoutTexture.Width, _layoutTexture.Height];
             RigidBody[,] tileRbs = new RigidBody[_layoutTexture.Width, _layoutTexture.Height];
 
-            Tuple<Vector2, Vector2, Color>[,] tileTs = new Tuple<Vector2, Vector2, Color>[_layoutTexture.Width, _layoutTexture.Height];
+            // Tuple<Vector2, Vector2, Color>[,] tileTs = new Tuple<Vector2, Vector2, Color>[_layoutTexture.Width, _layoutTexture.Height];
 
             Random rnd = new Random();
             for (int i = 0; i < _layoutTexture.Width; i++)
@@ -92,7 +98,7 @@ namespace RDEngine.GameScripts
                         rb.IsTrigger = true;
                         tile.Tag = "OOB " + tile.Tag;
                     }
-                    else if (col == new Color(0,255,0,255))
+                    else if (col == new Color(0, 255, 0, 255))
                     {
                         tile.Texture = _floor;
                         rb.Remove();
