@@ -69,7 +69,7 @@ namespace RDEngine.Engine.Physics
 
             foreach (var rb1 in RigidBodies)
             {
-                if (rb1.IsStatic || rb1.IsTrigger) continue;
+                if (rb1.IsStatic || rb1.IsTrigger || !rb1.Enabled) continue;
 
                 List<Tuple<int, float>> cols = new List<Tuple<int, float>>();
 
@@ -77,7 +77,7 @@ namespace RDEngine.Engine.Physics
                 {
                     var rb2 = RigidBodies[i];
 
-                    if (rb1 == rb2 || rb2.IsTrigger) continue;
+                    if (rb1 == rb2 || rb2.IsTrigger || !rb2.Enabled) continue;
 
                     if (DynamicRectVsRect(rb1.Rect, rb2.Rect, rb1.Velocity, deltaTime, out contactPoint, out contactNormal, out contactTime))
                     {
@@ -116,11 +116,11 @@ namespace RDEngine.Engine.Physics
         {
             foreach (var rb1 in RigidBodies)
             {
-                if (!rb1.IsTrigger) continue;
+                if (!rb1.IsTrigger || !rb1.Enabled) continue;
 
                 foreach (var rb2 in RigidBodies)
                 {
-                    if (rb1 == rb2) continue;
+                    if (rb1 == rb2 || !rb2.Enabled) continue;
 
                     if (RectIntersectsRect(rb1.Rect, rb2.Rect))
                     {

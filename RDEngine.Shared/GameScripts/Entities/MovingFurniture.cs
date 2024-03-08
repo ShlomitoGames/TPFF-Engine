@@ -17,6 +17,13 @@ namespace RDEngine.GameScripts
             _moveY = moveY;
         }
 
+        public override void Start()
+        {
+            base.Start();
+
+            _rb.Size -= Vector2.One;
+        }
+
         public override void Update()
         {
             base.Update();

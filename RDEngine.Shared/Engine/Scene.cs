@@ -62,8 +62,6 @@ namespace RDEngine.Engine
             _unitSize = unitSize;
             CameraColor = camColor;
             CameraOrigin = Vector2.Zero;
-            _worldObjects = new List<WorldObject>();
-            _uiObjects = new List<UIObject>();
         }
 
         public virtual void Initialize()
@@ -162,6 +160,11 @@ namespace RDEngine.Engine
         public GameObject FindWithTag(string tag)
         {
             foreach (var gameObject in _worldObjects)
+            {
+                if (gameObject.Tag == tag)
+                    return gameObject;
+            }
+            foreach (var gameObject in _uiObjects)
             {
                 if (gameObject.Tag == tag)
                     return gameObject;

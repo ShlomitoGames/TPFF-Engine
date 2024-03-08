@@ -7,6 +7,7 @@ using RDEngine.Engine.Physics;
 using RDEngine.Engine.Animation;
 using RDEngine.Engine.UI;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Media;
 
 namespace RDEngine.GameScripts
 {
@@ -36,6 +37,20 @@ namespace RDEngine.GameScripts
                 })
                 {
                     LayerDepth = 0.75f
+                }
+            );
+
+            AddGameObject
+            (
+
+                new UIObject("Fade", ContentStorer.WhitePixel, Vector2.Zero, false, new List<GComponent>()
+                {
+                    new Fade()
+                })
+                {
+                    LayerDepth = 0.9f,
+                    Scale = RDEGame.UpscaledScrSize,
+                    Color = Color.Black
                 }
             );
 
@@ -116,6 +131,46 @@ namespace RDEngine.GameScripts
                 })
             });
 
+            Door door1 = new Door();
+            Door door2 = new Door();
+            Door door3 = new Door();
+
+            AddGameObjects(new GameObject[]
+            {
+                new WorldObject("Door1", ContentStorer.Textures["Door"], new Vector2(25.5f, -9f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(2f, 1f) * UnitSize, Vector2.Zero, isStatic: true),
+                    door1
+                }),
+                new WorldObject("Key1", ContentStorer.Textures["Key"], new Vector2(-13.5f, -3.5f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(16f, 8f), Vector2.Zero, true),
+                    new Key(door1),
+                }),
+
+                new WorldObject("Door2", ContentStorer.Textures["Door"], new Vector2(-0.5f, -17f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(2f, 1f) * UnitSize, Vector2.Zero, isStatic: true),
+                    door2
+                }),
+                new WorldObject("Key2", ContentStorer.Textures["Key"], new Vector2(35f, -4f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(16f, 8f), Vector2.Zero, true),
+                    new Key(door2),
+                }),
+
+                new WorldObject("Door3", ContentStorer.Textures["Door"], new Vector2(31.5f, -5f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(2f, 1f) * UnitSize, Vector2.Zero, isStatic: true),
+                    door3
+                }),
+                new WorldObject("Key3", ContentStorer.Textures["Key"], new Vector2(37f, -4f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(16f, 8f), Vector2.Zero, true),
+                    new Key(door3),
+                })
+            });
+
             //Room 2
             AddGameObjects(new GameObject[]
             {
@@ -175,14 +230,14 @@ namespace RDEngine.GameScripts
                     new RigidBody(new Vector2(3f * UnitSize, 1f * UnitSize), Vector2.Zero, isStatic: true),
                     new Furniture()
                 }),
-                new WorldObject("Follow2", ContentStorer.WhiteSquare, new Vector2(10.5f, -3.5f), new List<GComponent>()
+                /*new WorldObject("Follow2", ContentStorer.WhiteSquare, new Vector2(10.5f, -3.5f), new List<GComponent>()
                 {
                     new RigidBody(Vector2.One * UnitSize * 2, Vector2.Zero),
                     new FollowingFurniture(10f, 50f)
                 })
                 {
                     Scale = Vector2.One * 2
-                },
+                },*/
                 new WorldObject("Move5", ContentStorer.WhiteSquare, new Vector2(28.5f, -15.5f), new List<GComponent>()
                 {
                     new Animator(new Dictionary<string, Animation>()
@@ -345,11 +400,11 @@ namespace RDEngine.GameScripts
                 })
                 {
                     Color = Color.LightGreen
-                },
+                }/*,
                 new UIObject("CoordGrid", null, Vector2.Zero, true, new List<GComponent>()
                 {
                     new GridNums()
-                })
+                })*/
             });
 #endif
         }
@@ -357,6 +412,10 @@ namespace RDEngine.GameScripts
         public override void Start()
         {
             base.Start();
+
+            if (SceneHandler.ActiveSong != ContentStorer.Songs["MysteryLoop"])
+                SceneHandler.PlaySong(ContentStorer.Songs["MysteryLoop"], true);
+            MediaPlayer.Volume = 0.1f;
 
             FindWithTag("Camera").GetComponent<CameraFollow>().SetTarget(FindWithTag("Player") as WorldObject, true);
         }

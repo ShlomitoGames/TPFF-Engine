@@ -39,7 +39,7 @@ namespace RDEngine.Engine.Animation
         public Animation.VarTypes Type;
         public int VarIndex; //The index of the variable in the corresponding Animator array
 
-        internal int Time;
+        internal float Time;
         internal int CurrKeyFrame; //The index in the array of the current keyframe
 
         private AnimLayer(int index)

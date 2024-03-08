@@ -78,7 +78,9 @@ namespace RDEngine.Engine
         {
             if (!Enabled) return;
 
-            foreach (var component in _components)
+            GComponent[] components = _components.ToArray();
+
+            foreach (var component in components)
             {
                 component.Start();
             }
@@ -87,7 +89,9 @@ namespace RDEngine.Engine
         {
             if (!Enabled) return;
 
-            foreach (var component in _components)
+            GComponent[] components = _components.ToArray();
+
+            foreach (var component in components)
             {
                 if (component.Enabled)
                     component.Update();
@@ -97,7 +101,9 @@ namespace RDEngine.Engine
         {
             if (!Enabled) return;
 
-            foreach (var component in _components)
+            GComponent[] components = _components.ToArray();
+
+            foreach (var component in components)
             {
                 if (component.Enabled)
                     component.LateUpdate();
@@ -117,7 +123,9 @@ namespace RDEngine.Engine
             if (!GComponent.ShowHitboxes)
                 return;
 
-            foreach (var component in _components)
+            GComponent[] components = _components.ToArray();
+
+            foreach (var component in components)
             {
                 component.Draw(graphics, spriteBatch);
             }

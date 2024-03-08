@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using RDEngine.Engine;
 using RDEngine.Engine.Animation;
 using RDEngine.Engine.Physics;
@@ -12,6 +14,9 @@ namespace RDEngine.GameScripts
         public int Speed;
         private RigidBody _rb;
         private bool _debug = false;
+        private bool _dead = false;
+
+        private SoundEffect _restart, _hardcoreRestart;
 
         public Player(int speed)
         {
@@ -21,10 +26,16 @@ namespace RDEngine.GameScripts
         public override void Start()
         {
             _rb = Parent.GetComponent<RigidBody>();
+
+
+            _restart = ContentStorer.SFX["Thud"];
+            _hardcoreRestart = ContentStorer.SFX["SpringyThud"];
         }
         public override void Update()
         {
             Vector2 velocity = Vector2.Zero;
+
+            if (_dead) return;
 
             if (Input.GetMacro("Up", KeyGate.Held))
             {
@@ -63,13 +74,30 @@ namespace RDEngine.GameScripts
 
             if (intrRb.Parent.Tag == "FurnitureTrigger")
             {
-                //Debug.WriteLine("aaagh");
-                SceneHandler.LoadScene(new Scene1());
+                Restart();
             }
             else if (intrRb.Parent.Tag.StartsWith("OOB"))
             {
-                //Debug.WriteLine("im out");
-                //SceneHandler.LoadScene(new Scene1());
+                Restart();
+            }
+        }
+
+        public void Restart()
+        {
+            if (_dead) return;
+
+            _dead = true;
+
+            if (PersistentVars.Hardcore)
+            {
+                _hardcoreRestart.Play();
+                MediaPlayer.Stop();
+                Parent.Scene.FindWithTag("Fade").GetComponent<Fade>().FadeOutRestart();
+            }
+            else
+            {
+                _restart.Play();
+                SceneHandler.ReloadScene();
             }
         }
     }

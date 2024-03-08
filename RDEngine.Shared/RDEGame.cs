@@ -40,9 +40,11 @@ namespace RDEngine
             graphics.PreferredBackBufferHeight = UpscaledScrHeight;
             IsMouseVisible = true;
 
+#if DEBUG
             //Unlocks the FPS
             graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
+#endif
 
             graphics.ApplyChanges();
         }
@@ -79,7 +81,7 @@ namespace RDEngine
                 {
                     "Layout", "Floor", "Rug", "Border", "Wall", "Floor2",
                     "Table1x2", "Table1x3", "Table2x1", "Table3x1",
-                    "Door", "Key"
+                    "Door", "DoorOpen", "Key"
                 },
                 new List<string>()
                 {
@@ -87,11 +89,11 @@ namespace RDEngine
                 },
                 new List<string>()
                 {
-                    
+                    "MysteryLoop"
                 },
                 new List<string>()
                 {
-                    
+                    "Door", "SpringyThud", "Thud", "Key"
                 }
             );
 

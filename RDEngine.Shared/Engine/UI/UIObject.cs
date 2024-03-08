@@ -127,7 +127,8 @@ namespace RDEngine.Engine.UI
 
             // UIObjects get drawn with their positions at the center, unlike WorldObjects
             //The Vector2.Floor is very important
-            Vector2 pos = _isWorldPos ? AbsolutePos - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : AbsolutePos;
+            Vector2 origin = AbsolutePos + Size * 0.5f;
+            Vector2 pos = _isWorldPos ? origin - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : origin;
             spriteBatch.Draw(Texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, Scale, Effects, LayerDepth);
         }
     }

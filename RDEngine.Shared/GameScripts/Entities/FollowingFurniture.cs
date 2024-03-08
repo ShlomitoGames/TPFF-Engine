@@ -31,6 +31,7 @@ namespace RDEngine.GameScripts
         {
             base.Start();
 
+            _rb.Size -= Vector2.One;
             _target = Parent.Scene.FindWithTag("Player") as WorldObject;
         }
 

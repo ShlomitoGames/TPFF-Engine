@@ -239,6 +239,8 @@ namespace RDEngine.Engine.Physics
 
         public override void Draw(GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
+            if (!Enabled) return;
+
             Vector2 drawSize = Size * RDEGame.ScaleFactor;
             int borderWidth = 1;
 

@@ -109,18 +109,22 @@ namespace RDEngine.GameScripts
                         {
                             tile.Texture = _floor2;
                             tile.Effects = SpriteEffects.FlipHorizontally;
+                            colors2D[i, j] = Color.AliceBlue;
+                            col = Color.AliceBlue;
                         }
                         else if (randNum == 2)
                         {
                             tile.Texture = _floor2;
                             tile.Effects = SpriteEffects.FlipVertically;
+                            colors2D[i, j] = Color.AntiqueWhite;
+                            col = Color.AntiqueWhite;
                         }
                         else if (randNum == 3)
                         {
                             tile.Texture = _floor2;
+                            colors2D[i, j] = Color.Aqua;
+                            col = Color.Aqua;
                         }
-
-                        continue;
                     }
                     else
                     {
@@ -128,6 +132,7 @@ namespace RDEngine.GameScripts
                         tile.Destroy();
                         tiles[i, j] = null;
                         tile = null;
+                        //...I'm really trying to get the garbage collector's attention here
                         continue;
                     }
 
@@ -171,7 +176,7 @@ namespace RDEngine.GameScripts
                     TiledTexture oldTile = tiles[i, j - 1];
 
                     //This skips already removed tiles and the floor tiles which, because of the random tiles, don't get merged
-                    if (colors2D[i, j - 1] == col && tile != null && oldTile != null && col != new Color(0, 255, 0, 255))
+                    if (colors2D[i, j - 1] == col && tile != null && oldTile != null)
                     {
                         if (oldTile.Size.X == tile.Size.X)
                         {

@@ -16,6 +16,10 @@ namespace RDEngine.Engine
                 else return null;
             }
         }
+        public static void ReloadScene(bool stopMusic = false)
+        {
+            ActiveScene.Initialize();
+        }
         public static void LoadScene(Scene scene, bool stopMusic = false)
         {
             /*if (ActiveScene != null)

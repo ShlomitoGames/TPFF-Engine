@@ -6,7 +6,18 @@ namespace RDEngine.Engine
     public class GComponent
     {
         public GameObject Parent;
-        public bool Enabled = true;
+        private bool _enabled;
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled && Parent.Enabled;
+            }
+            set
+            {
+                _enabled = value;
+            }
+        }
 
         public static bool ShowHitboxes;
 
@@ -14,7 +25,7 @@ namespace RDEngine.Engine
 
         public GComponent()
         {
-            
+            Enabled = true;
         }
 
         public virtual void SetParent(GameObject parent)

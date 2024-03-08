@@ -23,7 +23,7 @@ namespace RDEngine.Engine.Animation
 
         public bool Enabled;
 
-        private int _time;
+        private float _time;
         private int _totalDuration;
 
         public Animation(bool loop, AnimLayer[] layers)
@@ -51,11 +51,28 @@ namespace RDEngine.Engine.Animation
             Enabled = true;
 
             if (Layers != null)
+            {
                 foreach (var layer in Layers)
                 {
                     layer.Time = 0;
                     layer.CurrKeyFrame = 0;
                 }
+            }
+        }
+
+        internal void Start()
+        {
+            foreach (var layer in Layers)
+            {
+                if (layer.Type == VarTypes.Int)
+                    _animator.Ints[layer.VarIndex] = layer.GetValue<int>();
+                else if (layer.Type == VarTypes.Float)
+                    _animator.Floats[layer.VarIndex] = layer.GetValue<float>();
+                else if (layer.Type == VarTypes.Bool)
+                    _animator.Bools[layer.VarIndex] = layer.GetValue<bool>();
+                else
+                    _animator.Textures[layer.VarIndex] = layer.GetValue<Texture2D>();
+            }
         }
 
         internal void StepAnimation()
@@ -78,7 +95,7 @@ namespace RDEngine.Engine.Animation
                     //Things that happen Continuously
                     if (layer.Time < layer.Durations[layer.CurrKeyFrame])
                     {
-                        layer.Time += (int)(Time.DeltaTime * 1000);
+                        layer.Time += Time.DeltaTime * 1000f;
 
                         if (layer.Type == VarTypes.Int)
                         {
@@ -120,7 +137,7 @@ namespace RDEngine.Engine.Animation
                 if (!Loop)
                     Enabled = false;
             }
-            _time += (int)(Time.DeltaTime * 1000);
+            _time += Time.DeltaTime * 1000f;
         }
     }
 }
