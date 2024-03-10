@@ -58,8 +58,11 @@ namespace RDEngine.Engine.Animation
         {
             return _currAnim;
         }
-        public void SetAnimation(string anim)
+        public void SetAnimation(string anim, bool repeat = false)
         {
+            if (_currAnim == _animations[anim] && !repeat)
+                return;
+
             _currAnim = _animations[anim];
             _currAnim.Reset();
             _currAnim.Start();

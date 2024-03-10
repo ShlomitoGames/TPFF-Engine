@@ -78,6 +78,12 @@ namespace RDEngine.Engine
 
         public virtual void Start()
         {
+
+        }
+
+        public virtual void Update()
+        {
+
         }
 
         public virtual void OnDelete()
@@ -85,7 +91,7 @@ namespace RDEngine.Engine
 
         }
 
-        public void UpdateScene()
+        public void UpdateSceneElements()
         {
             _worldObjects.AddRange(_newWorldObjects);
             _uiObjects.AddRange(_newUIObjects);
@@ -112,6 +118,7 @@ namespace RDEngine.Engine
                 _isFirstFrame = false;
             }
 
+            Update();
             foreach (var gameObject in _worldObjects)
             {
                 gameObject.Update();

@@ -23,10 +23,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Fade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Key.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\PersistentVars.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\SplashScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\WebDisclaimer.cs" />
     <Compile Include="..\RDEngine.Shared\GameScripts\GridNums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\FPSCounter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\LayoutLoader.cs" />
-    <Compile Include="..\RDEngine.Shared\GameScripts\Levels\Level1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Level1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\ShortCuts.cs" />
     <Compile Include="..\RDEngine.Shared\Engine\UI\UIObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WorldObject.cs" />
@@ -44,8 +46,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Utils.cs" />
     <Compile Include="..\RDEngine.Shared\GameScripts\TiledTexture.cs" />
     <Compile Include="..\RDEngine.Shared\RDEGame.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)GameScripts\Levels\" />
   </ItemGroup>
 </Project>

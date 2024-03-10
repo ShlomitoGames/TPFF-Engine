@@ -92,33 +92,28 @@ namespace RDEngine.Engine.Animation
                 //On all but the last keyframe
                 if (layer.CurrKeyFrame < layer.Durations.Length - 1)
                 {
+                    layer.Time += Time.DeltaTime * 1000f;
                     //Things that happen Continuously
-                    if (layer.Time < layer.Durations[layer.CurrKeyFrame])
+                    if (layer.Type == VarTypes.Int)
                     {
-                        layer.Time += Time.DeltaTime * 1000f;
+                        int val1 = layer.GetValue<int>();
+                        int val2 = layer.GetValue<int>(layer.CurrKeyFrame + 1);
+                        int min = val2 > val1 ? val1 : val2;
+                        int max = val2 < val1 ? val1 : val2;
 
-                        if (layer.Type == VarTypes.Int)
-                        {
-                            int val1 = layer.GetValue<int>();
-                            int val2 = layer.GetValue<int>(layer.CurrKeyFrame + 1);
-                            int min = val2 > val1 ? val1 : val2;
-                            int max = val2 < val1 ? val1 : val2;
-
-                            _animator.Ints[layer.VarIndex] = MathHelper.Clamp((int)MathHelper.Lerp(val1, val2, (float)layer.Time / (float)layer.CurrKeyFrameDuration), min, max);
-                        }
-                        else if (layer.Type == VarTypes.Float)
-                        {
-                            float val1 = layer.GetValue<float>();
-                            float val2 = layer.GetValue<float>(layer.CurrKeyFrame + 1);
-                            float min = val2 > val1 ? val1 : val2;
-                            float max = val2 < val1 ? val1 : val2;
-
-                            _animator.Floats[layer.VarIndex] = MathHelper.Clamp(MathHelper.Lerp(val1, val2, (float)layer.Time / (float)layer.CurrKeyFrameDuration), min, max);
-                        }
+                        _animator.Ints[layer.VarIndex] = MathHelper.Clamp((int)MathHelper.Lerp(val1, val2, (float)layer.Time / (float)layer.CurrKeyFrameDuration), min, max);
                     }
-                    //If it's done with that keyframe,
-                    //and the animation cycle hasn't finished
-                    else if (_time < _totalDuration)
+                    else if (layer.Type == VarTypes.Float)
+                    {
+                        float val1 = layer.GetValue<float>();
+                        float val2 = layer.GetValue<float>(layer.CurrKeyFrame + 1);
+                        float min = val2 > val1 ? val1 : val2;
+                        float max = val2 < val1 ? val1 : val2;
+
+                        _animator.Floats[layer.VarIndex] = MathHelper.Clamp(MathHelper.Lerp(val1, val2, (float)layer.Time / (float)layer.CurrKeyFrameDuration), min, max);
+                    }
+
+                    if (layer.Time >= layer.Durations[layer.CurrKeyFrame])
                     {
                         layer.CurrKeyFrame++;
                         layer.Time = 0;

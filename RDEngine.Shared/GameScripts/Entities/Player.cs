@@ -13,6 +13,7 @@ namespace RDEngine.GameScripts
     {
         public int Speed;
         private RigidBody _rb;
+        private Animator _anim;
         private bool _debug = false;
         private bool _dead = false;
 
@@ -26,6 +27,7 @@ namespace RDEngine.GameScripts
         public override void Start()
         {
             _rb = Parent.GetComponent<RigidBody>();
+            _anim = Parent.GetComponent<Animator>();
 
 
             _restart = ContentStorer.SFX["Thud"];
@@ -35,7 +37,14 @@ namespace RDEngine.GameScripts
         {
             Vector2 velocity = Vector2.Zero;
 
+            Parent.Texture = _anim.Textures[0];
+
             if (_dead) return;
+
+            if (_rb.Velocity.Length() > Speed * 0.5f)
+                _anim.SetAnimation("walk");
+            else
+                _anim.SetAnimation("idle");
 
             if (Input.GetMacro("Up", KeyGate.Held))
             {
@@ -48,18 +57,23 @@ namespace RDEngine.GameScripts
             if (Input.GetMacro("Left", KeyGate.Held))
             {
                 velocity -= Vector2.UnitX;
+                Parent.Effects = SpriteEffects.FlipHorizontally;
             }
             if (Input.GetMacro("Right", KeyGate.Held))
             {
                 velocity += Vector2.UnitX;
+                Parent.Effects = SpriteEffects.None;
             }
 
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
-                //_rb.Velocity = velocity * Speed;
-                _rb.Accelerate(velocity * Speed);
+                _rb.Velocity = velocity * Speed;
+                //_rb.Accelerate(velocity * Speed);
+                //_anim.SetAnimation("walk");
             }
+            /*else
+                _anim.SetAnimation("idle");*/
 
 #if DEBUG
             _debug = Input.GetKey(Microsoft.Xna.Framework.Input.Keys.F, KeyGate.Held);
@@ -92,7 +106,7 @@ namespace RDEngine.GameScripts
             {
                 _hardcoreRestart.Play();
                 MediaPlayer.Stop();
-                Parent.Scene.FindWithTag("Fade").GetComponent<Fade>().FadeOutRestart();
+                Parent.Scene.FindWithTag("Fade").GetComponent<Fade>().FadeOut(new Level1());
             }
             else
             {

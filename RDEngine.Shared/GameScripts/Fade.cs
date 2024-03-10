@@ -14,14 +14,20 @@ namespace RDEngine.GameScripts
         private int _fadeDuration;
 
         private float _fadeOutTime;
-        private bool _restart;
+        private bool _loadScene;
 
-        public Fade()
+        private bool _fadeIn;
+
+        private Scene _scene;
+
+        public Fade(bool fadeIn = true)
         {
+            _fadeIn = fadeIn;
+            
             _fadeDuration = 1000;
 
             _fadeOutTime = 0f;
-            _restart = false;
+            _loadScene = false;
         }
 
         public override void Start()
@@ -47,8 +53,20 @@ namespace RDEngine.GameScripts
                             new Tuple<int, int>(0, 255)
                         }, 0)
                     })
+                },
+                {
+                    "idle", new Animation(false, new AnimLayer[]
+                    {
+                        new AnimLayer(new Tuple<int, int>[]
+                        {
+                            new Tuple<int, int>(0, 0)
+                        }, 0)
+                    })
                 }
             }, "fadein", ints: new int[1], bools: new bool[1]);
+
+            if (!_fadeIn)
+                _anim.SetAnimation("idle");
 
             Parent.AddComponent(_anim);
         }
@@ -57,20 +75,22 @@ namespace RDEngine.GameScripts
         {
             Parent.Color = new Microsoft.Xna.Framework.Color(0, 0, 0, _anim.Ints[0]);
 
-            if (_restart)
+            if (_loadScene)
             {
                 _fadeOutTime += Time.DeltaTime;
 
-                if (_fadeOutTime >= _fadeDuration * 2 / 1000)
+                if (_fadeOutTime >= _fadeDuration / 1000f + 0.5f)
                 {
-                    SceneHandler.LoadScene(new Level1(), true);
+                    SceneHandler.LoadScene(_scene);
                 }
             }
         }
 
-        public void FadeOutRestart()
+        public void FadeOut(Scene sceceToLoad)
         {
-            _restart = true;
+            _loadScene = true;
+
+            _scene = sceceToLoad;
 
             _anim.SetAnimation("fadeout");
         }

@@ -32,11 +32,11 @@ namespace RDEngine.Engine.UI
             if (!Enabled) return;
 
             base.Draw(spriteBatch);
-            
+
             Vector2 pos = (_isWorldPos) ? AbsolutePos - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : AbsolutePos;
             //If it's UI in the world, scale appropiately with the ScaleFactor, with the baseline scaling being 4
             Vector2 scale = _isWorldPos ? Scale * (RDEGame.ScaleFactor / 4f) : Scale;
-            spriteBatch.DrawString(_font, Text, pos - Size / 2f, Color, 0f, Vector2.Zero, scale, Effects, LayerDepth);
+            spriteBatch.DrawString(_font, Text, pos, Color, 0f, Vector2.Zero, scale, Effects, LayerDepth);
         }
     }
 }

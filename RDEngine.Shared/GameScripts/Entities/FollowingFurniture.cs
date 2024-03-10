@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using RDEngine.Engine;
 using RDEngine.Engine.Physics;
 using System;
@@ -10,12 +11,15 @@ namespace RDEngine.GameScripts
 {
     internal class FollowingFurniture : Furniture
     {
-        protected WorldObject _target;
-        protected float _radius;
-        protected float _speed;
+        private WorldObject _target;
+        private float _radius;
+        private float _speed;
 
         private bool _found, _startedMoving;
         private float _delay, _time;
+
+        private WorldObject _exclamation;
+        private SoundEffect _spotSound;
 
         public FollowingFurniture(float radius, float speed)
         {
@@ -25,6 +29,7 @@ namespace RDEngine.GameScripts
             _startedMoving = false;
             _delay = 0.5f;
             _time = 0;
+            _spotSound = ContentStorer.SFX["Spot"];
         }
 
         public override void Start()
@@ -33,6 +38,15 @@ namespace RDEngine.GameScripts
 
             _rb.Size -= Vector2.One;
             _target = Parent.Scene.FindWithTag("Player") as WorldObject;
+
+            _exclamation = new WorldObject("Exclamation", ContentStorer.Textures["Spot"], Vector2.Zero)
+            {
+                Position = new Vector2(0f, -8f),
+                LayerDepth = 0.9f,
+                Enabled = false
+            };
+            _exclamation.SetParent(Parent);
+            Parent.Scene.AddGameObject(_exclamation);
         }
 
         public override void Update()
@@ -64,10 +78,11 @@ namespace RDEngine.GameScripts
             Collision? colOther = _rb.RayCast(Parent.AbsolutePos, dir, _radius * Parent.Scene.UnitSize, false);
 
             _found = true;
-            //The first frame it fount it it plays an animation and waits for a bit
+            //The first frame it found it it plays an animation and waits for a bit
             if (!wasFound)
             {
-                //animation
+                _spotSound.Play();
+                _exclamation.Enabled = true;
             }
 
             if (_found)
@@ -83,8 +98,9 @@ namespace RDEngine.GameScripts
                 }
                 else
                 {
+                    _exclamation.Enabled = false;
                     //It finished waiting so it moves towards the player stopping onlt when it's almost fully inside it
-                    if (Vector2.Distance(Parent.Position, _target.Position) > 1f)
+                    if (Vector2.Distance(Parent.Position, _target.Position) > 1f) { }
                         _rb.Velocity = dir * _speed;
                 }
             }

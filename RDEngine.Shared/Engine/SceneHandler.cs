@@ -20,7 +20,7 @@ namespace RDEngine.Engine
         {
             ActiveScene.Initialize();
         }
-        public static void LoadScene(Scene scene, bool stopMusic = false)
+        public static void LoadScene(Scene scene)
         {
             /*if (ActiveScene != null)
                 ActiveScene.OnDelete();*/
@@ -29,11 +29,6 @@ namespace RDEngine.Engine
 
             ActiveScene = scene;
             ActiveScene.Initialize();
-
-            if (stopMusic)
-            {
-                MediaPlayer.Stop();
-            }
         }
         public static void PlaySong(Song song, bool loop)
         {

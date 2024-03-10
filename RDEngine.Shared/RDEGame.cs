@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using RDEngine.Engine;
 using RDEngine.GameScripts;
+using RDEngine.GameScripts.Scenes;
 
 namespace RDEngine
 {
@@ -38,12 +39,14 @@ namespace RDEngine
 
             graphics.PreferredBackBufferWidth = UpscaledScrWidth;
             graphics.PreferredBackBufferHeight = UpscaledScrHeight;
-            IsMouseVisible = true;
+            IsMouseVisible = false;
 
-#if DEBUG
+#if BLAZORGL
             //Unlocks the FPS
             graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
+            //I'd enable it by default if my bad physics were less frame-rate independant,
+            //but as it stands I'll only use it because on Web it becomes unplayably laggy if it's not enabled for some reason
 #endif
 
             graphics.ApplyChanges();
@@ -82,7 +85,9 @@ namespace RDEngine
                     "Level1", "Level2", "Level3",
                     "Floor", "Rug", "Border", "Wall", "Floor2",
                     "Table1x2", "Table1x3", "Table2x1", "Table3x1",
-                    "Door", "DoorOpen", "Key"
+                    "ATable1x1", "ATable3x2",
+                    "Door", "DoorOpen", "Key", "Spot",
+                    "Player1", "Player2", "Player3", "Player4", "Player5"
                 },
                 new List<string>()
                 {
@@ -94,11 +99,15 @@ namespace RDEngine
                 },
                 new List<string>()
                 {
-                    "Door", "SpringyThud", "Thud", "Key"
+                    "Door", "SpringyThud", "Thud", "Key", "Spot",
+                    "Talk1", "Talk2", "Talk3",
                 }
             );
-
+#if DEBUG
             SceneHandler.LoadScene(new Level1());
+#else
+            SceneHandler.LoadScene(new SplashScreen());
+#endif
         }
 
         /// <summary>
@@ -139,7 +148,7 @@ namespace RDEngine
             Time.GameTime = gameTime;
 
             //Scene functions
-            SceneHandler.ActiveScene.UpdateScene();
+            SceneHandler.ActiveScene.UpdateSceneElements();
 
             Input.UpdateLastInput();
 

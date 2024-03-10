@@ -26,88 +26,99 @@ namespace RDEngine.Engine.UI
         {
             get
             {
-                return Position - Size * 0.5f;
+                return Position;
             }
             set
             {
-                Position = value + Size * 0.5f;
+                Position = value;
             }
         }
         public Vector2 TRPosition
         {
             get
             {
-                return new Vector2(Position.X + Size.X * 0.5f, Position.Y - Size.Y * 0.5f);
+                return new Vector2(Position.X + Size.X - RDEGame.UpscaledScrWidth, Position.Y);
             }
             set
             {
-                Position = new Vector2(value.X - Size.X * 0.5f, value.Y + Size.Y * 0.5f);
+                Position = new Vector2(value.X - Size.X + RDEGame.UpscaledScrWidth, value.Y);
             }
         }
         public Vector2 BLPosition
         {
             get
             {
-                return new Vector2(Position.X - Size.X * 0.5f, Position.Y + Size.Y * 0.5f);
+                return new Vector2(Position.X, Position.Y + Size.Y - RDEGame.UpscaledScrHeight);
             }
             set
             {
-                Position = new Vector2(value.X + Size.X * 0.5f, value.Y - Size.Y * 0.5f);
+                Position = new Vector2(value.X, value.Y - Size.Y + RDEGame.UpscaledScrHeight);
             }
         }
         public Vector2 BRPosition
         {
             get
             {
-                return Position + Size * 0.5f;
+                return Position + Size - RDEGame.UpscaledScrSize;
             }
             set
             {
-                Position = value - Size * 0.5f;
+                Position = value - Size + RDEGame.UpscaledScrSize;
             }
         }
         public Vector2 TCPosition
         {
             get
             {
-                return Position - Vector2.UnitY * Size * 0.5f;
+                return Position - new Vector2(RDEGame.UpscaledScrWidth * 0.5f - Size.X * 0.5f, 0f);
             }
             set
             {
-                Position = value + Vector2.UnitY * Size * 0.5f;
+                Position = value + new Vector2(RDEGame.UpscaledScrWidth * 0.5f - Size.X * 0.5f, 0f);
             }
         }
         public Vector2 BCPosition
         {
             get
             {
-                return Position + Vector2.UnitY * Size * 0.5f;
+                return Position - new Vector2(RDEGame.UpscaledScrWidth * 0.5f - Size.X * 0.5f, RDEGame.UpscaledScrHeight - Size.Y);
             }
             set
             {
-                Position = value - Vector2.UnitY * Size * 0.5f;
+                Position = value + new Vector2(RDEGame.UpscaledScrWidth * 0.5f - Size.X * 0.5f, RDEGame.UpscaledScrHeight - Size.Y);
             }
         }
-        public Vector2 LCPosition
+        public Vector2 CLPosition
         {
             get
             {
-                return Position - Vector2.UnitX * Size * 0.5f;
+                return Position - new Vector2(0f, RDEGame.UpscaledScrHeight * 0.5f - Size.Y * 0.5f);
             }
             set
             {
-                Position = value + Vector2.UnitX * Size * 0.5f;
+                Position = value + new Vector2(0f, RDEGame.UpscaledScrHeight * 0.5f - Size.Y * 0.5f);
             }
         }
-        public Vector2 RCPosition
+        public Vector2 CRPosition
         {
             get
             {
-                return Position + Vector2.UnitX * Size * 0.5f;
+                return Position - new Vector2(RDEGame.UpscaledScrWidth - Size.X, RDEGame.UpscaledScrHeight * 0.5f - Size.Y * 0.5f);
             }
             set
             {
-                Position = value - Vector2.UnitX * Size * 0.5f;
+                Position = value + new Vector2(RDEGame.UpscaledScrWidth - Size.X, RDEGame.UpscaledScrHeight * 0.5f - Size.Y * 0.5f);
+            }
+        }
+        public Vector2 CCPosition
+        {
+            get
+            {
+                return Position + Size * 0.5f - RDEGame.UpscaledScrSize * 0.5f;
+            }
+            set
+            {
+                Position = value - Size * 0.5f + RDEGame.UpscaledScrSize * 0.5f;
             }
         }
 
@@ -127,11 +138,11 @@ namespace RDEngine.Engine.UI
 
             // UIObjects get drawn with their positions at the center, unlike WorldObjects
             //The Vector2.Floor is very important
-            Vector2 origin = AbsolutePos + Size * 0.5f;
-            Vector2 pos = _isWorldPos ? origin - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : origin;
+            Vector2 topLeft = AbsolutePos;
+            Vector2 pos = _isWorldPos ? topLeft - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : topLeft;
             //If it's UI in the world, scale appropiately with the ScaleFactor, with the baseline scaling being 4
             Vector2 scale = _isWorldPos ? Scale * (RDEGame.ScaleFactor / 4f) : Scale;
-            spriteBatch.Draw(Texture, pos - Size / 2f, null, Color, 0f, Vector2.Zero, scale, Effects, LayerDepth);
+            spriteBatch.Draw(Texture, pos, null, Color, 0f, Vector2.Zero, scale, Effects, LayerDepth);
         }
     }
 }

@@ -134,6 +134,8 @@ namespace RDEngine.Engine
         public void SetParent(GameObject parent)
         {
             Parent = parent;
+            /*if (!parent._children.Contains(this)) //Apparently lags the hell out of the game
+                parent._children.Add(this);*/
         }
 
         public GameObject[] GetChildren()
