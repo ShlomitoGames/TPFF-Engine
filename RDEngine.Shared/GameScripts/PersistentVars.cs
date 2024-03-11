@@ -7,5 +7,6 @@ namespace RDEngine.GameScripts
     public static class PersistentVars
     {
         public static bool Hardcore = false;
+        public static byte CurrLevel = 0;
     }
 }

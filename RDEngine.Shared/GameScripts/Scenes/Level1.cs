@@ -20,6 +20,8 @@ namespace RDEngine.GameScripts
         {
             base.Initialize();
 
+            PersistentVars.CurrLevel = 1;
+
             //Adds all the walls and rugs and stuff of the level
             AddGameObject
             (
@@ -75,6 +77,19 @@ namespace RDEngine.GameScripts
                     CCPosition = Vector2.Zero,
                     LayerDepth = 0.9f,
                     Color = Color.Black
+                }
+            );
+
+            AddGameObject
+            (
+                new WorldObject("End", ContentStorer.WhiteSquare, new Vector2(-0.5f, -21.5f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(4f, 2f) * UnitSize, Vector2.Zero, true)
+                })
+                {
+                    Scale = new Vector2(4f, 2f),
+                    LayerDepth = 0.9f,
+                    Color = new Color(0x10,0x10,0x10)
                 }
             );
 
@@ -246,7 +261,7 @@ namespace RDEngine.GameScripts
                 {
                     Scale = Vector2.One * 2
                 },*/
-                new WorldObject("Move5", ContentStorer.WhiteSquare, new Vector2(28.5f, -15.5f), new List<GComponent>()
+                new WorldObject("Move5", ContentStorer.Textures["ATable2x2"], new Vector2(28.5f, -15.5f), new List<GComponent>()
                 {
                     new Animator(new Dictionary<string, Animation>()
                     {
@@ -264,12 +279,8 @@ namespace RDEngine.GameScripts
                     }, "move", floats: new float[2]),
                     new RigidBody(new Vector2(2f * UnitSize, 2f * UnitSize), Vector2.Zero, mass: 10f, isKinematic: true),
                     new MovingFurniture(false, true)
-                })
-                {
-                    Scale = new Vector2(2f, 2f),
-                    Color = Color.DarkMagenta
-                },
-                new WorldObject("Move6", ContentStorer.WhiteSquare, new Vector2(37.5f, -15.5f), new List<GComponent>()
+                }),
+                new WorldObject("Move6", ContentStorer.Textures["ATable2x2"], new Vector2(37.5f, -15.5f), new List<GComponent>()
                 {
                     new Animator(new Dictionary<string, Animation>()
                     {
@@ -289,10 +300,9 @@ namespace RDEngine.GameScripts
                     new MovingFurniture(true, false)
                 })
                 {
-                    Scale = new Vector2(2f, 2f),
-                    Color = Color.DarkMagenta
+                    Effects = SpriteEffects.FlipHorizontally
                 },
-                new WorldObject("Move7", ContentStorer.WhiteSquare, new Vector2(35f, -13.5f), new List<GComponent>()
+                new WorldObject("Move7", ContentStorer.Textures["ATable1x2"], new Vector2(35f, -13.5f), new List<GComponent>()
                 {
                     new Animator(new Dictionary<string, Animation>()
                     {
@@ -310,12 +320,8 @@ namespace RDEngine.GameScripts
                     }, "move", floats: new float[2]),
                     new RigidBody(new Vector2(1f * UnitSize, 2f * UnitSize), Vector2.Zero, mass: 10f, isKinematic: true),
                     new MovingFurniture(true, false)
-                })
-                {
-                    Scale = new Vector2(1f, 2f),
-                    Color = Color.DarkMagenta
-                },
-                new WorldObject("Move8", ContentStorer.WhiteSquare, new Vector2(38f, -11.5f), new List<GComponent>()
+                }),
+                new WorldObject("Move8", ContentStorer.Textures["ATable1x2"], new Vector2(38f, -11.5f), new List<GComponent>()
                 {
                     new Animator(new Dictionary<string, Animation>()
                     {
@@ -335,10 +341,9 @@ namespace RDEngine.GameScripts
                     new MovingFurniture(true, false)
                 })
                 {
-                    Scale = new Vector2(1f, 2f),
-                    Color = Color.DarkMagenta
+                    Effects = SpriteEffects.FlipHorizontally
                 },
-                new WorldObject("Move9", ContentStorer.WhiteSquare, new Vector2(35f, -9.5f), new List<GComponent>()
+                new WorldObject("Move9", ContentStorer.Textures["ATable1x2"], new Vector2(35f, -9.5f), new List<GComponent>()
                 {
                     new Animator(new Dictionary<string, Animation>()
                     {
@@ -356,11 +361,7 @@ namespace RDEngine.GameScripts
                     }, "move", floats: new float[2]),
                     new RigidBody(new Vector2(1f * UnitSize, 2f * UnitSize), Vector2.Zero, mass: 10f, isKinematic: true),
                     new MovingFurniture(true, false)
-                })
-                {
-                    Scale = new Vector2(1f, 2f),
-                    Color = Color.DarkMagenta
-                },
+                }),
                 new WorldObject("Static5", ContentStorer.Textures["Table3x1"], new Vector2(29f, -17f), new List<GComponent>()
                 {
                     new RigidBody(new Vector2(3f * UnitSize, 1f * UnitSize), Vector2.Zero, isStatic: true),
@@ -387,18 +388,6 @@ namespace RDEngine.GameScripts
                 })
             );
 
-            /*AddGameObjects(new GameObject[]
-            {
-                new TextObject("testtext1", ContentStorer.Fonts["Coolvetica"], "Hola buenas", Vector2.Zero, false)
-                {
-                    TLPosition = new Vector2(10f, 10f)
-                },
-                new TextObject("testtext2", ContentStorer.Fonts["Pixel"], "Hola buenas", Vector2.Zero, false)
-                {
-                    TRPosition = new Vector2(RDEGame.UpscaledScrWidth - 10, 10f)
-                },
-            });*/
-
 #if DEBUG
             AddGameObjects(new GameObject[]
             {
@@ -409,11 +398,11 @@ namespace RDEngine.GameScripts
                 {
                     Color = Color.LightGreen,
                     TRPosition = new Vector2(-10f, 10f)
-                }/*,
+                },
                 new UIObject("CoordGrid", null, Vector2.Zero, true, new List<GComponent>()
                 {
                     new GridNums()
-                })*/
+                })
             });
 #endif
         }

@@ -85,7 +85,7 @@ namespace RDEngine
                     "Level1", "Level2", "Level3",
                     "Floor", "Rug", "Border", "Wall", "Floor2",
                     "Table1x2", "Table1x3", "Table2x1", "Table3x1",
-                    "ATable1x1", "ATable3x2",
+                    "ATable1x1", "ATable3x2", "ATable2x2", "ATable1x2",
                     "Door", "DoorOpen", "Key", "Spot",
                     "Player1", "Player2", "Player3", "Player4", "Player5"
                 },
@@ -104,7 +104,7 @@ namespace RDEngine
                 }
             );
 #if DEBUG
-            SceneHandler.LoadScene(new Level1());
+            SceneHandler.LoadScene(new Level2());
 #else
             SceneHandler.LoadScene(new SplashScreen());
 #endif

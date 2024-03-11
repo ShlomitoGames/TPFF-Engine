@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Fade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Key.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\PersistentVars.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Level2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\SplashScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\WebDisclaimer.cs" />
     <Compile Include="..\RDEngine.Shared\GameScripts\GridNums.cs" />

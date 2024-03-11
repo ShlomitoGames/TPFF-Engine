@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Media;
 using RDEngine.Engine;
 using RDEngine.Engine.Animation;
 using RDEngine.Engine.Physics;
+using RDEngine.GameScripts.Scenes;
 using System.Diagnostics;
 
 namespace RDEngine.GameScripts
@@ -69,11 +70,7 @@ namespace RDEngine.GameScripts
             {
                 velocity.Normalize();
                 _rb.Velocity = velocity * Speed;
-                //_rb.Accelerate(velocity * Speed);
-                //_anim.SetAnimation("walk");
             }
-            /*else
-                _anim.SetAnimation("idle");*/
 
 #if DEBUG
             _debug = Input.GetKey(Microsoft.Xna.Framework.Input.Keys.F, KeyGate.Held);
@@ -93,6 +90,16 @@ namespace RDEngine.GameScripts
             else if (intrRb.Parent.Tag.StartsWith("OOB"))
             {
                 Restart();
+            }
+            else if (intrRb.Parent.Tag == "End")
+            {
+                Scene scene;
+                if (PersistentVars.CurrLevel == 1)
+                    scene = new Level2();
+                else
+                    scene = new SplashScreen();
+
+                Parent.Scene.FindWithTag("Fade").GetComponent<Fade>().FadeOut(scene);
             }
         }
 
