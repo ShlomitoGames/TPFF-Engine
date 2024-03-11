@@ -82,7 +82,7 @@ namespace RDEngine.GameScripts
 
             AddGameObject
             (
-                new WorldObject("End", ContentStorer.WhiteSquare, new Vector2(-0.5f, -21.5f), new List<GComponent>()
+                new WorldObject("End", ContentStorer.WhiteSquare, new Vector2(-0.5f, -22.5f), new List<GComponent>()
                 {
                     new RigidBody(new Vector2(4f, 2f) * UnitSize, Vector2.Zero, true)
                 })
