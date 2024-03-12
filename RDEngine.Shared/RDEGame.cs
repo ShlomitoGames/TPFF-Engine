@@ -41,13 +41,13 @@ namespace RDEngine
             graphics.PreferredBackBufferHeight = UpscaledScrHeight;
             IsMouseVisible = false;
 
-#if BLAZORGL
+//#if BLAZORGL
             //Unlocks the FPS
             graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             //I'd enable it by default if my bad physics were less frame-rate independant,
             //but as it stands I'll only use it because on Web it becomes unplayably laggy if it's not enabled for some reason
-#endif
+//#endif
 
             graphics.ApplyChanges();
         }
@@ -85,13 +85,13 @@ namespace RDEngine
                     "Level1", "Level2", "Level3",
                     "Floor", "Rug", "Border", "Wall", "Floor2",
                     "Table1x2", "Table1x3", "Table2x1", "Table3x1",
-                    "ATable1x1", "ATable3x2", "ATable2x2", "ATable1x2",
+                    "ATable1x1", "ATable3x2", "ATable2x2", "ATable1x2", "ATable2x1", "ATable4x3",
                     "Door", "DoorOpen", "Key", "Spot",
                     "Player1", "Player2", "Player3", "Player4", "Player5"
                 },
                 new List<string>()
                 {
-                    "Arial", "Coolvetica", "Pixel"
+                    "Arial", "Coolvetica", "Pixel", "PixelBig"
                 },
                 new List<string>()
                 {
@@ -104,7 +104,7 @@ namespace RDEngine
                 }
             );
 #if DEBUG
-            SceneHandler.LoadScene(new Level2());
+            SceneHandler.LoadScene(new Level3());
 #else
             SceneHandler.LoadScene(new SplashScreen());
 #endif

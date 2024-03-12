@@ -21,6 +21,8 @@ namespace RDEngine.GameScripts
         private WorldObject _exclamation;
         private SoundEffect _spotSound;
 
+        private int _frame = 0; //Janky way to avoid detections on the first frame(s?)
+
         public FollowingFurniture(float radius, float speed)
         {
             _radius = radius;
@@ -48,10 +50,15 @@ namespace RDEngine.GameScripts
             _exclamation.SetParent(Parent);
             Parent.Scene.AddGameObject(_exclamation);
         }
-
         public override void Update()
         {
             base.Update();
+
+            if (_frame < 10)
+            {
+                _frame++;
+                return;
+            }
 
             //Resets velocity
             _rb.Velocity = Vector2.Zero;
@@ -61,6 +68,8 @@ namespace RDEngine.GameScripts
 
             Vector2 dir = Vector2.Normalize(_target.AbsolutePos - Parent.AbsolutePos);
 
+            bool wasFound = _found;
+
             //RayCasts for the first solid object, looking for the player
             Collision? colPlayer = _rb.RayCast(Parent.AbsolutePos, dir, _radius * Parent.Scene.UnitSize, true);
 
@@ -69,20 +78,22 @@ namespace RDEngine.GameScripts
 
             //Sees if it has direct line of sight to the player
             if (colPlayer.Value.Rb.Parent.Tag != "Player")
+            {
+                _exclamation.Enabled = false;
+                _found = false;
                 return;
+            }
 
-            bool wasFound = _found;
-            _found = false;
+            _found = true;
 
             //RayCasts for whatever might be in the way, even if it's a trigger, to get the contact normal
             Collision? colOther = _rb.RayCast(Parent.AbsolutePos, dir, _radius * Parent.Scene.UnitSize, false);
-
-            _found = true;
             //The first frame it found it it plays an animation and waits for a bit
             if (!wasFound)
             {
                 _spotSound.Play();
                 _exclamation.Enabled = true;
+                _startedMoving = false;
             }
 
             if (_found)
@@ -90,6 +101,7 @@ namespace RDEngine.GameScripts
                 if (!_startedMoving)
                 {
                     _time += Time.DeltaTime;
+                    _exclamation.Enabled = true;
                     if (_time >= _delay)
                     {
                         _time = 0;

@@ -40,8 +40,22 @@ namespace RDEngine.Engine
             }
         }
 
-        public bool Enabled;
-        
+        private bool _enabled;
+        public bool Enabled
+        {
+            get
+            {
+                if (Parent != null)
+                    return _enabled && Parent.Enabled;
+                else
+                    return _enabled;
+            }
+            set
+            {
+                _enabled = value;
+            }
+        }
+
         public GameObject(string tag, Texture2D texture, Vector2 position, List<GComponent> initialComponents = null, List<GameObject> children = null)
         {
             Scene = SceneHandler.ActiveScene;

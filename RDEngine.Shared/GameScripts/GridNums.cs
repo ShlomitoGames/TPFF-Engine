@@ -23,7 +23,7 @@ namespace RDEngine.GameScripts
         {
             for (int i = -50; i < 50; i++)
             {
-                for (int j = -150; j < 10; j++)
+                for (int j = /*-150*/-50; j < /*10*/50; j++)
                 {
                     TextObject text = new TextObject($"Grid[{i},{j}]", ContentStorer.Fonts["Arial"], $"[{i},{j}]", new Vector2(i, j) * RDEGame.ScaleFactor * Parent.Scene.UnitSize - new Vector2(20f,20f), true);
                     text.Scale = Vector2.One * 0.5f;

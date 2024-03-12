@@ -32,7 +32,7 @@ namespace RDEngine.GameScripts.Scenes
                 Scale = Vector2.One * 0.75f,
                 CCPosition = new Vector2(0f, 25f)
             };
-            _disclaimer = new TextObject("disclaimer", ContentStorer.Fonts["Pixel"], "It's not my fault, I swear!", Vector2.Zero, false)
+            _disclaimer = new TextObject("disclaimer", ContentStorer.Fonts["Pixel"], "They're not my fault, I swear!", Vector2.Zero, false)
             {
                 Scale = Vector2.One * 0.35f,
                 BCPosition = Vector2.Zero

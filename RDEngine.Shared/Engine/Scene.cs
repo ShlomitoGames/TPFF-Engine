@@ -57,11 +57,14 @@ namespace RDEngine.Engine
 
         private bool _isFirstFrame;
 
+        public bool PauseWorld;
+
         public Scene(Color camColor, byte unitSize = 16)
         {
             _unitSize = unitSize;
             CameraColor = camColor;
             CameraOrigin = Vector2.Zero;
+            PauseWorld = false;
         }
 
         public virtual void Initialize()
@@ -119,20 +122,29 @@ namespace RDEngine.Engine
             }
 
             Update();
-            foreach (var gameObject in _worldObjects)
+
+            if (!PauseWorld)
             {
-                gameObject.Update();
+                foreach (var gameObject in _worldObjects)
+                {
+                    gameObject.Update();
+                }
             }
             foreach (var gameObject in _uiObjects)
             {
                 gameObject.Update();
             }
 
-            Solver.Update();
+            if (!PauseWorld)
+                Solver.Update();
 
-            foreach (var gameObject in _worldObjects)
+
+            if (!PauseWorld)
             {
-                gameObject.LateUpdate();
+                foreach (var gameObject in _worldObjects)
+                {
+                    gameObject.LateUpdate();
+                }
             }
             foreach (var gameObject in _uiObjects)
             {
