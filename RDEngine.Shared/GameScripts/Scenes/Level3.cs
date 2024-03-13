@@ -84,12 +84,12 @@ namespace RDEngine.GameScripts
 
             AddGameObject
             (
-                new WorldObject("End", ContentStorer.WhiteSquare, new Vector2(37.5f, -22.5f), new List<GComponent>()
+                new WorldObject("End", ContentStorer.WhiteSquare, new Vector2(38f, -22.5f), new List<GComponent>()
                 {
-                    new RigidBody(new Vector2(4f, 2f) * UnitSize, Vector2.Zero, true)
+                    new RigidBody(new Vector2(5f, 2f) * UnitSize, Vector2.Zero, true)
                 })
                 {
-                    Scale = new Vector2(4f, 2f),
+                    Scale = new Vector2(5f, 2f),
                     LayerDepth = 0.9f,
                     Color = new Color(0x10, 0x10, 0x10)
                 }
@@ -411,6 +411,70 @@ namespace RDEngine.GameScripts
                     new FollowingFurniture(30f, 150f)
                 }),
             });
+
+
+            //Dialouge Stuff
+            TextObject _dialogue = new TextObject("Dialogue", ContentStorer.Fonts["Pixel"], "You should'nt be here...", Vector2.Zero, false, new List<GComponent>()
+            {
+                new Animator(new Dictionary<string, Animation>()
+                {
+                    {
+                        "fade", new Animation(false, new AnimLayer[]
+                        {
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(1000, 0),
+                                new Tuple<int, int>(1000, 200),
+                                new Tuple<int, int>(1000, 200),
+                                new Tuple<int, int>(0, 0)
+                            }, 0),
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(1000, 250),
+                                new Tuple<int, int>(1000, 270),
+                                new Tuple<int, int>(1000, 270),
+                                new Tuple<int, int>(0, 290)
+                            }, 1)
+                        })
+                    },
+                    {
+                        "off", new Animation(false, new AnimLayer[]
+                        {
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(0, 0)
+                            }, 0),
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(0, 250)
+                            }, 1)
+                        })
+                    }
+                }, "off", ints: new int[2]),
+                new DialogueBox()
+            })
+            {
+                Scale = Vector2.One * 0.75f,
+                CCPosition = new Vector2(0f, 270f)
+            };
+            AddGameObject(_dialogue);
+
+            AddGameObjects(new GameObject[]
+            {
+                new WorldObject("TalkingTable1", ContentStorer.Textures["Table1x1"], new Vector2(24f, -13f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "Please...", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable2", ContentStorer.Textures["Table1x1"], new Vector2(39f, -15f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "... help us fulfill our purpose once again.", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                })
+
+            });
+
+
 
             AddGameObject
             (

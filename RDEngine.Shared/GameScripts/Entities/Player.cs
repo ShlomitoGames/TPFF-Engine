@@ -100,6 +100,8 @@ namespace RDEngine.GameScripts
                     scene = new Level2();
                 else if (PersistentVars.CurrLevel == 2)
                     scene = new Level3();
+                else if (PersistentVars.CurrLevel == 3)
+                    scene = new End();
                 else
                     scene = new SplashScreen();
 

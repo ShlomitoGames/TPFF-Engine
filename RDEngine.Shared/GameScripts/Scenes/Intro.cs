@@ -189,7 +189,7 @@ namespace RDEngine.GameScripts
                 new WorldObject("TalkingTable7", ContentStorer.Textures["Table1x1"], new Vector2(4f, -26f), new List<GComponent>()
                 {
                     new TalkingTable(_dialogue, "... some of us are not fully here", 25),
-                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isTrigger: true, isStatic: true)
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
 
                 new WorldObject("TalkingTable8", ContentStorer.Textures["Table1x1"], new Vector2(7f, -33f), new List<GComponent>()
@@ -260,10 +260,10 @@ namespace RDEngine.GameScripts
             {
                 fpsCounter,
 #if DEBUG
-                new UIObject("CoordGrid", null, Vector2.Zero, true, new List<GComponent>()
+                /*new UIObject("CoordGrid", null, Vector2.Zero, true, new List<GComponent>()
                 {
                     new GridNums()
-                })
+                })*/
 #endif
             });
 

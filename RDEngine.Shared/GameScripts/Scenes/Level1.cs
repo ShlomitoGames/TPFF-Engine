@@ -379,6 +379,69 @@ namespace RDEngine.GameScripts
                 }),
             });
 
+
+
+            //Dialouge Stuff
+            TextObject _dialogue = new TextObject("Dialogue", ContentStorer.Fonts["Pixel"], "You should'nt be here...", Vector2.Zero, false, new List<GComponent>()
+            {
+                new Animator(new Dictionary<string, Animation>()
+                {
+                    {
+                        "fade", new Animation(false, new AnimLayer[]
+                        {
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(1000, 0),
+                                new Tuple<int, int>(1000, 200),
+                                new Tuple<int, int>(1000, 200),
+                                new Tuple<int, int>(0, 0)
+                            }, 0),
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(1000, 250),
+                                new Tuple<int, int>(1000, 270),
+                                new Tuple<int, int>(1000, 270),
+                                new Tuple<int, int>(0, 290)
+                            }, 1)
+                        })
+                    },
+                    {
+                        "off", new Animation(false, new AnimLayer[]
+                        {
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(0, 0)
+                            }, 0),
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(0, 250)
+                            }, 1)
+                        })
+                    }
+                }, "off", ints: new int[2]),
+                new DialogueBox()
+            })
+            {
+                Scale = Vector2.One * 0.75f,
+                CCPosition = new Vector2(0f, 270f)
+            };
+            AddGameObject(_dialogue);
+
+            AddGameObjects (new GameObject[]
+            {
+                new WorldObject("TalkingTable1", ContentStorer.Textures["Table1x1"], new Vector2(-8f, -4f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "You must reach the top...", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable2", ContentStorer.Textures["Table1x1"], new Vector2(7f, -4f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "You must get to the source of this Aberration", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                })
+
+            });
+
             AddGameObject
             (
                 new WorldObject("Camera", null, Vector2.Zero, initialComponents: new List<GComponent>()
@@ -435,10 +498,10 @@ namespace RDEngine.GameScripts
             {
                 fpsCounter,
 #if DEBUG
-                /*new UIObject("CoordGrid", null, Vector2.Zero, true, new List<GComponent>()
+                new UIObject("CoordGrid", null, Vector2.Zero, true, new List<GComponent>()
                 {
                     new GridNums()
-                })*/
+                })
 #endif
             });
 
