@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentStorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\UI\TextObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\DialogueBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Door.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Entities\FollowingFurniture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Entities\Furniture.cs" />
@@ -29,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Level3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\SplashScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\WebDisclaimer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\TalkingTable.cs" />
     <Compile Include="..\RDEngine.Shared\GameScripts\GridNums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\FPSCounter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\LayoutLoader.cs" />

@@ -86,7 +86,7 @@ namespace RDEngine
                     "Floor", "Rug", "Border", "Wall", "Floor2",
                     "Table1x2", "Table1x3", "Table2x1", "Table3x1", "Table1x1",
                     "ATable1x1", "ATable3x2", "ATable2x2", "ATable1x2", "ATable2x1", "ATable4x3",
-                    "Door", "DoorOpen", "Key", "Spot",
+                    "Door", "DoorOpen", "Key", "Spot", "TalkIndicator",
                     "Player1", "Player2", "Player3", "Player4", "Player5"
                 },
                 new List<string>()
@@ -101,6 +101,7 @@ namespace RDEngine
                 {
                     "Door", "SpringyThud", "Thud", "Key", "Spot",
                     "Talk1", "Talk2", "Talk3",
+                    "Explosion", "Sigh"
                 }
             );
 #if DEBUG

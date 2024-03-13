@@ -96,7 +96,53 @@ namespace RDEngine.GameScripts
                 }
             );
 
-            Door door1 = new Door();
+            //Dialouge Stuff
+            TextObject _dialogue = new TextObject("Dialogue", ContentStorer.Fonts["Pixel"], "You should'nt be here...", Vector2.Zero, false, new List<GComponent>()
+            {
+                new Animator(new Dictionary<string, Animation>()
+                {
+                    {
+                        "fade", new Animation(false, new AnimLayer[]
+                        {
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(1000, 0),
+                                new Tuple<int, int>(1000, 200),
+                                new Tuple<int, int>(1000, 200),
+                                new Tuple<int, int>(0, 0)
+                            }, 0),
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(1000, 250),
+                                new Tuple<int, int>(1000, 270),
+                                new Tuple<int, int>(1000, 270),
+                                new Tuple<int, int>(0, 290)
+                            }, 1)
+                        })
+                    },
+                    {
+                        "off", new Animation(false, new AnimLayer[]
+                        {
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(0, 0)
+                            }, 0),
+                            new AnimLayer(new Tuple<int, int>[]
+                            {
+                                new Tuple<int, int>(0, 250)
+                            }, 1)
+                        })
+                    }
+                }, "off", ints: new int[2]),
+                new DialogueBox()
+            })
+            {
+                Scale = Vector2.One * 0.75f,
+                CCPosition = new Vector2(0f, 270f)
+            };
+            AddGameObject(_dialogue);
+
+            Door door1 = new Door(2);
             AddGameObjects(new GameObject[]
             {
                 new WorldObject("Door1", ContentStorer.Textures["Door"], new Vector2(-0.5f, -15f), new List<GComponent>()
@@ -104,6 +150,58 @@ namespace RDEngine.GameScripts
                     new RigidBody(new Vector2(2f, 1f) * UnitSize, Vector2.Zero, isStatic: true),
                     door1
                 }),
+            });
+
+            AddGameObjects(new GameObject[]
+            {
+                new WorldObject("TalkingTable1", ContentStorer.Textures["Table1x1"], new Vector2(-4f, -14f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "Something is deeply wrong here...", 25, door1),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable2", ContentStorer.Textures["Table1x1"], new Vector2(3f, -14f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "Thank you for coming to our help", 25, door1),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+
+                new WorldObject("TalkingTable3", ContentStorer.Textures["Table1x1"], new Vector2(4f, -19f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "There is... something here, something alien", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable4", ContentStorer.Textures["Table1x1"], new Vector2(-5f, -19f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "It is corrupting us, controlling us", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+
+                new WorldObject("TalkingTable5", ContentStorer.Textures["Table1x1"], new Vector2(-6f, -26f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "It is ripping us from the real world", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable6", ContentStorer.Textures["Table1x1"], new Vector2(-1f, -26f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "Do not get too close to us...", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable7", ContentStorer.Textures["Table1x1"], new Vector2(4f, -26f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "... some of us are not fully here", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isTrigger: true, isStatic: true)
+                }),
+
+                new WorldObject("TalkingTable8", ContentStorer.Textures["Table1x1"], new Vector2(7f, -33f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "Get too close to out core and...", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable9", ContentStorer.Textures["Table1x1"], new Vector2(2f, -33f), new List<GComponent>()
+                {
+                    new TalkingTable(_dialogue, "... we may corrupt you too.", 25),
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                })
             });
 
             AddGameObject
@@ -176,7 +274,7 @@ namespace RDEngine.GameScripts
 
             AddGameObjects(new GameObject[]
             {
-                new TextObject("PauseButton", ContentStorer.Fonts["Pixel"], "[C] Pause", Vector2.Zero, false)
+                new TextObject("PauseButton", ContentStorer.Fonts["Pixel"], "[C] Options", Vector2.Zero, false)
                 {
                     TLPosition = new Vector2(10f, 10f),
                     Scale = Vector2.One * 0.3f

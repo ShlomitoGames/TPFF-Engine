@@ -489,3 +489,27 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/IntroLayout.png
 
+#begin Sprites/TalkIndicator.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/TalkIndicator.png
+
+#begin SoundEffects/Explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Explosion.wav
+
+#begin SoundEffects/Sigh.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Sigh.wav
+

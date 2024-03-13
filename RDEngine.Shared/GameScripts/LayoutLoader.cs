@@ -100,7 +100,7 @@ namespace RDEngine.GameScripts
                         rb.Remove();
                         tile.Tag = "Floor " + tile.Tag;
                         //Randomizes some with more texture and a random orientation
-                        int randNum = rnd.Next(50);
+                        int randNum = rnd.Next(51);
                         if (randNum == 1)
                         {
                             tile.Texture = _floor2;
