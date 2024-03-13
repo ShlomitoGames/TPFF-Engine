@@ -75,7 +75,8 @@ namespace RDEngine.GameScripts
 
                 if (!_panelEnabled && _toPlay)
                 {
-                    SceneHandler.PlaySong(ContentStorer.Songs["MysteryLoop"], true);
+                    if (SceneHandler.ActiveScene.Song != null)
+                        SceneHandler.PlaySong(SceneHandler.ActiveScene.Song, true);
                     _toPlay = false;
                 }
             }

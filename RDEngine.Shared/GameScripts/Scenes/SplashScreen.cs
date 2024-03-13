@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Media;
 
 namespace RDEngine.GameScripts.Scenes
 {
@@ -17,7 +18,7 @@ namespace RDEngine.GameScripts.Scenes
 
         public SplashScreen() : base(new Color(0x10,0x10,0x10,0xff))
         {
-            
+            Song = ContentStorer.Songs["Ambient"];
         }
 
         public override void Initialize()
@@ -99,6 +100,16 @@ namespace RDEngine.GameScripts.Scenes
                 }
             });
         }
+
+        public override void Start()
+        {
+            base.Start();
+
+            if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
+                SceneHandler.PlaySong(Song, true);
+            MediaPlayer.Volume = 0.05f;
+        }
+
         private float _time = 0;
         public override void Update()
         {
@@ -114,7 +125,7 @@ namespace RDEngine.GameScripts.Scenes
 #if BLAZORGL
                 scene = new WebDisclaimer();
 #else
-                scene = new Level1();
+                scene = new Intro();
 #endif
                 FindWithTag("Fade").GetComponent<Fade>().FadeOut(scene);
             }

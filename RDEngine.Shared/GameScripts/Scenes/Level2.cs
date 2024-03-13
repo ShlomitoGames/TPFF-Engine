@@ -13,7 +13,10 @@ namespace RDEngine.GameScripts
 {
     public class Level2 : Scene
     {
-        public Level2() : base(new Color(0x10, 0x10, 0x10, 0xff), 16) { }
+        public Level2() : base(new Color(0x10, 0x10, 0x10, 0xff), 16)
+        {
+            Song = ContentStorer.Songs["MysteryLoop"];
+        }
 
         public override void Initialize()
         {
@@ -649,8 +652,8 @@ namespace RDEngine.GameScripts
         {
             base.Start();
 
-            if (SceneHandler.ActiveSong != ContentStorer.Songs["MysteryLoop"] && PersistentVars.MusicPlaying)
-                SceneHandler.PlaySong(ContentStorer.Songs["MysteryLoop"], true);
+            if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
+                SceneHandler.PlaySong(Song, true);
             MediaPlayer.Volume = 0.1f;
 
             FindWithTag("Camera").GetComponent<CameraFollow>().SetTarget(FindWithTag("Player") as WorldObject, true);

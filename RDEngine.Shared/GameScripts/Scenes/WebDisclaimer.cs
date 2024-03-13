@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Media;
 
 namespace RDEngine.GameScripts.Scenes
 {
@@ -15,7 +16,7 @@ namespace RDEngine.GameScripts.Scenes
 
         public WebDisclaimer() : base(new Color(0x10, 0x10, 0x10, 0xff))
         {
-
+            Song = ContentStorer.Songs["Ambient"];
         }
 
         public override void Initialize()
@@ -56,11 +57,21 @@ namespace RDEngine.GameScripts.Scenes
                 }
             });
         }
+
+        public override void Start()
+        {
+            base.Start();
+
+            if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
+                SceneHandler.PlaySong(Song, true);
+            MediaPlayer.Volume = 0.05f;
+        }
+
         private float _time = 0;
         public override void Update()
         {
             if (_time >= 2.5f)
-                FindWithTag("Fade").GetComponent<Fade>().FadeOut(new Level1());
+                FindWithTag("Fade").GetComponent<Fade>().FadeOut(new Intro());
 
             _time += Time.DeltaTime;
 #if DEBUG

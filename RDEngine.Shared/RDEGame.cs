@@ -82,9 +82,9 @@ namespace RDEngine
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
-                    "Level1", "Level2", "Level3",
+                    "Level1", "Level2", "Level3", "IntroLayout",
                     "Floor", "Rug", "Border", "Wall", "Floor2",
-                    "Table1x2", "Table1x3", "Table2x1", "Table3x1",
+                    "Table1x2", "Table1x3", "Table2x1", "Table3x1", "Table1x1",
                     "ATable1x1", "ATable3x2", "ATable2x2", "ATable1x2", "ATable2x1", "ATable4x3",
                     "Door", "DoorOpen", "Key", "Spot",
                     "Player1", "Player2", "Player3", "Player4", "Player5"
@@ -95,7 +95,7 @@ namespace RDEngine
                 },
                 new List<string>()
                 {
-                    "MysteryLoop"
+                    "MysteryLoop", "Ambient"
                 },
                 new List<string>()
                 {
@@ -104,7 +104,7 @@ namespace RDEngine
                 }
             );
 #if DEBUG
-            SceneHandler.LoadScene(new Level3());
+            SceneHandler.LoadScene(new Intro());
 #else
             SceneHandler.LoadScene(new SplashScreen());
 #endif

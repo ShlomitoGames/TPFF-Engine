@@ -6,6 +6,7 @@ using RDEngine.Engine.Physics;
 using System.Collections.Generic;
 using RDEngine.Engine.UI;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Media;
 
 namespace RDEngine.Engine
 {
@@ -16,6 +17,8 @@ namespace RDEngine.Engine
 
         private List<WorldObject> _newWorldObjects;
         private List<UIObject> _newUIObjects;
+
+        public Song Song = null;
 
         private byte _unitSize;
         public byte UnitSize { get { return _unitSize; } }

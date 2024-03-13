@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Key.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\PauseMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\PersistentVars.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Intro.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Level2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Level3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\SplashScreen.cs" />

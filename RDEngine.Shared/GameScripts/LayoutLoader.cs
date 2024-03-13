@@ -61,6 +61,7 @@ namespace RDEngine.GameScripts
 
                     //Ignores empty colors
                     if (col.A == 0) continue;
+                    
                     //Makes the tile and its RigidBody
                     TiledTexture tile = new TiledTexture($"[{i},{j}]", null, Vector2.Zero, Vector2.One);
                     tiles[i, j] = tile;
@@ -75,11 +76,6 @@ namespace RDEngine.GameScripts
                     {
                         tile.Texture = _border;
                         tile.Tag = "Border " + tile.Tag;
-                        /*int randNum = rnd.Next(3);
-                        if (randNum == 1)
-                            tile.Effects = SpriteEffects.FlipHorizontally;
-                        else if (randNum == 2)
-                            tile.Effects = SpriteEffects.FlipVertically;*/
                     }
                     else if (col == Color.Yellow)
                     {
@@ -98,7 +94,7 @@ namespace RDEngine.GameScripts
                         rb.IsTrigger = true;
                         tile.Tag = "OOB " + tile.Tag;
                     }
-                    else if (col == new Color(0, 255, 0, 255))
+                    else if (col == new Color(0, 255, 0, 255)) //Green
                     {
                         tile.Texture = _floor;
                         rb.Remove();
@@ -125,6 +121,11 @@ namespace RDEngine.GameScripts
                             colors2D[i, j] = Color.Aqua;
                             col = Color.Aqua;
                         }
+                    }
+                    else if (col == Color.Blue)
+                    {
+                        tile.Texture = null;
+                        tile.Tag = "OutBorder " + tile.Tag;
                     }
                     else
                     {

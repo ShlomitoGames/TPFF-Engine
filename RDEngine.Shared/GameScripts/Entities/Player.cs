@@ -94,7 +94,9 @@ namespace RDEngine.GameScripts
             else if (intrRb.Parent.Tag == "End")
             {
                 Scene scene;
-                if (PersistentVars.CurrLevel == 1)
+                if (PersistentVars.CurrLevel == 0)
+                    scene = new Level1();
+                else if (PersistentVars.CurrLevel == 1)
                     scene = new Level2();
                 else if (PersistentVars.CurrLevel == 2)
                     scene = new Level3();
