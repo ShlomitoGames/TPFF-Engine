@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using System.Diagnostics;
 
 namespace RDEngine.Engine.Animation
 {
@@ -16,14 +18,15 @@ namespace RDEngine.Engine.Animation
             Int,
             Float,
             Bool,
-            Texture2D
+            Texture2D,
+            Sound
         }
 
         public bool Loop;
 
-        private bool _enabled;
+        public bool Enabled;
 
-        private int _time;
+        private float _time;
         private int _totalDuration;
 
         public Animation(bool loop, AnimLayer[] layers)
@@ -48,19 +51,36 @@ namespace RDEngine.Engine.Animation
         internal void Reset()
         {
             _time = 0;
-            _enabled = true;
+            Enabled = true;
 
             if (Layers != null)
+            {
                 foreach (var layer in Layers)
                 {
                     layer.Time = 0;
                     layer.CurrKeyFrame = 0;
                 }
+            }
+        }
+
+        internal void Start()
+        {
+            foreach (var layer in Layers)
+            {
+                if (layer.Type == VarTypes.Int)
+                    _animator.Ints[layer.VarIndex] = layer.GetValue<int>();
+                else if (layer.Type == VarTypes.Float)
+                    _animator.Floats[layer.VarIndex] = layer.GetValue<float>();
+                else if (layer.Type == VarTypes.Bool)
+                    _animator.Bools[layer.VarIndex] = layer.GetValue<bool>();
+                else if(layer.Type == VarTypes.Texture2D)
+                    _animator.Textures[layer.VarIndex] = layer.GetValue<Texture2D>();
+            }
         }
 
         internal void StepAnimation()
         {
-            if (!_enabled || _animator == null) return;
+            if (!Enabled || _animator == null) return;
             
             foreach (var layer in Layers)
             {
@@ -71,29 +91,47 @@ namespace RDEngine.Engine.Animation
                         _animator.Bools[layer.VarIndex] = layer.GetValue<bool>();
                     else if (layer.Type == VarTypes.Texture2D)
                         _animator.Textures[layer.VarIndex] = layer.GetValue<Texture2D>();
+                    else if (layer.Type == VarTypes.Sound)
+                    {
+                        SoundEffect sound = layer.GetValue<SoundEffect>();
+                        if (sound != null)
+                        {
+                            sound.Play();
+                        }
+                    }
                 }
+                layer.Time += Time.DeltaTime * 1000f;
                 //On all but the last keyframe
                 if (layer.CurrKeyFrame < layer.Durations.Length - 1)
                 {
                     //Things that happen Continuously
-                    if (layer.Time < layer.Durations[layer.CurrKeyFrame])
+                    if (layer.Type == VarTypes.Int)
                     {
-                        if (layer.Type == VarTypes.Int)
-                            _animator.Ints[layer.VarIndex] = (int)MathHelper.Lerp((float)layer.GetValue<int>(), (float)layer.GetValue<int>(layer.CurrKeyFrame + 1), (float)layer.Time / (float)layer.CurrKeyFrameDuration);
-                        else if (layer.Type == VarTypes.Float)
-                            _animator.Floats[layer.VarIndex] = MathHelper.Lerp(layer.GetValue<float>(), layer.GetValue<float>(layer.CurrKeyFrame + 1), (float)layer.Time / (float)layer.CurrKeyFrameDuration);
+                        int val1 = layer.GetValue<int>();
+                        int val2 = layer.GetValue<int>(layer.CurrKeyFrame + 1);
+                        int min = val2 > val1 ? val1 : val2;
+                        int max = val2 < val1 ? val1 : val2;
 
-                        layer.Time += (int)(Time.DeltaTime * 1000);
+                        _animator.Ints[layer.VarIndex] = MathHelper.Clamp((int)MathHelper.Lerp(val1, val2, (float)layer.Time / (float)layer.CurrKeyFrameDuration), min, max);
                     }
-                    //If it's done with that keyframe,
-                    //and the animation cycle hasn't finished
-                    else if (_time < _totalDuration)
+                    else if (layer.Type == VarTypes.Float)
+                    {
+                        float val1 = layer.GetValue<float>();
+                        float val2 = layer.GetValue<float>(layer.CurrKeyFrame + 1);
+                        float min = val2 > val1 ? val1 : val2;
+                        float max = val2 < val1 ? val1 : val2;
+
+                        _animator.Floats[layer.VarIndex] = MathHelper.Clamp(MathHelper.Lerp(val1, val2, (float)layer.Time / (float)layer.CurrKeyFrameDuration), min, max);
+                    }
+
+                    if (layer.Time >= layer.Durations[layer.CurrKeyFrame])
                     {
                         layer.CurrKeyFrame++;
                         layer.Time = 0;
                     }
                 }
             }
+
             //If the longest layer has finished
             if (_time >= _totalDuration)
             {
@@ -104,9 +142,10 @@ namespace RDEngine.Engine.Animation
                     layer.CurrKeyFrame = 0;
                 }
                 if (!Loop)
-                    _enabled = false;
+                    Enabled = false;
             }
-            _time += (int)(Time.DeltaTime * 1000);
+
+            _time += Time.DeltaTime * 1000f;
         }
     }
 }

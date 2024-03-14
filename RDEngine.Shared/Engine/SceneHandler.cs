@@ -16,20 +16,19 @@ namespace RDEngine.Engine
                 else return null;
             }
         }
-        public static void LoadScene(Scene scene, bool stopMusic = false)
+        public static void ReloadScene(bool stopMusic = false)
         {
-            if (ActiveScene != null)
-                ActiveScene.OnDelete();
+            ActiveScene.Initialize();
+        }
+        public static void LoadScene(Scene scene)
+        {
+            /*if (ActiveScene != null)
+                ActiveScene.OnDelete();*/
             
             ActiveScene = null;
 
             ActiveScene = scene;
             ActiveScene.Initialize();
-
-            if (stopMusic)
-            {
-                MediaPlayer.Stop();
-            }
         }
         public static void PlaySong(Song song, bool loop)
         {

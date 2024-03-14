@@ -15,7 +15,35 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentStorer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\UI\TextObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\DialogueBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Door.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\EndAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Entities\FollowingFurniture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Entities\Furniture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Entities\MovingFurniture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Entities\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Fade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Key.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\PauseMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\PersistentVars.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\End.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Intro.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Level2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Level3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\OutroScenes\EndEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\OutroScenes\IntroEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\OutroScenes\Level1End.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\OutroScenes\Level2End.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\OutroScenes\Level3End.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\OutroScenes\ThanksForPlaying.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\SplashScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Title.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\WebDisclaimer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\TalkingTable.cs" />
+    <Compile Include="..\RDEngine.Shared\GameScripts\GridNums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\FPSCounter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\LayoutLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Scenes\Level1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScripts\ShortCuts.cs" />
     <Compile Include="..\RDEngine.Shared\Engine\UI\UIObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WorldObject.cs" />
@@ -31,10 +59,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Time.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Utils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Entity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Ground.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\Player.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameScripts\TestScene.cs" />
+    <Compile Include="..\RDEngine.Shared\GameScripts\TiledTexture.cs" />
     <Compile Include="..\RDEngine.Shared\RDEGame.cs" />
   </ItemGroup>
 </Project>

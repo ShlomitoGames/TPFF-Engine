@@ -1,70 +1,70 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 
 namespace RDEngine.Engine
 {
     public class GameObject
     {
-        private Texture2D _texture;
-        public Texture2D Texture
-        {
-            get
-            {
-                return _texture;
-            }
-            set
-            {
-                _texture = value;
-                if (value != null)
-                {
-                    _originOffset = Texture.Bounds.Size.ToVector2() / 2f;
-                }
-            }
-        }
+        public Texture2D Texture;
+
+        //Size relative to texture size
+        public Vector2 Scale { get; set; } = Vector2.One;
 
         public Color Color;
         public SpriteEffects Effects;
-        public float Layer { get; set; }
+        public float LayerDepth = 0.5f;
 
-        public GameObject Parent;
+        public GameObject Parent { get; private set; }
         public Scene Scene;
 
         public string Tag;
 
+        protected List<GameObject> _children;
         protected List<GComponent> _components;
 
-        public Vector2 Position { get; set; } //Measured in pixelated-scene pixels
-        public Vector2 WorldPos //Measured in units
+        //Measured in RenderTarget pixels
+        public Vector2 Position { get; set; }
+        public Vector2 AbsolutePos
         {
             get
             {
-                return Position / Scene.UnitSize;
+                return (Parent != null) ? Position + Parent.Position : Position;
             }
             set
             {
-                Position = value * Scene.UnitSize;
-            }
-        }
-        private Vector2 _originOffset;
-        public Vector2 Origin //Measured in pixelated-scene pixels
-        {
-            get
-            {
-                return Position + _originOffset;
+                Position = ((Parent != null) ? value - Parent.Position : value);
             }
         }
 
-        public GameObject(string tag, Scene scene, Texture2D texture, Vector2 position, GameObject parent = null, List<GComponent> initialComponents = null)
+        private bool _enabled;
+        public bool Enabled
         {
-            Scene = scene;
+            get
+            {
+                if (Parent != null)
+                    return _enabled && Parent.Enabled;
+                else
+                    return _enabled;
+            }
+            set
+            {
+                _enabled = value;
+            }
+        }
+
+        public GameObject(string tag, Texture2D texture, Vector2 position, List<GComponent> initialComponents = null, List<GameObject> children = null)
+        {
+            Scene = SceneHandler.ActiveScene;
             Texture = texture;
             Position = position;
             Tag = tag;
-            Parent = parent;
             Effects = SpriteEffects.None;
             Color = Color.White;
-            _originOffset = Vector2.Zero;
+            Enabled = true;
 
             if (initialComponents != null)
                 _components = initialComponents;
@@ -75,18 +75,37 @@ namespace RDEngine.Engine
             {
                 component.SetParent(this);
             }
+
+            if (children != null)
+                _children = children;
+            else
+                _children = new List<GameObject>();
+
+            foreach (var child in _children)
+            {
+                child.SetParent(this);
+                Scene.AddGameObject(child);
+            }
         }
 
         internal void Start()
         {
-            foreach (var component in _components)
-            { 
+            if (!Enabled) return;
+
+            GComponent[] components = _components.ToArray();
+
+            foreach (var component in components)
+            {
                 component.Start();
             }
         }
         internal void Update()
         {
-            foreach (var component in _components)
+            if (!Enabled) return;
+
+            GComponent[] components = _components.ToArray();
+
+            foreach (var component in components)
             {
                 if (component.Enabled)
                     component.Update();
@@ -94,7 +113,11 @@ namespace RDEngine.Engine
         }
         internal void LateUpdate()
         {
-            foreach (var component in _components)
+            if (!Enabled) return;
+
+            GComponent[] components = _components.ToArray();
+
+            foreach (var component in components)
             {
                 if (component.Enabled)
                     component.LateUpdate();
@@ -109,6 +132,47 @@ namespace RDEngine.Engine
         {
             
         }
+        internal void DrawComponents(GraphicsDevice graphics, SpriteBatch spriteBatch)
+        {
+            if (!GComponent.ShowHitboxes)
+                return;
+
+            GComponent[] components = _components.ToArray();
+
+            foreach (var component in components)
+            {
+                component.Draw(graphics, spriteBatch);
+            }
+        }
+
+        public void SetParent(GameObject parent)
+        {
+            Parent = parent;
+            /*if (!parent._children.Contains(this)) //Apparently lags the hell out of the game
+                parent._children.Add(this);*/
+        }
+
+        public GameObject[] GetChildren()
+        {
+            return _children.ToArray();
+        }
+
+        public GameObject GetChild(string tag)
+        {
+            foreach (var child in _children)
+            {
+                if (child.Tag == tag)
+                    return child;
+            }
+            return null;
+        }
+        public GameObject GetChild()
+        {
+            if (_children.Count > 0)
+                return _children[0];
+
+            return null;
+        }
 
         public T GetComponent<T>()
         {
@@ -119,16 +183,31 @@ namespace RDEngine.Engine
             }
             return default;
         }
-
-        internal void DrawComponents(GraphicsDevice graphics, SpriteBatch spriteBatch)
+        //Returns first instance of the specified component in a child GameObject
+        public T GetComponentInChildren<T>()
         {
-            if (!GComponent.ShowHitboxes)
-                return;
-
-            foreach (var component in _components)
+            foreach (var child in _children)
             {
-                component.Draw(graphics, spriteBatch);
+                return child.GetComponent<T>();
             }
+            return default;
+        }
+        //Returns first instance of the specified component in all child GameObjects
+        public T[] GetComponentsInChildren<T>()
+        {
+            List<T> result = new List<T>();
+
+            foreach (var child in _children)
+            {
+                T component = child.GetComponent<T>();
+                if (component != null)
+                    result.Add(component);
+            }
+            return result.ToArray();
+        }
+        public T GetComponentInParent<T>()
+        {
+            return Parent.GetComponent<T>();
         }
 
         public void AddComponent(GComponent component)
@@ -144,7 +223,8 @@ namespace RDEngine.Engine
 
         public virtual void Destroy()
         {
-            foreach (var component in _components)
+            GComponent[] comps = _components.ToArray();
+            foreach (var component in comps)
             {
                 RemoveComponent(component);
             }

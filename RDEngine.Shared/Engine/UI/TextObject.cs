@@ -21,7 +21,7 @@ namespace RDEngine.Engine.UI
             }
         }
 
-        public TextObject(string tag, Scene scene, SpriteFont font, string text, Vector2 position, bool isWorldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, scene, null, position, isWorldPos, parent, initialComponents)
+        public TextObject(string tag, SpriteFont font, string text, Vector2 position, bool isWorldPos, List<GComponent> initialComponents = null, List<UIObject> children = null) : base(tag, null, position, isWorldPos, initialComponents, children)
         {
             _font = font;
             Text = text;
@@ -29,10 +29,14 @@ namespace RDEngine.Engine.UI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (!Enabled) return;
+
             base.Draw(spriteBatch);
-            
-            Vector2 pos = (_isWorldPos) ? Position - Vector2.Floor(Scene.CameraPos) : Position;
-            spriteBatch.DrawString(_font, Text, pos - Size / 2f, Color, 0f, Vector2.Zero, Scale, Effects, Layer);
+
+            Vector2 pos = (_isWorldPos) ? AbsolutePos - Vector2.Floor(Scene.CameraPos) + (Vector2.One * 2f * RDEGame.ScaleFactor) : AbsolutePos;
+            //If it's UI in the world, scale appropiately with the ScaleFactor, with the baseline scaling being 4
+            Vector2 scale = _isWorldPos ? Scale * (RDEGame.ScaleFactor / 4f) : Scale;
+            spriteBatch.DrawString(_font, Text, pos, Color, 0f, Vector2.Zero, scale, Effects, LayerDepth);
         }
     }
 }

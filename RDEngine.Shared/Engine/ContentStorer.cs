@@ -14,6 +14,7 @@ namespace RDEngine.Engine
         public static Dictionary<string, SoundEffect> SFX;
 
         public static Texture2D WhitePixel;
+        public static Texture2D WhiteSquare;
 
         public static void LoadContent(ContentManager content, List<string> textures, List<string> fonts, List<string> songs, List<string> sfx)
         {
@@ -43,6 +44,7 @@ namespace RDEngine.Engine
                 SFX.Add(name, sf);
             }
             WhitePixel = content.Load<Texture2D>("Sprites/whitepixel");
+            WhiteSquare = content.Load<Texture2D>("Sprites/whitesquare");
         }
     }
 }

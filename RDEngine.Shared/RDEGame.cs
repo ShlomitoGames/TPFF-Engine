@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using RDEngine.Engine;
 using RDEngine.GameScripts;
+using RDEngine.GameScripts.Scenes;
 
 namespace RDEngine
 {
@@ -21,27 +22,32 @@ namespace RDEngine
         SpriteBatch spriteBatch;
 
         private RenderTarget2D _worldTarget; //The RenderTarget for the pixelated scene
-        public static int ScaleFactor { get; } = 3;
+        public static int ScaleFactor { get; } = 4;
 
-        public static int UpscaledWidth = 1366; //The game won't run at exactly this resolution, it will instead run at the closest multiple of the ScaleFactor
-        public static int UpscaledHeight = 768;
+        public static int UpscaledScrWidth { get; } = 1366;
+        public static int UpscaledScrHeight { get; } = 768;
+        public static Vector2 UpscaledScrSize { get; } = new Vector2(UpscaledScrWidth, UpscaledScrHeight);
 
-        public static int ScreenWidth { get; } = UpscaledWidth / ScaleFactor;
-        public static int ScreenHeight { get; } = UpscaledHeight / ScaleFactor;
-        public static Point ScreenSize = new Point(ScreenWidth, ScreenHeight);
+        public static int ScreenWidth { get; } = UpscaledScrWidth / ScaleFactor;
+        public static int ScreenHeight { get; } = UpscaledScrHeight / ScaleFactor;
+        public static Vector2 ScreenSize { get; } = new Vector2(ScreenWidth, ScreenHeight);
 
         public RDEGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.PreferredBackBufferWidth = ScreenWidth * ScaleFactor;
-            graphics.PreferredBackBufferHeight = ScreenHeight * ScaleFactor;
-            IsMouseVisible = true;
+            graphics.PreferredBackBufferWidth = UpscaledScrWidth;
+            graphics.PreferredBackBufferHeight = UpscaledScrHeight;
+            IsMouseVisible = false;
 
+//#if BLAZORGL
             //Unlocks the FPS
             graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
+            //I'd enable it by default if my bad physics were less frame-rate independant,
+            //but as it stands I'll only use it because on Web it becomes unplayably laggy if it's not enabled for some reason
+//#endif
 
             graphics.ApplyChanges();
         }
@@ -57,7 +63,7 @@ namespace RDEngine
 
             //Create a RenderTarget where the pixelated scene will be drawn on
             //A pixel of padding is added to the screen to account for the smooth offset
-            _worldTarget = new RenderTarget2D(GraphicsDevice, ScreenWidth + 2, ScreenHeight + 2);
+            _worldTarget = new RenderTarget2D(GraphicsDevice, ScreenWidth + 4, ScreenHeight + 4);
 
             base.Initialize();
 
@@ -76,24 +82,35 @@ namespace RDEngine
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
-                    "Block", "Koopa",
-                    "Mario_Idle", "Mario_Jump", "Mario_Walk1", "Mario_Walk2", "Mario_Walk3"
+                    "Level1", "Level2", "Level3", "IntroLayout", "EndLayout", "Level2End", "Level3End", "IntroOutro", "ThxLayout",
+                    "Floor", "Rug", "Border", "Wall", "Floor2",
+                    "Table1x2", "Table1x3", "Table2x1", "Table3x1", "Table1x1",
+                    "ATable1x1", "ATable3x2", "ATable2x2", "ATable1x2", "ATable2x1", "ATable4x3",
+                    "Door", "DoorOpen", "Key", "Spot", "TalkIndicator",
+                    "Player1", "Player2", "Player3", "Player4", "Player5",
+                    "Table1x2D", "Table1x3D", "Table2x1D", "Table3x1D", "Table1x1D",
+                    "ATable1x1D", "ATable3x2D", "ATable2x2D", "ATable1x2D", "ATable2x1D", "ATable4x3D"
                 },
                 new List<string>()
                 {
-                    "testfont", "wreckside"
+                    "Arial", "Pixel", "PixelBig"
                 },
                 new List<string>()
                 {
-                    "MarioTheme"
+                    "MysteryLoop", "Ambient", "Eerie", "HauntedBlues", "CreepingGhoul"
                 },
                 new List<string>()
                 {
-                    "MarioJump"
+                    "Door", "SpringyThud", "Thud", "Key", "Spot",
+                    "Talk1", "Talk2", "Talk3",
+                    "Explosion", "Sigh"
                 }
             );
-
-            SceneHandler.LoadScene(new TestScene());
+#if DEBUG
+            SceneHandler.LoadScene(new ThanksForPlaying());
+#else
+            SceneHandler.LoadScene(new SplashScreen());
+#endif
         }
 
         /// <summary>
@@ -118,6 +135,7 @@ namespace RDEngine
             try { gamePadState = GamePad.GetState(PlayerIndex.One); }
             catch (NotImplementedException) { /* ignore gamePadState */ }
 
+
             if (keyboardState.IsKeyDown(Keys.Escape) ||
                 keyboardState.IsKeyDown(Keys.Back) ||
                 gamePadState.Buttons.Back == ButtonState.Pressed)
@@ -133,7 +151,7 @@ namespace RDEngine
             Time.GameTime = gameTime;
 
             //Scene functions
-            SceneHandler.ActiveScene.UpdateScene();
+            SceneHandler.ActiveScene.UpdateSceneElements();
 
             Input.UpdateLastInput();
 
@@ -151,24 +169,23 @@ namespace RDEngine
             GraphicsDevice.Clear(SceneHandler.ActiveScene.CameraColor);
 
             //Drawing the pixelated scene
-            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend, sortMode: SpriteSortMode.FrontToBack);
             SceneHandler.ActiveScene.DrawScene(spriteBatch);
             spriteBatch.End();
 
             //Set rendering back to the back buffer
             GraphicsDevice.SetRenderTarget(null);
-
             //Drawing the normal scene
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend, sortMode: SpriteSortMode.FrontToBack);
 
             //Drawing the pixelated scene inside the normal scene
                 //The offset is how much of the camera positions changes when snapped to the pixel grid, so it's smooth once scaled up.
-            Vector2 offset = SceneHandler.ActiveScene.WorldCameraPos * ScaleFactor - Vector2.Floor(SceneHandler.ActiveScene.CameraPos);
+            Vector2 offset = SceneHandler.ActiveScene.PixelCameraPos * ScaleFactor - Vector2.Floor(SceneHandler.ActiveScene.CameraPos);
             if (MathF.Abs(offset.X) > 2 * ScaleFactor || MathF.Abs(offset.Y) > 2 * ScaleFactor)
                 throw new ArithmeticException("Offset cannot be greater than scaling factor");
 
-            //ScaleFactor is subtracted from X and Y to account for the 1px-wide padding for the offset
-            spriteBatch.Draw(_worldTarget, new Rectangle((int)offset.X - ScaleFactor, (int)offset.Y - ScaleFactor, (ScreenWidth + 2) * ScaleFactor, (ScreenHeight + 2) * ScaleFactor), Color.White);
+            //2 * ScaleFactor is subtracted from X and Y to account for the 2px-wide padding for the offset
+            spriteBatch.Draw(_worldTarget, new Rectangle((int)offset.X - ScaleFactor * 2, (int)offset.Y - ScaleFactor * 2, (ScreenWidth + 4) * ScaleFactor, (ScreenHeight + 4) * ScaleFactor), Color.White);
 
             //Draws the component debug lines
             SceneHandler.ActiveScene.DrawComponents(GraphicsDevice, spriteBatch);

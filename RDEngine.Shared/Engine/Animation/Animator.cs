@@ -31,7 +31,8 @@ namespace RDEngine.Engine.Animation
 
         public override void Update()
         {
-            _currAnim.StepAnimation();
+            if (_currAnim != null)
+                _currAnim.StepAnimation();
             base.Update();
         }
 
@@ -57,10 +58,14 @@ namespace RDEngine.Engine.Animation
         {
             return _currAnim;
         }
-        public void SetAnimation(string anim)
+        public void SetAnimation(string anim, bool repeat = false)
         {
+            if (_currAnim == _animations[anim] && !repeat)
+                return;
+
             _currAnim = _animations[anim];
             _currAnim.Reset();
+            _currAnim.Start();
             _currAnimName = anim;
         }
     }

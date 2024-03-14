@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RDEngine.Engine.Physics
@@ -9,7 +10,7 @@ namespace RDEngine.Engine.Physics
     {
         private const int SUBSTEPS = 8;
         
-        public List<RigidBody> RigidBodies;
+        internal List<RigidBody> RigidBodies;
 
         public PhysicsSolver()
         {
@@ -68,7 +69,7 @@ namespace RDEngine.Engine.Physics
 
             foreach (var rb1 in RigidBodies)
             {
-                if (rb1.IsStatic || rb1.IsTrigger) continue;
+                if (rb1.IsStatic || rb1.IsTrigger || !rb1.Enabled) continue;
 
                 List<Tuple<int, float>> cols = new List<Tuple<int, float>>();
 
@@ -76,7 +77,7 @@ namespace RDEngine.Engine.Physics
                 {
                     var rb2 = RigidBodies[i];
 
-                    if (rb1 == rb2 || rb2.IsTrigger) continue;
+                    if (rb1 == rb2 || rb2.IsTrigger || !rb2.Enabled) continue;
 
                     if (DynamicRectVsRect(rb1.Rect, rb2.Rect, rb1.Velocity, deltaTime, out contactPoint, out contactNormal, out contactTime))
                     {
@@ -98,12 +99,12 @@ namespace RDEngine.Engine.Physics
                     {
                         Vector2 newVel = contactNormal * new Vector2(MathF.Abs(rb1.Velocity.X), MathF.Abs(rb1.Velocity.Y)) * (1 - contactTime);
 
-                        float ratio1 = (!rb2.IsStatic) ? rb2.Mass / (rb1.Mass + rb2.Mass) : 1;
+                        float ratio1 = (!rb2.IsStatic && !rb2.IsKinematic) ? rb2.Mass / (rb1.Mass + rb2.Mass) : 1;
 
                         rb1.Velocity += newVel * ratio1;
                         if (storeCols) rb1.AddCollision(new Collision(rb2, contactPoint, contactNormal));
 
-                        if (!rb2.IsStatic)
+                        if (!rb2.IsStatic && !rb2.IsKinematic)
                             rb2.Velocity -= newVel * (rb1.Mass / (rb1.Mass + rb2.Mass));
                         if (storeCols) rb2.AddCollision(new Collision(rb1, contactPoint, -contactNormal));
                     }
@@ -115,15 +116,16 @@ namespace RDEngine.Engine.Physics
         {
             foreach (var rb1 in RigidBodies)
             {
-                if (!rb1.IsTrigger) continue;
+                if (!rb1.IsTrigger || !rb1.Enabled) continue;
 
                 foreach (var rb2 in RigidBodies)
                 {
-                    if (rb1 == rb2) continue;
+                    if (rb1 == rb2 || !rb2.Enabled) continue;
 
                     if (RectIntersectsRect(rb1.Rect, rb2.Rect))
                     {
                         rb1.AddIntersection(rb2);
+                        rb2.AddIntersection(rb1);
                     }
                 }
             }

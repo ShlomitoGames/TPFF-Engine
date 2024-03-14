@@ -8,9 +8,14 @@ namespace RDEngine.GameScripts
         public override void Update()
         {
             if (Input.GetKey(Keys.R, KeyGate.Down))
-                SceneHandler.LoadScene(new TestScene());
-            if (Input.GetKey(Keys.H, KeyGate.Down))
+                SceneHandler.ReloadScene();
+
+#if DEBUG
+                if (Input.GetKey(Keys.H, KeyGate.Down))
                 ShowHitboxes = !ShowHitboxes;
+            if (Input.GetKey(Keys.G, KeyGate.Down))
+                GridNums.ToggleTexts();
+#endif
         }
     }
 }

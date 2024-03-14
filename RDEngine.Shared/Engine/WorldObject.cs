@@ -7,18 +7,37 @@ namespace RDEngine.Engine
 {
     public class WorldObject : GameObject
     {
-        public WorldObject(string tag, Scene scene, Texture2D texture, Vector2 worldPos, GameObject parent = null, List<GComponent> initialComponents = null) : base(tag, scene, texture, worldPos * 16f, parent, initialComponents)
+        public Vector2 WorldPosition //Measured in units
         {
+            get
+            {
+                return Position / Scene.UnitSize;
+            }
+            set
+            {
+                Position = value * Scene.UnitSize;
+            }
+        }
 
+        public WorldObject(string tag, Texture2D texture, Vector2 worldPos, List<GComponent> initialComponents = null, List<WorldObject> children = null) : base(tag, texture, Vector2.Zero, initialComponents, (children != null) ? children.ConvertAll(x => x as GameObject) : null)
+        {
+            WorldPosition = worldPos;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (!Enabled) return;
+
             base.Draw(spriteBatch);
 
             if (Texture == null) return;
 
-            spriteBatch.Draw(Texture, Vector2.Floor(Position - Scene.WorldCameraPos + Vector2.One), null, Color, 0f, Vector2.Zero, Vector2.One, Effects, Layer);
+            Vector2 pos = AbsolutePos - Scene.PixelCameraPos - (new Vector2(Texture.Width, Texture.Height) * Scale / 2f) + Vector2.One * 2f;
+            Vector2 size = Texture.Bounds.Size.ToVector2() * Scale;
+            if (pos.X + size.X + 2f < 0f || pos.X - 2f > RDEGame.ScreenWidth || pos.Y + size.Y + 2f < 0f || pos.Y - 2f > RDEGame.ScreenHeight)
+                return;
+
+            spriteBatch.Draw(Texture, Vector2.Floor(pos), null, Color, 0f, Vector2.Zero, Scale, Effects, LayerDepth);
         }
 
         internal void OnCollisionEnter(Collision collision)
