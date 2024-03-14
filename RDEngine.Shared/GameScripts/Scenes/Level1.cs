@@ -432,7 +432,7 @@ namespace RDEngine.GameScripts
             {
                 new WorldObject("TalkingTable1", ContentStorer.Textures["Table1x1"], new Vector2(-8f, -4f), new List<GComponent>()
                 {
-                    new TalkingTable(_dialogue, "You must reach the top...", 25),
+                    new TalkingTable(_dialogue, "You must reach the top", 25),
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
                 new WorldObject("TalkingTable2", ContentStorer.Textures["Table1x1"], new Vector2(7f, -4f), new List<GComponent>()

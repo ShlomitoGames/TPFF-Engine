@@ -49,15 +49,15 @@ namespace RDEngine.GameScripts.Scenes
                 Scale = Vector2.One,
                 CCPosition = new Vector2(0f, 200f)
             };
-            UIObject title4 = new TextObject("title4", ContentStorer.Fonts["Pixel"], "All Art by: Shlomito", Vector2.Zero, false)
+            UIObject title4 = new TextObject("title4", ContentStorer.Fonts["Pixel"], "All Art by: Shlomito\nPallete from: Trigo Mathmancer", Vector2.Zero, false)
             {
                 Scale = Vector2.One * 0.7f,
-                CCPosition = new Vector2(0f, 370f)
+                CCPosition = new Vector2(0f, 390f)
             };
-            UIObject title5 = new TextObject("title4", ContentStorer.Fonts["Pixel"], "              Music from:\n                Daniel Lucas\n                Sami Hiltunen\n                EminYILDIRIM\n                FoolBoyMedia [playing]\n                Infinita08\n(from freesoud, I couldn't have made them myself)", Vector2.Zero, false)
+            UIObject title5 = new TextObject("title4", ContentStorer.Fonts["Pixel"], "              Music from:\n                Daniel Lucas\n                Sami Hiltunen\n                EminYILDIRIM\n                FoolBoyMedia [playing]\n                Infinita08\n(from freesound.org, I couldn't have made them myself)", Vector2.Zero, false)
             {
                 Scale = Vector2.One * 0.7f,
-                CCPosition = new Vector2(0f, 550f)
+                CCPosition = new Vector2(0f, 570f)
             };
             UIObject title6 = new TextObject("title4", ContentStorer.Fonts["Pixel"], "SFX from:\n  Setuniman\n  RevEwwEr\n  EminYILDIRIM\n  axilirate\n  gabisaraceni\n  vanishedillusion\n  HorrorAudio\n  kwahmah_02", Vector2.Zero, false)
             {
@@ -84,12 +84,12 @@ namespace RDEngine.GameScripts.Scenes
                         new AnimLayer(new Tuple<int, int>[]
                         {
                             new Tuple<int, int>(0, 500),
-                            new Tuple<int, int>(20000, 750),
+                            new Tuple<int, int>(30000, 750),
                             new Tuple<int, int>(100, -1500),
                         }, 0),
                         new AnimLayer(new Tuple<int, bool>[]
                         {
-                            new Tuple<int, bool>(20000, false),
+                            new Tuple<int, bool>(30000, false),
                             new Tuple<int, bool>(100, true)
                         }, 0)
                     })
@@ -131,7 +131,7 @@ namespace RDEngine.GameScripts.Scenes
 
             if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
                 SceneHandler.PlaySong(Song, true);
-            MediaPlayer.Volume = 0.1f;
+            MediaPlayer.Volume = 0.25f;
         }
 
         public override void Update()

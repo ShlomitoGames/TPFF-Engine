@@ -107,7 +107,7 @@ namespace RDEngine
                 }
             );
 #if DEBUG
-            SceneHandler.LoadScene(new Title());
+            SceneHandler.LoadScene(new ThanksForPlaying());
 #else
             SceneHandler.LoadScene(new SplashScreen());
 #endif

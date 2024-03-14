@@ -16,7 +16,7 @@ namespace RDEngine.GameScripts.Scenes
 
         public SplashScreen() : base(new Color(0x10,0x10,0x10,0xff))
         {
-            Song = ContentStorer.Songs["Ambient"];
+            //Song = ContentStorer.Songs["Ambient"];
         }
 
         public override void Initialize()
@@ -55,17 +55,18 @@ namespace RDEngine.GameScripts.Scenes
                         new AnimLayer(new Tuple<int, int>[]
                         {
                             new Tuple<int, int>(500, 0),
+                            new Tuple<int, int>(500, 0),
                             new Tuple<int, int>(0, 255)
                         }, 0),
                         new AnimLayer(new Tuple<int, int>[]
                         {
-                            new Tuple<int, int>(750, 0),
+                            new Tuple<int, int>(1250, 0),
                             new Tuple<int, int>(500, 0),
                             new Tuple<int, int>(0, 255),
                         }, 1),
                         new AnimLayer(new Tuple<int, int>[]
                         {
-                            new Tuple<int, int>(1500, 0),
+                            new Tuple<int, int>(2000, 0),
                             new Tuple<int, int>(100, 0),
                             new Tuple<int, int>(0, 100),
                         }, 2)
@@ -103,9 +104,9 @@ namespace RDEngine.GameScripts.Scenes
         {
             base.Start();
 
-            if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
+            /*if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
                 SceneHandler.PlaySong(Song, true);
-            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Volume = 0.05f;*/
         }
 
         private float _time = 0;

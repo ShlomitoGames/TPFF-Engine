@@ -74,13 +74,24 @@ namespace RDEngine.GameScripts
                         }, 0)
                     })
                 },
-            }, "fadeout", ints: new int[1]);
+                {
+                    "off", new Animation(false, new AnimLayer[]
+                    {
+                        new AnimLayer(new Tuple<int, int>[]
+                        {
+                            new Tuple<int, int>(100, 0),
+                            new Tuple<int, int>(100, 0)
+                        }, 0)
+                    })
+                },
+            }, "off", ints: new int[1]);
             Parent.AddComponent(_anim);
 
             _arrow = new WorldObject("Arrow" + Parent.Tag, ContentStorer.Textures["TalkIndicator"], Vector2.Zero)
             {
                 Position = new Vector2(0f, -10f),
-                LayerDepth = 0.9f
+                LayerDepth = 0.9f,
+                Color = new Color(0,0,0,0)
             };
             _arrow.SetParent(Parent);
             Parent.Scene.AddGameObject(_arrow);

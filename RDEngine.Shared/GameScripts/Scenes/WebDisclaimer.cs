@@ -16,7 +16,7 @@ namespace RDEngine.GameScripts.Scenes
 
         public WebDisclaimer() : base(new Color(0x10, 0x10, 0x10, 0xff))
         {
-            Song = ContentStorer.Songs["Ambient"];
+            //Song = ContentStorer.Songs["Ambient"];
         }
 
         public override void Initialize()
@@ -62,9 +62,9 @@ namespace RDEngine.GameScripts.Scenes
         {
             base.Start();
 
-            if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
+            /*if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
                 SceneHandler.PlaySong(Song, true);
-            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Volume = 0.05f;*/
         }
 
         private float _time = 0;

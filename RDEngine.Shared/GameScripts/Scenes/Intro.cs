@@ -172,7 +172,7 @@ namespace RDEngine.GameScripts
                 }),
                 new WorldObject("TalkingTable4", ContentStorer.Textures["Table1x1"], new Vector2(-5f, -19f), new List<GComponent>()
                 {
-                    new TalkingTable(_dialogue, "It is corrupting us, controlling us", 25),
+                    new TalkingTable(_dialogue, "It is controlling us, corrupting us", 25),
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
 
@@ -194,7 +194,7 @@ namespace RDEngine.GameScripts
 
                 new WorldObject("TalkingTable8", ContentStorer.Textures["Table1x1"], new Vector2(7f, -33f), new List<GComponent>()
                 {
-                    new TalkingTable(_dialogue, "Get too close to out core and...", 25),
+                    new TalkingTable(_dialogue, "Get too close to our core and...", 25),
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
                 new WorldObject("TalkingTable9", ContentStorer.Textures["Table1x1"], new Vector2(2f, -33f), new List<GComponent>()
@@ -299,7 +299,7 @@ namespace RDEngine.GameScripts
 
             if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
                 SceneHandler.PlaySong(Song, true);
-            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Volume = 0.1f;
 
             FindWithTag("Camera").GetComponent<CameraFollow>().SetTarget(FindWithTag("Player") as WorldObject, true);
         }

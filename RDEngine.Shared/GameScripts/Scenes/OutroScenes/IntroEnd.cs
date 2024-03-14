@@ -102,42 +102,42 @@ namespace RDEngine.GameScripts
 
             AddGameObjects(new GameObject[]
             {
-                new WorldObject("TalkingTable1", ContentStorer.Textures["Table1x1"], new Vector2(-4f, -14f), new List<GComponent>()
+                new WorldObject("TalkingTable1", ContentStorer.Textures["Table1x1D"], new Vector2(-4f, -14f), new List<GComponent>()
                 {
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
-                new WorldObject("TalkingTable2", ContentStorer.Textures["Table1x1"], new Vector2(3f, -14f), new List<GComponent>()
-                {
-                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
-                }),
-
-                new WorldObject("TalkingTable3", ContentStorer.Textures["Table1x1"], new Vector2(4f, -19f), new List<GComponent>()
-                {
-                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
-                }),
-                new WorldObject("TalkingTable4", ContentStorer.Textures["Table1x1"], new Vector2(-5f, -19f), new List<GComponent>()
+                new WorldObject("TalkingTable2", ContentStorer.Textures["Table1x1D"], new Vector2(3f, -14f), new List<GComponent>()
                 {
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
 
-                new WorldObject("TalkingTable5", ContentStorer.Textures["Table1x1"], new Vector2(-6f, -26f), new List<GComponent>()
+                new WorldObject("TalkingTable3", ContentStorer.Textures["Table1x1D"], new Vector2(4f, -19f), new List<GComponent>()
                 {
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
-                new WorldObject("TalkingTable6", ContentStorer.Textures["Table1x1"], new Vector2(-1f, -26f), new List<GComponent>()
-                {
-                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
-                }),
-                new WorldObject("TalkingTable7", ContentStorer.Textures["Table1x1"], new Vector2(4f, -26f), new List<GComponent>()
+                new WorldObject("TalkingTable4", ContentStorer.Textures["Table1x1D"], new Vector2(-5f, -19f), new List<GComponent>()
                 {
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
 
-                new WorldObject("TalkingTable8", ContentStorer.Textures["Table1x1"], new Vector2(7f, -33f), new List<GComponent>()
+                new WorldObject("TalkingTable5", ContentStorer.Textures["Table1x1D"], new Vector2(-6f, -26f), new List<GComponent>()
                 {
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
-                new WorldObject("TalkingTable9", ContentStorer.Textures["Table1x1"], new Vector2(2f, -33f), new List<GComponent>()
+                new WorldObject("TalkingTable6", ContentStorer.Textures["Table1x1D"], new Vector2(-1f, -26f), new List<GComponent>()
+                {
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable7", ContentStorer.Textures["Table1x1D"], new Vector2(4f, -26f), new List<GComponent>()
+                {
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+
+                new WorldObject("TalkingTable8", ContentStorer.Textures["Table1x1D"], new Vector2(7f, -33f), new List<GComponent>()
+                {
+                    new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
+                }),
+                new WorldObject("TalkingTable9", ContentStorer.Textures["Table1x1D"], new Vector2(2f, -33f), new List<GComponent>()
                 {
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 })
@@ -238,7 +238,7 @@ namespace RDEngine.GameScripts
 
             if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
                 SceneHandler.PlaySong(Song, true);
-            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Volume = 0.1f;
 
             FindWithTag("Camera").GetComponent<CameraFollow>().SetTarget(FindWithTag("Player") as WorldObject, true);
         }

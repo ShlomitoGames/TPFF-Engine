@@ -131,7 +131,7 @@ namespace RDEngine.GameScripts.Scenes
 
             if (SceneHandler.ActiveSong != Song && PersistentVars.MusicPlaying)
                 SceneHandler.PlaySong(Song, true);
-            MediaPlayer.Volume = 0.2f;
+            MediaPlayer.Volume = 0.25f;
         }
 
         public override void Update()
