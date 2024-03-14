@@ -71,7 +71,7 @@ namespace RDEngine.GameScripts.Scenes
         public override void Update()
         {
             if (_time >= 2.5f)
-                FindWithTag("Fade").GetComponent<Fade>().FadeOut(new Intro());
+                FindWithTag("Fade").GetComponent<Fade>().FadeOut(new Title());
 
             _time += Time.DeltaTime;
 #if DEBUG

@@ -24,6 +24,7 @@ namespace RDEngine.GameScripts
             base.Initialize();
 
             PersistentVars.CurrLevel = 1;
+            PersistentVars.OnOutro = false;
 
             //Adds all the walls and rugs and stuff of the level
             AddGameObject

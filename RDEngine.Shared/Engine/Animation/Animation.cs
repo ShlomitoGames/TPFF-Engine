@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using System.Diagnostics;
 
 namespace RDEngine.Engine.Animation
 {
@@ -16,7 +18,8 @@ namespace RDEngine.Engine.Animation
             Int,
             Float,
             Bool,
-            Texture2D
+            Texture2D,
+            Sound
         }
 
         public bool Loop;
@@ -70,7 +73,7 @@ namespace RDEngine.Engine.Animation
                     _animator.Floats[layer.VarIndex] = layer.GetValue<float>();
                 else if (layer.Type == VarTypes.Bool)
                     _animator.Bools[layer.VarIndex] = layer.GetValue<bool>();
-                else
+                else if(layer.Type == VarTypes.Texture2D)
                     _animator.Textures[layer.VarIndex] = layer.GetValue<Texture2D>();
             }
         }
@@ -88,11 +91,19 @@ namespace RDEngine.Engine.Animation
                         _animator.Bools[layer.VarIndex] = layer.GetValue<bool>();
                     else if (layer.Type == VarTypes.Texture2D)
                         _animator.Textures[layer.VarIndex] = layer.GetValue<Texture2D>();
+                    else if (layer.Type == VarTypes.Sound)
+                    {
+                        SoundEffect sound = layer.GetValue<SoundEffect>();
+                        if (sound != null)
+                        {
+                            sound.Play();
+                        }
+                    }
                 }
+                layer.Time += Time.DeltaTime * 1000f;
                 //On all but the last keyframe
                 if (layer.CurrKeyFrame < layer.Durations.Length - 1)
                 {
-                    layer.Time += Time.DeltaTime * 1000f;
                     //Things that happen Continuously
                     if (layer.Type == VarTypes.Int)
                     {
@@ -120,6 +131,7 @@ namespace RDEngine.Engine.Animation
                     }
                 }
             }
+
             //If the longest layer has finished
             if (_time >= _totalDuration)
             {
@@ -132,6 +144,7 @@ namespace RDEngine.Engine.Animation
                 if (!Loop)
                     Enabled = false;
             }
+
             _time += Time.DeltaTime * 1000f;
         }
     }

@@ -82,20 +82,22 @@ namespace RDEngine
             ContentStorer.LoadContent(Content,
                 new List<string>()
                 {
-                    "Level1", "Level2", "Level3", "IntroLayout", "EndLayout",
+                    "Level1", "Level2", "Level3", "IntroLayout", "EndLayout", "Level2End", "Level3End", "IntroOutro", "ThxLayout",
                     "Floor", "Rug", "Border", "Wall", "Floor2",
                     "Table1x2", "Table1x3", "Table2x1", "Table3x1", "Table1x1",
                     "ATable1x1", "ATable3x2", "ATable2x2", "ATable1x2", "ATable2x1", "ATable4x3",
                     "Door", "DoorOpen", "Key", "Spot", "TalkIndicator",
-                    "Player1", "Player2", "Player3", "Player4", "Player5"
+                    "Player1", "Player2", "Player3", "Player4", "Player5",
+                    "Table1x2D", "Table1x3D", "Table2x1D", "Table3x1D", "Table1x1D",
+                    "ATable1x1D", "ATable3x2D", "ATable2x2D", "ATable1x2D", "ATable2x1D", "ATable4x3D"
                 },
                 new List<string>()
                 {
-                    "Arial", "Coolvetica", "Pixel", "PixelBig"
+                    "Arial", "Pixel", "PixelBig"
                 },
                 new List<string>()
                 {
-                    "MysteryLoop", "Ambient", "Eerie"
+                    "MysteryLoop", "Ambient", "Eerie", "HauntedBlues", "CreepingGhoul"
                 },
                 new List<string>()
                 {
@@ -105,7 +107,7 @@ namespace RDEngine
                 }
             );
 #if DEBUG
-            SceneHandler.LoadScene(new End());
+            SceneHandler.LoadScene(new Title());
 #else
             SceneHandler.LoadScene(new SplashScreen());
 #endif

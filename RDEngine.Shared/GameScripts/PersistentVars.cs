@@ -11,5 +11,7 @@ namespace RDEngine.GameScripts
         public static bool ShowFPS = false;
 
         public static byte CurrLevel = 0;
+
+        public static bool OnOutro = false;
     }
 }

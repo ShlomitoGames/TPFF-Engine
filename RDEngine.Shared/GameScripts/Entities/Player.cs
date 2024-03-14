@@ -18,11 +18,14 @@ namespace RDEngine.GameScripts
         private bool _debug = false;
         private bool _dead = false;
 
+        public bool Cutscene;
+
         private SoundEffect _restart, _hardcoreRestart;
 
         public Player(int speed)
         {
             Speed = speed;
+            Cutscene = false;
         }
 
         public override void Start()
@@ -42,34 +45,37 @@ namespace RDEngine.GameScripts
 
             if (_dead) return;
 
-            if (_rb.Velocity.Length() > Speed * 0.5f)
+            if (_rb.Velocity.Length() > Speed * 0.5f || (Cutscene && _rb.Velocity.Length() > 1))
                 _anim.SetAnimation("walk");
             else
                 _anim.SetAnimation("idle");
 
-            if (Input.GetMacro("Up", KeyGate.Held))
+            if (!Cutscene)
             {
-                velocity -= Vector2.UnitY;
-            }
-            if (Input.GetMacro("Down", KeyGate.Held))
-            {
-                velocity += Vector2.UnitY;
-            }
-            if (Input.GetMacro("Left", KeyGate.Held))
-            {
-                velocity -= Vector2.UnitX;
-                Parent.Effects = SpriteEffects.FlipHorizontally;
-            }
-            if (Input.GetMacro("Right", KeyGate.Held))
-            {
-                velocity += Vector2.UnitX;
-                Parent.Effects = SpriteEffects.None;
-            }
+                if (Input.GetMacro("Up", KeyGate.Held))
+                {
+                    velocity -= Vector2.UnitY;
+                }
+                if (Input.GetMacro("Down", KeyGate.Held))
+                {
+                    velocity += Vector2.UnitY;
+                }
+                if (Input.GetMacro("Left", KeyGate.Held))
+                {
+                    velocity -= Vector2.UnitX;
+                    Parent.Effects = SpriteEffects.FlipHorizontally;
+                }
+                if (Input.GetMacro("Right", KeyGate.Held))
+                {
+                    velocity += Vector2.UnitX;
+                    Parent.Effects = SpriteEffects.None;
+                }
 
-            if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-                _rb.Velocity = velocity * Speed;
+                if (velocity != Vector2.Zero)
+                {
+                    velocity.Normalize();
+                    _rb.Velocity = velocity * Speed;
+                }
             }
 
 #if DEBUG
@@ -80,7 +86,7 @@ namespace RDEngine.GameScripts
 
         void ICollideable.OnTriggerEnter(RigidBody intrRb)
         {
-            if (_debug)
+            if (Cutscene || _debug)
                 return;
 
             if (intrRb.Parent.Tag == "FurnitureTrigger")
@@ -89,21 +95,57 @@ namespace RDEngine.GameScripts
             }
             else if (intrRb.Parent.Tag.StartsWith("OOB"))
             {
-                Restart();
+                if (!PersistentVars.OnOutro)
+                    Restart();
+                else
+                {
+                    Scene scene;
+                    switch (PersistentVars.CurrLevel)
+                    {
+                        case 3:
+                            scene = new Level2End();
+                            break;
+                        case 2:
+                            scene = new Level1End();
+                            break;
+                        case 1:
+                            scene = new IntroEnd();
+                            break;
+                        case 0:
+                            scene = new ThanksForPlaying();
+                            break;
+                        default:
+                            scene = new SplashScreen();
+                            break;
+                    }
+
+                    Parent.Scene.FindWithTag("Fade").GetComponent<Fade>().FadeOut(scene);
+                }
             }
             else if (intrRb.Parent.Tag == "End")
             {
                 Scene scene;
-                if (PersistentVars.CurrLevel == 0)
-                    scene = new Level1();
-                else if (PersistentVars.CurrLevel == 1)
-                    scene = new Level2();
-                else if (PersistentVars.CurrLevel == 2)
-                    scene = new Level3();
-                else if (PersistentVars.CurrLevel == 3)
-                    scene = new End();
-                else
-                    scene = new SplashScreen();
+                switch (PersistentVars.CurrLevel)
+                {
+                    case 0:
+                        scene = new Level1();
+                        break;
+                    case 1:
+                        scene = new Level2();
+                        break;
+                    case 2:
+                        scene = new Level3();
+                        break;
+                    case 3:
+                        scene = new End();
+                        break;
+                    case 4:
+                        scene = new Level3End();
+                        break;
+                    default:
+                        scene = new SplashScreen();
+                        break;
+                }
 
                 Parent.Scene.FindWithTag("Fade").GetComponent<Fade>().FadeOut(scene);
             }

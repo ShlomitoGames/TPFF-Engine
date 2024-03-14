@@ -156,12 +156,12 @@ namespace RDEngine.GameScripts
             {
                 new WorldObject("TalkingTable1", ContentStorer.Textures["Table1x1"], new Vector2(-4f, -14f), new List<GComponent>()
                 {
-                    new TalkingTable(_dialogue, "Something is deeply wrong here...", 25, door1),
+                    new TalkingTable(_dialogue, "Thank you for coming to our help", 25, door1),
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
                 new WorldObject("TalkingTable2", ContentStorer.Textures["Table1x1"], new Vector2(3f, -14f), new List<GComponent>()
                 {
-                    new TalkingTable(_dialogue, "Thank you for coming to our help", 25, door1),
+                    new TalkingTable(_dialogue, "Something is deeply wrong here...", 25, door1),
                     new RigidBody(Vector2.One * UnitSize, Vector2.Zero, isStatic: true)
                 }),
 

@@ -22,7 +22,7 @@ namespace RDEngine.GameScripts.Scenes
         {
             base.Initialize();
 
-            PersistentVars.CurrLevel = 0;
+            PersistentVars.CurrLevel = 4;
 
             //Adds all the walls and rugs and stuff of the level
             AddGameObject
@@ -84,47 +84,51 @@ namespace RDEngine.GameScripts.Scenes
 
             AddGameObjects(new GameObject[]
             {
-                new WorldObject("Gradient0", ContentStorer.WhiteSquare, new Vector2(-12f, -28f))
+                new WorldObject("Gradient0", ContentStorer.WhiteSquare, new Vector2(-12f, -31.5f))
                 {
                     LayerDepth = 0.8f,
-                    Color = new Color(0xf6, 0xcd, 0x26, 10),
-                    Scale = new Vector2(1f, 9f)
+                    Color = new Color(0xf6, 0xcd, 0x26, 250) * 0.2f,
+                    Scale = new Vector2(1f, 16f)
                 },
-                new WorldObject("Gradient1", ContentStorer.WhiteSquare, new Vector2(-11f, -28f))
+                new WorldObject("Gradient1", ContentStorer.WhiteSquare, new Vector2(-11f, -31.5f), new List<GComponent>()
+                {
+                    new RigidBody(new Vector2(1, 16f) * UnitSize, new Vector2(-8f, 0f), true),
+                    new EndAnimation()
+                })
                 {
                     LayerDepth = 0.8f,
-                    Color = new Color(0xf6, 0xcd, 0x26, 50),
-                    Scale = new Vector2(1f, 9f)
+                    Color = new Color(0xf6, 0xcd, 0x26, 250) * 0.4f,
+                    Scale = new Vector2(1f, 16f)
                 },
-                new WorldObject("Gradient2", ContentStorer.WhiteSquare, new Vector2(-10f, -28f))
+                new WorldObject("Gradient2", ContentStorer.WhiteSquare, new Vector2(-10f, -31.5f))
                 {
                     LayerDepth = 0.8f,
-                    Color = new Color(0xf6, 0xcd, 0x26, 100),
-                    Scale = new Vector2(1f, 9f)
+                    Color = new Color(0xf6, 0xcd, 0x26, 250) * 0.6f,
+                    Scale = new Vector2(1f, 16f)
                 },
-                new WorldObject("Gradient3", ContentStorer.WhiteSquare, new Vector2(-9f, -28f))
+                new WorldObject("Gradient3", ContentStorer.WhiteSquare, new Vector2(-9f, -31.5f))
                 {
                     LayerDepth = 0.8f,
-                    Color = new Color(0xf6, 0xcd, 0x26, 150),
-                    Scale = new Vector2(1f, 9f)
+                    Color = new Color(0xf6, 0xcd, 0x26, 250) * 0.8f,
+                    Scale = new Vector2(1f, 16f)
                 },
-                new WorldObject("Gradient4", ContentStorer.WhiteSquare, new Vector2(-8f, -28f))
+                new WorldObject("Gradient4", ContentStorer.WhiteSquare, new Vector2(-8f, -31.5f))
                 {
                     LayerDepth = 0.8f,
-                    Color = new Color(0xf6, 0xcd, 0x26, 200),
-                    Scale = new Vector2(1f, 9f)
+                    Color = new Color(0xf6, 0xcd, 0x26, 250) * 0.9f,
+                    Scale = new Vector2(1f, 16f)
                 },
-                new WorldObject("Gradient5", ContentStorer.WhiteSquare, new Vector2(-7f, -28f))
+                new WorldObject("Gradient5", ContentStorer.WhiteSquare, new Vector2(-7f, -31.5f))
                 {
                     LayerDepth = 0.8f,
                     Color = new Color(0xf6, 0xcd, 0x26, 250),
-                    Scale = new Vector2(1f, 9f)
+                    Scale = new Vector2(1f, 16f)
                 },
-                new WorldObject("Gradient6", ContentStorer.WhiteSquare, new Vector2(2f, -28f))
+                new WorldObject("Gradient6", ContentStorer.WhiteSquare, new Vector2(4.5f, -31.5f))
                 {
                     LayerDepth = 0.8f,
                     Color = new Color(0xf6, 0xcd, 0x26, 250),
-                    Scale = new Vector2(17f, 9f)
+                    Scale = new Vector2(22f, 16f)
                 }
             });
 
@@ -225,7 +229,11 @@ namespace RDEngine.GameScripts.Scenes
                 SceneHandler.PlaySong(Song, true);
             MediaPlayer.Volume = 0.1f;
 
-            FindWithTag("Camera").GetComponent<CameraFollow>().SetTarget(FindWithTag("Player") as WorldObject, true);
+            WorldObject player = FindWithTag("Player") as WorldObject;
+
+            player.Effects = SpriteEffects.FlipHorizontally;
+
+            FindWithTag("Camera").GetComponent<CameraFollow>().SetTarget(player, true);
         }
     }
 }

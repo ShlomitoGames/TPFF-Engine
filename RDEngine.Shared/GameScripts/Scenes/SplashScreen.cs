@@ -4,8 +4,6 @@ using RDEngine.Engine.UI;
 using RDEngine.Engine.Animation;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
 using Microsoft.Xna.Framework.Media;
 
 namespace RDEngine.GameScripts.Scenes
@@ -113,11 +111,11 @@ namespace RDEngine.GameScripts.Scenes
         private float _time = 0;
         public override void Update()
         {
-            _title1.Color = new Color(1, 1, 1) * _anim.Ints[0];
-            _title2.Color = new Color(1, 1, 1) * _anim.Ints[1];
-            _asterisk.Color = new Color(1, 1, 1) * _anim.Ints[2];
-            _disclaimer.Color = new Color(1, 1, 1) * _anim.Ints[2];
-            _disclaimer2.Color = new Color(1, 1, 1) * _anim.Ints[2];
+            _title1.Color = new Color(1, 1, 1, 1) * _anim.Ints[0];
+            _title2.Color = new Color(1, 1, 1, 1) * _anim.Ints[1];
+            _asterisk.Color = new Color(1, 1, 1, 1) * _anim.Ints[2];
+            _disclaimer.Color = new Color(1, 1, 1, 1) * _anim.Ints[2];
+            _disclaimer2.Color = new Color(1, 1, 1, 1) * _anim.Ints[2];
 
             if (_time >= 5f)
             {
@@ -125,7 +123,7 @@ namespace RDEngine.GameScripts.Scenes
 #if BLAZORGL
                 scene = new WebDisclaimer();
 #else
-                scene = new Intro();
+                scene = new Title();
 #endif
                 FindWithTag("Fade").GetComponent<Fade>().FadeOut(scene);
             }
